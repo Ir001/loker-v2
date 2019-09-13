@@ -1,0 +1,15 @@
+<script data-cfasync="false" src="<?php base_url(); ?>/assets/js/email-decode.min.js"></script>
+<script src="<?php base_url(); ?>/assets/js/jquery.min.js"></script>
+<script src="<?php base_url(); ?>/assets/js/bootstrap.min.js"></script>
+<script src="<?php base_url(); ?>/assets/owlcarousel/owl.carousel.min.js"></script>
+<script src="<?php base_url(); ?>/assets/js/jquery-ui.min.js"></script>
+
+<script src="<?php base_url(); ?>/assets/js/custom.js"></script>
+<script>
+$(".search-icone").click(function(){
+     // $(".menu").animate({height: "100vh"});
+ });
+$("#search-box_search_form_3").submit(function(){
+	console.log(1);
+});
+</script>
