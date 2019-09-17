@@ -11,10 +11,10 @@
 						</div>
 						<nav class="main_nav_contaner ml-auto">
 							<ul class="main_nav">
-								<li><a href="#">Home</a></li>
-								<li><a href="#">About</a></li>
-								<li><a href="#">Category</a></li>
-								<li><a href="#">Wilayah</a></li>
+								<li><a href="index.php">Home</a></li>
+								<li><a href="about.php">About</a></li>
+								<li><a href="job.php?category=all">Category</a></li>
+								<li><a href="job.php?location=all">Wilayah</a></li>
 							</ul>
 							<div class="hamburger menu_mm menu-vertical">
 								<i class="large material-icons font-color-white menu_mm menu-vertical">menu</i>
@@ -43,14 +43,11 @@
 		</div>
 		<nav class="menu_nav">
 			<ul class="menu_mm">
-				<li class="menu_mm">
-					<a class="dropdown-toggle" href="#">Home
-
-					</li>
-					<li class="menu_mm"><a href="blog_page.html">Blog</a></li>
-					<li class="menu_mm"><a href="about_us.html">About</a></li>
-					<li class="menu_mm"><a href="contact.html">Contact</a></li>
-				</ul>
+				<li class="menu_mm"><a href="index.php">Home</a></li>
+				<li class="menu_mm"><a href="about.php">About</a></li>
+				<li class="menu_mm"><a href="job.php?category=all">Category</a></li>
+				<li class="menu_mm"><a href="job.php?location=all">Wilayah</a></li>
+			</ul>
 			</nav>
 		</div>
 	</header>

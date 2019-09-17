@@ -73,24 +73,29 @@
 						$title = $a[0];
 						$url_title = trim(str_replace(" ", "+", strtolower($title)));
 						$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
+						$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
+
 				 ?>
 				<div class="detail">
-					<div class="media display-inline text-align-center">
-						<?php echo $job[$i]['logo']; ?>
-						<div class="mx-3 media-body text-left  text-align-center">
-							<h6><?php echo $title; ?></h6>
-							<i class="large material-icons">account_balance</i>
-							<span class="text"><?php echo  $a[1]; ?></span>
-							<br/>
-							<i class="large material-icons">place</i>
-							<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
-							<div class="float-right margin-top text-align-center">
-								<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
-								<p class="date-time">Deadline: <?php echo $job[$i]['date_tutup']; ?></p>
-							</div>
-						</div>
-					</div>
-				</div>
+									<div class="media display-inline text-align-center">
+										<?php echo $job[$i]['logo']; ?>
+										<div class="mx-3 media-body text-left  text-align-center">
+											<h6><?php echo $title; ?></h6>
+												<i class="large material-icons">account_balance</i>
+												<span class="text"><?php echo  $a[1]; ?></span>
+											<br/>
+												<i class="large material-icons">place</i>
+												<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
+											<br>
+												<i class="large material-icons">money</i>
+												<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
+											<div class="float-right margin-top text-align-center" style="z-index: 99">
+												<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
+												<p class="date-time">Deadline: <?php echo $date; ?></p>
+											</div>
+										</div>
+									</div>
+								</div>
 			<?php } ?>
 			<?php $i++; ?>
 		<?php } ?>

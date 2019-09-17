@@ -23,7 +23,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 </head>
 <body class="background-color-white-drak ">
 <?php include 'template/navbar.php'; ?>
-<section id="job-Details" style="margin-top: -1480px !important">
+<section id="job-Details" style="margin-top: 120px">
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
