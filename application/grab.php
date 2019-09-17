@@ -348,7 +348,7 @@ if (isset($_POST['aksi'])) {
         $key = str_replace(' ', '+', $_POST['keyword']);
         $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=$key&location=$lok&specialization=$kat&area=&salary=&ojs=3&src=1";
         $myApp->insert($url, $aksi);
-    } else {
+    }else {
         $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
         $myApp->insert($url, $aksi);
     }

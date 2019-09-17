@@ -16,6 +16,9 @@
 	<?php include 'template/meta_head.php'; ?>
 	<style type="text/css">
 		.list{font-family:proxima nova rg;font-size:16px;font-weight:400;margin-bottom:20px;padding-left:33px}
+		.box{
+			background-color:#fff;margin-bottom:20px;padding:23px 35px 42px 20px;text-align:left;
+		}
 	</style>
 
 
@@ -23,16 +26,8 @@
 <body>
 
 <?php include 'template/navbar.php'; ?>
-<section id="intro">
-	<div class="carousel-item active">
-		<div class="carousel-background"><img src="assets/imags/slider/slider1.jpg" alt=""></div>
-		<div class="carousel-container">
-			<div class="carousel-content">
-				<h2 class="font-color-white">Find Jobs Now more Easy Way</h2>
-				<p class="font-color-white">Lorem ipsum tempus amet conubia adipiscing fermentum viverra gravida, mollis suspendisse pretium dictumst inceptos mattis euismod lorem nulla, magna duis nostra sodales luctus nulla praesent fermentum a elit mollis purus aenean curabitur eleifend </p>
-			</div>
-		</div>
-	</div>
+<section style="min-height: 180px; background: #f8f8f8">
+	
 </section>
 
 <?php include 'template/form_search.php'; ?>
@@ -45,9 +40,9 @@
 							<div class="vertical-space-30"></div>
 							<div class="row">
 								<div class="col-lg-4 col-md-12">
-									<div class="Job-Category-box">
-										<p class="title">Job Category</p>
-										<ul>
+									<div class="box">
+										<p class="title" style="font-weight: 700">Job Category</p>
+										<ul style="padding-top: 20px">
 											<?php 
 												$listcategory = $myApp->showKategori();
 												$i=0;
@@ -57,13 +52,17 @@
 											<?php $i++; } ?>
 										</ul>
 									</div>
-									<div class="Industry-box">
-										<p class="title">Industry</p>
-										<!-- <ul>
-											<li class="list"><a href="#" class="font-color-black">Full Time jobs</a></li>
-											<li class="list "><a href="#" class="font-color-black">Part Time jobs</a></li>
-											<li class="list "><a href="#" class="font-color-black">Hourly</a></li>
-										</ul> -->
+									<div class="box">
+										<p class="title" style="font-weight: 700">Industry</p>
+										<ul style="padding-top: 20px">
+											<?php 
+												$listindustri = $myApp->getIndustri();
+												$i=0;
+												foreach ($listindustri as $kat) {
+											 ?>
+											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
+											<?php $i++; } ?>
+										</ul>
 									</div>
 								</div>
 
@@ -79,20 +78,24 @@
 										$title = $a[0];
 										$url_title = trim(str_replace(" ", "+", strtolower($title)));
 										$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
+										$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 								 ?>
 								<div class="detail width-100">
 									<div class="media display-inline text-align-center">
 										<?php echo $job[$i]['logo']; ?>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>
-											<i class="large material-icons">account_balance</i>
-											<span class="text"><?php echo  $a[1]; ?></span>
+												<i class="large material-icons">account_balance</i>
+												<span class="text"><?php echo  $a[1]; ?></span>
 											<br/>
-											<i class="large material-icons">place</i>
-											<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
+												<i class="large material-icons">place</i>
+												<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
+											<br>
+												<i class="large material-icons">money</i>
+												<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
 											<div class="float-right margin-top text-align-center" style="z-index: 99">
 												<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
-												<p class="date-time">Deadline: <?php echo $job[$i]['date_tutup']; ?></p>
+												<p class="date-time">Deadline: <?php echo $date; ?></p>
 											</div>
 										</div>
 									</div>
@@ -119,7 +122,6 @@
 </div>
 <div class="vertical-space-60"></div>
 </section>
-
 
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>

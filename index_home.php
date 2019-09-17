@@ -18,8 +18,8 @@
 				<div class="carousel-background"><img src="assets/imags/slider/slider1.jpg" alt=""></div>
 				<div class="carousel-container">
 					<div class="carousel-content">
-						<h2 class="font-color-white">Find Jobs Now more Easy Way</h2>
-						<p class="font-color-white">Lorem ipsum tempus amet conubia adipiscing fermentum viverra gravida, mollis suspendisse pretium dictumst inceptos mattis euismod lorem nulla, magna duis nostra sodales luctus nulla praesent fermentum a elit mollis purus aenean curabitur eleifend  </p>
+						<h2 class="font-color-white">Cari Dengan Mudah Pekerjaan Sesuai Pasionmu</h2>
+						<p class="font-color-white">Temukan lebih dari 10.000 informasi terbaru lowongan pekerjaan di seluruh Indonesia.</p>
 
 					</div>
 				</div>
@@ -28,10 +28,8 @@
 <?php include 'template/form_search.php'; ?>
 		<section id="Job-Category" style="margin-top: 90px">
 			<div class="container">
-				<h3 class="text-center">Choose Job Category</h3>
+				<h3 class="text-center">Kategori Pekerjaan</h3>
 				<div class="vertical-space-30"></div>
-				<p class="max-width">Lorem ipsum tempus amet conubia adipiscing fermentum viverra gravida, mollis suspendisse pretium dictumst inceptos mattis euismod
-				</p>
 				<div class="vertical-space-60"> </div>
 				<div class="row">
 					<?php 
@@ -42,7 +40,7 @@
 					<div class="col-lg-3 col-md-6 max-width-50">
 						<div class="box background-color-white-light">
 							<div class="circle">
-								<img src="assets/imags/icone/service-icone-<?php echo $i; ?>.png" alt="">
+								<img src="assets/imags/icone/service-icone-<?php echo $i+1; ?>.png" alt="">
 							</div>
 							<h6><?php echo $category[$i]['kategori']; ?></h6>
 							<a href="job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
@@ -52,14 +50,14 @@
 					<?php } ?>
 				</div>
 				<div class="vertical-space-40"></div>
-				<a href="job.php" class="Brows-All-Category">Lihat Semua Kategori</a>
+				<a href="job.php" class="Brows-All-Category" style="text-align: center;">Lihat Semua Kategori</a>
 			</div>
 			<div class="vertical-space-85"></div>
 		</section>
 		<section id="resent-job-post" class="background-color-white">
 			<div class="vertical-space-85"></div>
 			<div class="container text-center">
-				<h3 class="text-center">Recent Job Post</h3>
+				<h3 class="text-center">Lowongan Pekerjaan Terbaru</h3>
 				<div class="vertical-space-30"></div>
 				<p class="max-width">Informasi Lowongan Pekerjaan Terbaru Minggu Ini.
 				</p>
