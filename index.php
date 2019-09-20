@@ -9,6 +9,7 @@
 	    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
 	    $aksi = "cari";
 	    $dataPost = '';
+	    $myApp->insert($url, $aksi);
 	}
 	if (isset($_GET['page'])) {
 		switch ($_GET['page']) {

@@ -17,30 +17,13 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<title>Loker.id - <?php echo $data[0]['judul']; ?></title>
 
 <?php include 'template/meta_head.php'; ?>
 </head>
 <body class="background-color-white-drak ">
 <?php include 'template/navbar.php'; ?>
-
-
-<section id="intro">
-						<div class="carousel-item active">
-							<div class="carousel-background"><img src="imags/slider/slider1.jpg" alt=""></div>
-							<div class="carousel-container">
-								<div class="carousel-content">
-									<h2 class="font-color-white">Job Result</h2>
-									<p class="font-color-white width-100"><a href="index.php" class="font-color-white">Home /</a><a href="<?php echo $url; ?>" class="font-color-white"> <?php echo $data[0]['judul']; ?> </a>/ Details
-									</p>
-								</div>
-							</div>
-						</div>
-</section>
-
-
-<section id="job-Details">
+<section id="job-Details" style="margin-top: 120px !important">
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
@@ -70,38 +53,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 							</div>
 						</div>
 </section>
-<section id="comment" class="background-color-full-white-light">
-						<div class="container">
-							<div class="max-width-80">
-								<h4>comment</h4>
-								<a href="#" class="Share">Share</a>
-								<div class="media border p-3">
-									<img src="imags/comment1.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
-									<div class="media-body">
-										<h6>Rehmatun Nisal</h6>
-										<p>Suspendisse augue pulvinar placerat himenaeos odio nec turpis augue sem maecenas, faucibus erat lacinia consectetur sapien suscipit vestibulum venenatis himenaeos.</p>
-									</div>
-								</div>
-								<div class="media border p-3 ">
-									<img src="imags/comment2.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
-									<div class="media-body">
-										<h6>Rehmatun Nisal</h6>
-										<p>Suspendisse augue pulvinar placerat himenaeos odio nec turpis augue sem maecenas, faucibus erat lacinia consectetur sapien suscipit vestibulum venenatis himenaeos.</p>
-									</div>
-								</div>
-								<div class="media border p-3 padding-none border-none">
-									<img src="imags/comment3.png" alt="John Doe" class="mr-3 rounded-circle imagess" style="width:60px;">
-									<div class="media-body">
-										<form>
-											<textarea placeholder="Type commeny" required></textarea>
-											<button class="Post">Post</button>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-</section>
-<?php include 'template/fotoer.php'; ?>
+<?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>
 </body>
 

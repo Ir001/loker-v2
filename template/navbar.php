@@ -5,8 +5,8 @@
 				<div class="col">
 					<div class="header_content d-flex flex-row align-items-center justify-content-start">
 						<div class="logo_container">
-							<a href="index.html">
-								<img src="assets/imags/logo.png" class="logo-text" alt="">
+							<a href="index.php">
+								<img src="assets/images/logo.png" style="max-height: 49px; max-width: 220px" class="logo-text" alt="">
 							</a>
 						</div>
 						<nav class="main_nav_contaner ml-auto">
