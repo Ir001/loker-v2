@@ -24,10 +24,24 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 <body class="background-color-white-drak ">
 <?php include 'template/navbar.php'; ?>
 <section id="job-Details" style="margin-top: 120px !important">
+
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
-								<a href="#" class="Apply-Now">Lamar Pekerjaan</a>
+								<?php 
+									$uri = explode('?fr', $data[0]['url']);
+								    $url2 = explode('-', $uri[0]);
+								    $jmlData = count($url2);
+								    $idJob = $url2[$jmlData-1];
+							     ?>
+							     <!-- action="https://myjobstreet-id.jobstreet.co.id/application/online-apply.php" -->
+						      <form id="job-form"  id="apply-now-link">
+						        <input type="hidden" value="<?php echo "$idJob"; ?>" name="job_id" id="job_id">
+						        <input type="hidden" value="40" name="s" id="s">
+						        <input type="hidden" value="1" name="AdvertisementSource" id="AdvertisementSource">
+						        <input type="hidden" name="fr" id="fr" value="">
+						        <button id="apply_button" type="submit" class="Apply-Now">Lamar Sekarang</button>
+						      </form>
 								<h6 class="font-color-orange"><?php echo $data[0]['perusahaan'] ?></h6>
 								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>">View more similar jobs</a>
 								<i class="material-icons">place</i>
@@ -53,8 +67,23 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 							</div>
 						</div>
 </section>
+
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>
+<script type="text/javascript">
+	$('#job-form').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			type: "POST",
+			url : "job.php",
+			data: $('#job-form').serialize(),
+			success: function(data){
+				window.open('job.php','Lowongankerja.id - <?php echo $data[0]['judul'] ?>','height=420px,width=380px;location=yes;scrollbars=yes;');
+			}
+		})
+		console.log('Success');
+	})
+</script>
 </body>
 
 </html>
