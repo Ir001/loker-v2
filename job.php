@@ -26,7 +26,6 @@
 			];
 			$i++;
 		}
-		// echo "<script>alert('".$sql."');</script>";
 	}else{
 		$param = '';
 		$page = '';
