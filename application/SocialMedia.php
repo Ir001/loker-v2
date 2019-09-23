@@ -11,40 +11,19 @@
 		public function GetSocialMediaSites_NiceNames()
 		{
 			return [
-				'add.this'=>'AddThis',
-				'blogger'=>'Blogger',
-				'buffer'=>'Buffer',
-				'diaspora'=>'Diaspora',
-				'digg'=>'Digg',
-				'douban'=>'Douban',
-				'email'=>'EMail',
-				'evernote'=>'EverNote',
-				'getpocket'=>'Pocket',
-				'facebook'=>'FaceBook',
-				'flattr'=>'Flattr',
-				'flipboard'=>'FlipBoard',
-				'google.bookmarks'=>'GoogleBookmarks',
-				'instapaper'=>'InstaPaper',
+				
+				'facebook'=>'Facebook',
+				'google.bookmarks'=>'Google Bookmarks',
 				'line.me'=>'Line.me',
 				'linkedin'=>'LinkedIn',
-				'livejournal'=>'LiveJournal',
-				'gmail'=>'GMail',
-				'hacker.news'=>'HackerNews',
-				'ok.ru'=>'OK.ru',
+				'gmail'=>'Gmail',
 				'pinterest'=>'Pinterest',
-				'qzone'=>'QZone',
 				'reddit'=>'Reddit',
-				'renren'=>'RenRen',
 				'skype'=>'Skype',
 				'sms'=>'SMS',
-				'surfingbird.ru'=>'SurfingBird.ru',
 				'telegram.me'=>'Telegram.me',
-				'threema'=>'Threema',
 				'tumblr'=>'Tumblr',
 				'twitter'=>'Twitter',
-				'vk'=>'VK',
-				'weibo'=>'Weibo',
-				'xing'=>'Xing',
 				'yahoo'=>'Yahoo',
 			];
 		}
@@ -52,75 +31,34 @@
 				# Social Media Sites With Share Links
 				# -------------------------------------------------
 		
-		public function GetSocialMediaSites_WithShareLinks_OrderedByPopularity()
+		public function list()
 		{
 			return [
-				'google.bookmarks',
-				'facebook',
-				'reddit',
 				'twitter',
+				'facebook',
 				'linkedin',
-				'tumblr',
 				'pinterest',
-				'blogger',
-				'livejournal',
-				'evernote',
-				'add.this',
-				'getpocket',
-				'hacker.news',
-				'digg',
-				'buffer',
-				'flipboard',
-				'instapaper',
-				'surfingbird.ru',
-				'flattr',
-				'diaspora',
-				'qzone',
-				'vk',
-				'weibo',
-				'ok.ru',
-				'douban',
-				'xing',
-				'renren',
-				'threema',
-				'sms',
-				'line.me',
-				'skype',
-				'telegram.me',
-				'email',
-				'gmail',
-				'yahoo',
 			];
 		}
 		
-		public function GetSocialMediaSites_WithShareLinks_OrderedByAlphabet()
-		{
-			$nice_names = $this->GetSocialMediaSites_NiceNames();
-			
-			return array_keys($nice_names);
-		}
-		
-				# Social Media Site Links With Share Links
-				# -------------------------------------------------
-		
-		public function GetSocialMediaSiteLinks_WithShareLinks($args)
+		public function getLinks($args)
 		{
 			$url = urlencode($args['url']);
 			$title = urlencode($args['title']);
 			$image = urlencode($args['image']);
 			$desc = urlencode($args['desc']);
-			$app_id = urlencode($args['appid']);
-			$redirect_url = urlencode($args['redirecturl']);
-			$via = urlencode($args['via']);
-			$hash_tags = urlencode($args['hashtags']);
-			$provider = urlencode($args['provider']);
-			$language = urlencode($args['language']);
-			$user_id = urlencode($args['userid']);
-			$category = urlencode($args['category']);
-			$phone_number = urlencode($args['phonenumber']);
-			$email_address = urlencode($args['emailaddress']);
-			$cc_email_address = urlencode($args['ccemailaddress']);
-			$bcc_email_address = urlencode($args['bccemailaddress']);
+			@$app_id = urlencode($args['appid']);
+			@$redirect_url = urlencode($args['redirecturl']);
+			@$via = urlencode($args['via']);
+			@$hash_tags = urlencode($args['hashtags']);
+			@$provider = urlencode($args['provider']);
+			@$language = urlencode($args['language']);
+			@$user_id = urlencode($args['userid']);
+			@$category = urlencode($args['category']);
+			@$phone_number = urlencode($args['phonenumber']);
+			@$email_address = urlencode($args['emailaddress']);
+			@$cc_email_address = urlencode($args['ccemailaddress']);
+			@$bcc_email_address = urlencode($args['bccemailaddress']);
 			
 			$text = $title;
 			

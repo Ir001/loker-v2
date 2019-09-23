@@ -14,8 +14,21 @@
 					<option value="<?php echo strtolower($list['kategori']); ?>"><?php echo $list['kategori']; ?></option>
 				<?php $i++; } ?>
 				</select>
-				<span class="large material-icons search">place</span>
-				<input name="lokasi" class="search-box_search_input " placeholder="Location" required="required" type="search">
+					<span class="large material-icons search">place</span>
+					<select name="lokasi"  class="dropdown_item_select search-box_search_input">
+						<option value="">Pilih Kota</option>
+						<?php 
+							$listcategory = $myApp->showKota();
+							$i=0;
+							foreach ($listcategory as $list) {
+						 ?>
+						<option value="<?php echo strtolower($list['kota']); ?>"><?php echo ucwords($list['kota']); ?></option>
+				<?php $i++; } ?>
+					</select>
+					<span class="clearfix"></span>
+					<span class="select" style="margin-top: -200px"></span>
+
+				
 			</div>
 			<button type="submit" class="search-box_search_button">Cari</button>
 		</form>
