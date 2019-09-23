@@ -7,6 +7,9 @@ $a = explode("-", $data[0]['judul']);
 $title = $a[0];
 $url_title = trim(str_replace(" ", "+", strtolower($title)));
 $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
+
+// 
+
  ?>
 <!doctype html>
 <html lang="id">
@@ -28,6 +31,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
+<<<<<<< HEAD
 								<?php 
 									$uri = explode('?fr', $data[0]['url']);
 								    $url2 = explode('-', $uri[0]);
@@ -42,6 +46,9 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 						        <input type="hidden" name="fr" id="fr" value="">
 						        <button id="apply_button" type="submit" class="Apply-Now">Lamar Sekarang</button>
 						      </form>
+=======
+								<a onclick="window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','width=360px, height=520px, status=1, scrollbars=yes'); return false" class="Apply-Now">Lamar Pekerjaan</a>
+>>>>>>> e57f6abc4d72e99dc7b203a212380fe49e99b9a2
 								<h6 class="font-color-orange"><?php echo $data[0]['perusahaan'] ?></h6>
 								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>">View more similar jobs</a>
 								<i class="material-icons">place</i>
@@ -62,8 +69,35 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 									<li class="">Harap pastikan bahwa <?php echo $data[0]['perusahaan']; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?php echo $data[0]['perusahaan']; ?>. </li>
 									<li class=""> Berhati-hatilah dengan perusahaan yang hanya menggunakan alamat email publik/gratisan (seperti @gmail atau @yahoo.com) atau SMS (termasuk aplikasi sejenis TELEGRAM atau WHATSAPP ) sebagai media komunikasi. Perusahaan akan lebih meyakinkan jika memiliki telepon kantor sendiri atau alamat email domain web perusahaan.</li>
 									<li class=""> Jika Anda dimintai uang untuk alasan administrasi atau apapun, sebaiknya Anda HINDARI lowongan kerja tersebut. Beberapa alasan sering dipakai adalah biaya seragam, biaya training (pelatihan), biaya penggantian materai, dan membayar formulir/surat perjanjian.</li>
-									<li class="">Pastikan bahwa lowongan yang Anda incar sesuai dengan judul dari lowongan ini, yaitu <?php echo $data[0]['judul']; ?> Pastikan Anda tidak ditawari bisnis investasi yang mencurigakan atau menjadi member MLM yang tidak jelas.</li></ul>
+									<li class="">Pastikan bahwa lowongan yang Anda incar sesuai dengan judul dari lowongan ini, yaitu <?php echo $data[0]['judul']; ?> Pastikan Anda tidak ditawari bisnis investasi yang mencurigakan atau menjadi member MLM yang tidak jelas.</li>
+								</ul>
+								<div class="row">
+									<div class="col-md-2">
+										<h4>Bagikan di</h4>
+									</div>
+									<div class="col-md-10 mt-5">
 
+<?php 
+include 'application/SocialMedia.php';
+$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$sosmed = new SocialMedia();
+$list = $sosmed->list();
+$share = $sosmed->getLinks([
+	'url'=> $url,
+	'title'=> $data[0]['judul'],
+	'image'=> $data[0]['logo'],
+	'desc' => "Hei, ada lowongan kerja" .@$title. " nih",	
+]);
+foreach($list as $social_media_name) {
+	$social_media_url = $share[$social_media_name];
+	$sosmed_name = ucwords($social_media_name);
+?>
+<div style="display: inline-block;">
+<a href="<?php echo $social_media_url; ?>" target="_blank"><img src="assets/imags/<?php echo $social_media_name; ?>.png" class="img-fluid" style="display: inline-block;" title="<?=$sosmed_name?>"></a>
+</div>
+<?php } ?>
+									</div>
+								</div>
 							</div>
 						</div>
 </section>
@@ -71,6 +105,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>
 <script type="text/javascript">
+
 	$('#job-form').submit(function(e){
 		e.preventDefault();
 		$.ajax({
@@ -83,6 +118,10 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 		})
 		console.log('Success');
 	})
+
+	// function getJob(){
+	// 	window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','width=360px,height=720px',status=1,scrollbars=yes)
+	// }
 </script>
 </body>
 

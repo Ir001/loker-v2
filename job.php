@@ -1,5 +1,38 @@
 <?php 
 	require 'application/grab.php';
+	if (isset($_GET['keyword']) || isset($_GET['kategori']) || isset($_GET['lokasi'])) {
+		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : "all"));
+		$kategori  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['kategori'] ? $_GET['kategori'] : "all"));
+		$lokasi  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['lokasi'] ? $_GET['lokasi'] : "all"));
+		//
+		if ($kategori == 'all') {
+			$sql = "SELECT * FROM td_lowongan GROUP BY kategori";
+		}elseif ($lokasi == 'all') {
+			$sql = "SELECT * FROM td_lowongan GROUP BY kota";
+		}else{
+			$sql = "SELECT * FROM td_lowongan GROUP BY id_lowongan";
+		}
+		$sql = $sql." LIMIT 0,8";
+		$exec = mysqli_query($conn, $sql);
+		$i=0;
+		while ($row = $exec->fetch_assoc()) {
+			$job[$i] = [
+				'id_lowongan' => $row['id_lowongan'],
+				'judul' => $row['judul'],
+				'logo' => $row['logo'],
+				'perusahaan' => $row['perusahaan'],
+				'kota' => $row['kota'],
+				'date_tutup' => $row['date_tutup']
+			];
+			$i++;
+		}
+	}else{
+		$param = '';
+		$page = '';
+		$job = $myApp->showArtikel($param, $page);
+
+
+	}
  ?>
 <!doctype html>
 <html lang="id">
@@ -48,7 +81,7 @@
 												$i=0;
 												foreach ($listcategory as $kat) {
 											 ?>
-											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['kategori']; ?> (<?php echo $myApp->countKat($kat['kategori']);  ?>)</a></li>
+											<li class="list"><a href="job.php?kategori=<?php echo strtolower($kat['kategori']); ?>" class="font-color-black"><?php echo $kat['kategori']; ?> (<?php echo $myApp->countKat($kat['kategori']);  ?>)</a></li>
 											<?php $i++; } ?>
 										</ul>
 									</div>
@@ -68,41 +101,45 @@
 
 								<div class="col-lg-8 col-md-12">
 								<?php 
-									$param = '';
-									$page = '';
-									$job = $myApp->showArtikel($param, $page);
 									$i=0;
 									foreach ($job as $data) {
 										if (isset($job[$i])) {
 										$a = explode("-", $job[$i]['judul']);
 										$title = $a[0];
-										$url_title = trim(str_replace(" ", "+", strtolower($title)));
+										$url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
 										$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
 										$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 								 ?>
 								<div class="detail width-100">
 									<div class="media display-inline text-align-center">
-										<?php echo $job[$i]['logo']; ?>
+										<?php// echo $job[$i]['logo']; ?>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>
-												<i class="large material-icons">account_balance</i>
-												<span class="text"><?php echo  $a[1]; ?></span>
-											<br/>
-												<i class="large material-icons">place</i>
-												<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
-											<br>
-												<i class="large material-icons">money</i>
-												<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
-											<div class="float-right margin-top text-align-center" style="z-index: 99">
-												<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
-												<p class="date-time">Deadline: <?php echo $date; ?></p>
-											</div>
+												<div>
+													<i class="large material-icons">account_balance</i>
+													<span class="text"><?php echo  $a[1]; ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">place</i>
+													<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">money</i>
+													<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">timer</i>
+													<span class="text font-size">Ditutup <?php echo $date;?></span>
+												</div>
+												<div class="float-right margin-top text-align-center" style="z-index: 99">
+													<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
+												</div>
 										</div>
 									</div>
 								</div>
-							<?php } ?>
-							<?php $i++; ?>
-						<?php } ?>
+									<?php } ?>
+									<?php $i++; ?>
+								<?php } ?>
 									<div class="vertical-space-20"></div>
 									<div class="vertical-space-25"></div>
 									<div class="job-list width-100">
@@ -126,4 +163,4 @@
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>
 </body>
-</html>
+</html

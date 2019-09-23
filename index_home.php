@@ -71,7 +71,7 @@
 						if (isset($job[$i])) {
 						$a = explode("-", $job[$i]['judul']);
 						$title = $a[0];
-						$url_title = trim(str_replace(" ", "+", strtolower($title)));
+						$url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
 						$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
 						$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 
@@ -101,7 +101,7 @@
 		<?php } ?>
 				<div class="vertical-space-20"></div>
 				<div class="job-list">
-					<a href="job.php" class="Open-Jobs-Page margin-auto">Open Jobs Page<i class="large material-icons float-right">trending_flat</i></a>
+					<a href="job.php" class="Open-Jobs-Page margin-auto">Lihat Semua<i class="large material-icons float-right">trending_flat</i></a>
 					<ul class="pagination justify-content-end margin-auto">
 						<li class="page-item"><a class="page-link pdding-none" href="javascript:void(0);"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
 						<li class="page-item"><a class="page-link active" href="job.php?page=1">1</a></li>
