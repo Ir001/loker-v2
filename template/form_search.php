@@ -5,7 +5,7 @@
 				<span class="large material-icons search">search</span>
 				<input name="keyword" class="search-box_search_input" placeholder="Posisi, Jabatan, Perusahaan" required="required" type="search">
 				<select name="kategori" class="dropdown_item_select search-box_search_input">
-					<option value="all">Semua</option>
+					<option value="">Semua</option>
 				<?php 
 					$listcategory = $myApp->showKategori();
 					$i=0;
@@ -16,7 +16,7 @@
 				</select>
 					<span class="large material-icons search">place</span>
 					<select name="lokasi"  class="dropdown_item_select search-box_search_input">
-						<option value="">Pilih Kota</option>
+						<option value="">Semua Wilayah</option>
 						<?php 
 							$listcategory = $myApp->showKota();
 							$i=0;

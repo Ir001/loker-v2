@@ -31,7 +31,6 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
-<<<<<<< HEAD
 								<?php 
 									$uri = explode('?fr', $data[0]['url']);
 								    $url2 = explode('-', $uri[0]);
@@ -46,9 +45,6 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 						        <input type="hidden" name="fr" id="fr" value="">
 						        <button id="apply_button" type="submit" class="Apply-Now">Lamar Sekarang</button>
 						      </form>
-=======
-								<a onclick="window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','width=360px, height=520px, status=1, scrollbars=yes'); return false" class="Apply-Now">Lamar Pekerjaan</a>
->>>>>>> e57f6abc4d72e99dc7b203a212380fe49e99b9a2
 								<h6 class="font-color-orange"><?php echo $data[0]['perusahaan'] ?></h6>
 								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>">View more similar jobs</a>
 								<i class="material-icons">place</i>

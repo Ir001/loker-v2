@@ -82,10 +82,7 @@ class grabbing extends mysqli
         if ($param == 'sitemap') {
             $sql .= " where 1=1";
             $paging2 = "select count(id_lowongan) jmldata from td_lowongan";
-        }elseif ($page == "industri" || $page == "kategori" || $page == "kota" ) {
-            $sql .= " where $page = '$param' ";
-            $paging2 = "select count(id_lowongan) jmldata from td_lowongan where $page = '$param'";
-        } else {
+        }else {
             $sql .= " where 1=1";
             $paging2 = "select count(id_lowongan) jmldata from td_lowongan";
             
@@ -94,7 +91,7 @@ class grabbing extends mysqli
             $jmldata2 = $jmldata->fetch_assoc();
             $jmldataint = $jmldata2['jmldata'];
             $jmlhalaman = ceil($jmldataint / $batas);
-            $halaman = @$_GET['hal']?$_GET['hal']:1;
+            $halaman = @$_GET['page']?$_GET['page']:1;
             if ($halaman == 1) {
                 $posisi = 0;
             } else {
@@ -149,6 +146,11 @@ class grabbing extends mysqli
         $keyPlus = str_replace(' ', '+', $key);
         $lok = $lok;
         $kat = $kat;
+        if ($lok == "all") {
+            $lok = "";
+        }elseif ($kat == "all") {
+            $kat = "";
+        }
         $sql = "select * from td_lowongan where 1=1 ";
         if ($key != '') {
             $keywords = strtolower($key);
@@ -162,26 +164,24 @@ class grabbing extends mysqli
         if ($lok != '') {
             $sql .= " and lokasi like '%$lok%' ";
         }
-        $sql .= " order by id_lowongan asc limit 50";
+        $sql .= " order by id_lowongan asc limit 10";
         $hasil = $this->query($sql);
         if ($result = $this->query($sql)) {        /* fetch associative array */
-            $data = '';
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'],];
+                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],'date_tutup' => $row['date_tutup']];
                 $i++;
             }
+            if ($result->num_rows == 0) {
+              return "nothing";
+            }
+            return @$data;
+        }else {
+              return "nothing";
+        }
             $row = $result->fetch_assoc();
             $result->close();
-            if ($data == '') {
-                return "Data tidak ditemukan";
-            } else {
-                return $data;
-            }
-        } else {
-            return "Data tidak ditemukan";
         }
-    }
 
     function showDetail($judul, $id)
     {

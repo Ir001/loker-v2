@@ -5,4 +5,5 @@
 <link href="assets/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="assets/css/matrialize.css" rel="stylesheet">
 <link href="assets/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/paging/page.css">
 <link rel="stylesheet" href="assets/css/style.css">

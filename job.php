@@ -1,37 +1,16 @@
 <?php 
 	require 'application/grab.php';
-	if (isset($_GET['keyword']) || isset($_GET['kategori']) || isset($_GET['lokasi'])) {
-		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : "all"));
-		$kategori  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['kategori'] ? $_GET['kategori'] : "all"));
-		$lokasi  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['lokasi'] ? $_GET['lokasi'] : "all"));
-		//
-		if ($kategori == 'all') {
-			$sql = "SELECT * FROM td_lowongan GROUP BY kategori";
-		}elseif ($lokasi == 'all') {
-			$sql = "SELECT * FROM td_lowongan GROUP BY kota";
-		}else{
-			$sql = "SELECT * FROM td_lowongan GROUP BY id_lowongan";
-		}
-		$sql = $sql." LIMIT 0,8";
-		$exec = mysqli_query($conn, $sql);
-		$i=0;
-		while ($row = $exec->fetch_assoc()) {
-			$job[$i] = [
-				'id_lowongan' => $row['id_lowongan'],
-				'judul' => $row['judul'],
-				'logo' => $row['logo'],
-				'perusahaan' => $row['perusahaan'],
-				'kota' => $row['kota'],
-				'date_tutup' => $row['date_tutup']
-			];
-			$i++;
-		}
+	include 'application/funcSearch.php';
+	if (isset($_GET['keyword'])) {
+		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : ""));
+		$kategori  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['kategori'] ? $_GET['kategori'] : ""));
+		$lokasi  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['lokasi'] ? $_GET['lokasi'] : ""));
+		$job = $search->getSearch($keyword, $kategori, $lokasi);
+		 // $job = $myApp->cariArtikel($keyword, $kategori, $lokasi);
 	}else{
 		$param = '';
 		$page = '';
 		$job = $myApp->showArtikel($param, $page);
-
-
 	}
  ?>
 <!doctype html>
@@ -57,7 +36,6 @@
 
 </head>
 <body>
-
 <?php include 'template/navbar.php'; ?>
 <section style="min-height: 180px; background: #f8f8f8">
 	
@@ -101,6 +79,13 @@
 
 								<div class="col-lg-8 col-md-12">
 								<?php 
+									if ($job=="nothing") {
+									?>
+									<h3>Tidak ada data yang cocok</h3>
+									<a href="job.php" class="my-5">< Kembali</a>
+									<?php
+									}else{
+										// print_r($job);
 									$i=0;
 									foreach ($job as $data) {
 										if (isset($job[$i])) {
@@ -112,7 +97,7 @@
 								 ?>
 								<div class="detail width-100">
 									<div class="media display-inline text-align-center">
-										<?php// echo $job[$i]['logo']; ?>
+										<?php echo $job[$i]['logo']; ?>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>
 												<div>
@@ -139,20 +124,17 @@
 								</div>
 									<?php } ?>
 									<?php $i++; ?>
-								<?php } ?>
+								<?php }} ?>
 									<div class="vertical-space-20"></div>
 									<div class="vertical-space-25"></div>
 									<div class="job-list width-100">
-										<ul class="pagination justify-content-end margin-auto">
-											<li class="page-item"><a class="page-link pdding-none" href="javascript:void(0);"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
-											<li class="page-item"><a class="page-link active" href="javascript:void(0);">1</a></li>
-											<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-											<li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-											<li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+										<ul id="pagination_panel" class="pagination" data-omni="">
 											<li class="page-item">
-												<a class="page-link pdding-none" href="javascript:void(0);"> <i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_right</i></a>
+												<a href="page-link"></a>
 											</li>
-										</ul>
+            							</ul>
+            							<div class="light-pagination"></div> 
+									
 									</div>
 								</div>
 							</div>
@@ -162,5 +144,36 @@
 
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>
+<script type="text/javascript">
+	<?php
+	$item = $job['jmlhalaman'];
+	if (isset($_GET['page'])) {
+		$last = $_SERVER['REQUEST_URI'];
+		$a =  explode("page", $last);
+		$b = trim($a[0], "&");
+		$url = 'http://'.$_SERVER['HTTP_HOST'].$b;
+
+	 }else{
+		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	} 
+
+	?>
+	var paging = function () {
+			let curentUri = "<?php echo $url; ?>";
+            $(function() {
+                $('.light-pagination').pagination({
+                    items: <?php echo $item; ?>,
+                    currentPage : <?php echo @$_GET['page']?$_GET['page']:1; ?>,
+                    cssStyle: 'light-theme',
+                    prevText: '<',
+                    nextText: '>',
+                    onPageClick: function (val) {
+                        window.location=curentUri+"&page="+val;
+                    }
+                });
+            });
+        };
+        paging();
+</script>
 </body>
 </html
