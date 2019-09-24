@@ -129,9 +129,6 @@
 									<div class="vertical-space-25"></div>
 									<div class="job-list width-100">
 										<ul id="pagination_panel" class="pagination" data-omni="">
-											<li class="page-item">
-												<a href="page-link"></a>
-											</li>
             							</ul>
             							<div class="light-pagination"></div> 
 									
@@ -151,10 +148,10 @@
 		$last = $_SERVER['REQUEST_URI'];
 		$a =  explode("page", $last);
 		$b = trim($a[0], "&");
-		$url = 'http://'.$_SERVER['HTTP_HOST'].$b;
+		$url = 'http://'.$_SERVER['HTTP_HOST'].$b."&";
 
 	 }else{
-		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."?";
 	} 
 
 	?>
@@ -168,7 +165,7 @@
                     prevText: '<',
                     nextText: '>',
                     onPageClick: function (val) {
-                        window.location=curentUri+"&page="+val;
+                        window.location=curentUri+"page="+val;
                     }
                 });
             });

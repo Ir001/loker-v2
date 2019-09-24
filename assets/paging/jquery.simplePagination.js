@@ -27,7 +27,7 @@
 				ellipseText: '&hellip;',
 				ellipsePageSet: true,
 				cssStyle: '',
-				listStyle: 'page-link',
+				listStyle: 'pagination justify-content-end margin-auto',
 				labelMap: [],
 				selectOnClick: true,
 				nextAtFront: false,
@@ -304,7 +304,7 @@
 				} else {
 					$linkWrapper.addClass('active');
 				}
-				$link = $('<span class="page-item current">' + (options.text) + '</span>');
+				$link = $('<span class="page-link current">' + (options.text) + '</span>');
 			} else {
 				if (o.useAnchors) {
 					$link = $('<a href="' + o.hrefTextPrefix + (pageIndex + 1) + o.hrefTextSuffix + '" class="page-link">' + (options.text) + '</a>');
