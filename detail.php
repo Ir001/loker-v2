@@ -23,6 +23,14 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 	<title>Loker.id - <?php echo $data[0]['judul']; ?></title>
 
 <?php include 'template/meta_head.php'; ?>
+<style type="text/css">
+	div, p, ul li{
+		font-family: proxima nova;
+	}
+	li{
+		line-height: 29px;
+	}
+</style>
 </head>
 <body class="background-color-white-drak ">
 <?php include 'template/navbar.php'; ?>
@@ -55,17 +63,17 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								<h4>Job description</h4>
 								<p>Sebelum Anda melamar lowongan <?php echo $data[0]['judul']; ?> ini atau menekan tombol <b>Lamar Pekerjaan</b>, Anda harus mengerti dan mengaplikasikan setiap ketentuan dari situs kami ( Lowongan-Kerja.id ) sebagai berikut:</p>
 								<ul class="list-group my-5" style="line-height: 25px;">
-									<li class="">Iklan Lowongan Pekerjaan ini dibuat oleh <?php echo $data[0]['perusahaan']; ?> , kami tidak pernah mengubah / menambahkan / memvalidasi setiap lowongan kerja secara langsung. </li>
-									<li class="">Semua iklan Lowongan Kerja ini adalah hasil dari<b> MENGUTIP LANGSUNG</b> dari web <b>Jobstreet</b>, kami TIDAK AKAN PERNAH meminta biaya baik secara langsung maupun melalui perusahaan bersangkutan. </li>
-									<li class="">Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li class="">Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
+									<li><i class="fa fa-line-circle"></i>Iklan Lowongan Pekerjaan ini dibuat oleh <?php echo $data[0]['perusahaan']; ?> , kami tidak pernah mengubah / menambahkan / memvalidasi setiap lowongan kerja secara langsung. </li>
+									<li><i class="fa fa-line-circle"></i>Semua iklan Lowongan Kerja ini adalah hasil dari<b> MENGUTIP LANGSUNG</b> dari web <b>Jobstreet</b>, kami TIDAK AKAN PERNAH meminta biaya baik secara langsung maupun melalui perusahaan bersangkutan.</li>
+									<li><i class="fa fa-line-circle"></i>Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li>Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
 								</ul>
 								<p><?php echo $data[0]['long_desc'] ?></p>
 								<h4>Apakah <?php echo $data[0]['judul']; ?> Asli (Bukan Palsu)? </h4>
-								<ul class="list-group my-5" style="line-height: 25px">
-									<li class="">Harap pastikan bahwa <?php echo $data[0]['perusahaan']; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?php echo $data[0]['perusahaan']; ?>. </li>
-									<li class=""> Berhati-hatilah dengan perusahaan yang hanya menggunakan alamat email publik/gratisan (seperti @gmail atau @yahoo.com) atau SMS (termasuk aplikasi sejenis TELEGRAM atau WHATSAPP ) sebagai media komunikasi. Perusahaan akan lebih meyakinkan jika memiliki telepon kantor sendiri atau alamat email domain web perusahaan.</li>
-									<li class=""> Jika Anda dimintai uang untuk alasan administrasi atau apapun, sebaiknya Anda HINDARI lowongan kerja tersebut. Beberapa alasan sering dipakai adalah biaya seragam, biaya training (pelatihan), biaya penggantian materai, dan membayar formulir/surat perjanjian.</li>
-									<li class="">Pastikan bahwa lowongan yang Anda incar sesuai dengan judul dari lowongan ini, yaitu <?php echo $data[0]['judul']; ?> Pastikan Anda tidak ditawari bisnis investasi yang mencurigakan atau menjadi member MLM yang tidak jelas.</li>
+								
+									<p>Harap pastikan bahwa <?php echo $data[0]['perusahaan']; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?php echo $data[0]['perusahaan']; ?>. </p>
+									<p>Berhati-hatilah dengan perusahaan yang hanya menggunakan alamat email publik/gratisan (seperti @gmail atau @yahoo.com) atau SMS (termasuk aplikasi sejenis TELEGRAM atau WHATSAPP ) sebagai media komunikasi. Perusahaan akan lebih meyakinkan jika memiliki telepon kantor sendiri atau alamat email domain web perusahaan. </p>
+									<p> Jika Anda dimintai uang untuk alasan administrasi atau apapun, sebaiknya Anda HINDARI lowongan kerja tersebut. Beberapa alasan sering dipakai adalah biaya seragam, biaya training (pelatihan), biaya penggantian materai, dan membayar formulir/surat perjanjian.</li>
+									<p>Pastikan bahwa lowongan yang Anda incar sesuai dengan judul dari lowongan ini, yaitu <?php echo $data[0]['judul']; ?> Pastikan Anda tidak ditawari bisnis investasi yang mencurigakan atau menjadi member MLM yang tidak jelas.</li>
 								</ul>
 								<div class="row">
 									<div class="col-md-2">
@@ -96,6 +104,51 @@ foreach($list as $social_media_name) {
 								</div>
 							</div>
 						</div>
+</section>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 mt-5">
+				<h5 class="text-dark">Artikel Terkait</h5>
+			</div>
+			<div class="col-md-4 my-5">
+				<div class="card">
+					<div class="card-header">
+						<img class="img-fluid" src="assets/images/logo.png"></img>
+					</div>
+					<div class="card-body">
+						<h4>Tips Melamar Kerja</h4>
+						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
+				<a class="d-block mt-4">Selengkapnya>></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 my-5">
+				<div class="card">
+					<div class="card-header">
+						<img class="img-fluid" src="assets/images/logo.png"></img>
+					</div>
+					<div class="card-body">
+						<h4>Tips Melamar Kerja</h4>
+						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
+				<a class="d-block mt-4">Selengkapnya>></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 my-5">
+				<div class="card">
+					<div class="card-header">
+						<img class="img-fluid" src="assets/images/logo.png"></img>
+					</div>
+					<div class="card-body">
+						<h4>Tips Melamar Kerja</h4>
+						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
+				<a class="d-block mt-4">Selengkapnya>></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <?php include 'template/footer.php'; ?>

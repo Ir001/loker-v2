@@ -1,6 +1,6 @@
 <?php
 	include 'filterKota.php'; 
-	$conn = mysqli_connect('localhost', 'root', 'root', 'loker');
+	$conn = mysqli_connect('localhost', 'root', 'root', 'lastdirv_lokerja');
 	// 
 	$geLokasi = mysqli_query($conn, "SELECT id_lowongan, lokasi FROM td_lowongan");
 	// 

@@ -11,7 +11,7 @@ class grabbing extends mysqli
         parent::set_charset('utf-8');
     }
 
-   function insert($url, $aksi)
+    function insert($url, $aksi)
     {
         $url = $url;
         $aksi = $aksi;
@@ -57,13 +57,13 @@ class grabbing extends mysqli
             $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $date_buka = convertDate($dibuka);
             $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
-            $date_tutup = convertDate($ditutup);
+            $date_tuka = convertDate($ditutup);
             $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
             $hasil = $this->query($sqlCekJudul);
             $row = $hasil->fetch_assoc();
             if ($row['judul'] == '') {
-                $sql = "insert into td_lowongan           (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tuka)          values('$judul-$perusahaan',          '" . $this->real_escape_string($fullDesc) . "',          '" . $this->real_escape_string($shortDesc) . "',          '" . $this->real_escape_string($gambaran) . "',          '" . $this->real_escape_string($tentang) . "',          '" . $this->real_escape_string($why) . "',          '" . $this->real_escape_string($logo) . "',          '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
-                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup)          values('$judul-$perusahaan',          '" . $this->real_escape_string($fullDesc) . "',          '" . $this->real_escape_string($shortDesc) . "',          '" . $this->real_escape_string($gambaran) . "',          '" . $this->real_escape_string($tentang) . "',          '" . $this->real_escape_string($why) . "',          '" . $this->real_escape_string($logo) . "',          '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
+                $sql = "insert into td_lowongan           (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tuka)          values('$judul-$perusahaan',          '" . $this->real_escape_string($fullDesc) . "',          '" . $this->real_escape_string($shortDesc) . "',          '" . $this->real_escape_string($gambaran) . "',          '" . $this->real_escape_string($tentang) . "',          '" . $this->real_escape_string($why) . "',          '" . $this->real_escape_string($logo) . "',          '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tuka')";
+                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup)          values('$judul-$perusahaan',          '" . $this->real_escape_string($fullDesc) . "',          '" . $this->real_escape_string($shortDesc) . "',          '" . $this->real_escape_string($gambaran) . "',          '" . $this->real_escape_string($tentang) . "',          '" . $this->real_escape_string($why) . "',          '" . $this->real_escape_string($logo) . "',          '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tuka')";
                 $this->query($sql);
             }
             if ($aksi == 'cari' && $i == 6) {          /* keyword:marketing mobil          page:cari          kategori:          kategori_text:          lokasi:          wilayah_text:          aksi:cari */
@@ -352,4 +352,10 @@ if (isset($_POST['aksi'])) {
         $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
         $myApp->insert($url, $aksi);
     }
-} ?>
+}else{
+    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
+    $myApp->insert($url, "cari");
+
+} 
+
+?>
