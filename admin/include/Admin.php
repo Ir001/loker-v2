@@ -1,5 +1,5 @@
 <?php 
-	include '../application/config.php';
+	include 'config.php';
 	/**
 	 * 
 	 */
@@ -107,7 +107,77 @@
 			$data = $exec->fetch_assoc();
 			$jumlah = $data['jumlah'];
 			return $jumlah;
-        }
+    }
+
+    // 
+
+    function getArtikel($param = "all"){
+    	$data = array();
+    	if ($param == "all") {
+    		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan WHERE 1=1";
+    	}elseif ($param == "active") {
+    		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan WHERE status = 'active'";
+
+    	}elseif ($param == "expired") {
+    		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan WHERE status = 'expired'";
+    	}
+    	if ($exec = $this->query($sql)) {
+	    	$i = 0;
+	    	while ($result = $exec->fetch_assoc()) {
+	    		$data[$i] = [
+	    			'id_lowongan' => $result['id_lowongan'],
+	    			'judul' => $result['judul'],
+	    			'status' => $result['status'],
+	    			'date_tutup' => $result['date_tutup'],
+	    		];
+	    		$i++;
+	    	}
+	    	$result = $exec->fetch_assoc();
+	    	$exec->close();
+    	}
+    	return @$data;
+    }
+    //
+    function showAds(){
+    	$sql = "SELECT * FROM ads";
+    	if ($exec = $this->query($sql)) {
+    		$i=0;
+    		while ($row = $exec->fetch_assoc()) {
+    			$data[$i] = [
+    				'ads_id' => $row['ads_id'],
+    				'name' => $row['name'],
+    				'code' => $row['code'],
+    				'description' => $row['description'],
+    				'show' => $row['show']
+    			];
+    			$i++;
+    		}
+    		$row = $exec->fetch_assoc();
+	    	$exec->close();
+    		return @$data;
+    	}
+    }
+    function getSetting(){
+    	$sql = "SELECT * FROM settings WHERE 1=1";
+    	$exec = $this->query($sql);
+    	$data = $exec->fetch_assoc();
+    	return @$data;
+    }
+    // 
+    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense){
+    	$title = $this->real_escape_string($title);
+    	$tag_line = $this->real_escape_string($tag_line);
+    	$description = $this->real_escape_string($description);
+    	$keywords = $this->real_escape_string($keywords);
+    	$tag_manager = $this->real_escape_string($tag_manager);
+    	$adsense = $this->real_escape_string($adsense);
+    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense'";
+    	if ($exec = $this->query($sql)) {
+    		return 1;
+    	}else{
+    		return 0;
+    	}
+    }
 
 
 	}

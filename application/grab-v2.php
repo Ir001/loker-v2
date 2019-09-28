@@ -110,7 +110,7 @@ class grabbing extends mysqli
         if ($result = $this->query($sql)) {        /* fetch associative array */
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],];
+                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],'date_tutup' => $row['date_tutup'],];
                 $i++;
             }
             $row = $result->fetch_assoc();

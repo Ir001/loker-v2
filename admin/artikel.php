@@ -4,9 +4,15 @@
   if ($loged == 0) {
     header("location:login.php");
   }
-  $iklan = $su->showAds();
+  // 
+  if (isset($_GET['show']) AND $_GET['show'] == "active") {
+    $artikel = $su->getArtikel('active');
+  }elseif (isset($_GET['show']) AND $_GET['show'] == "expired") {
+    $artikel = $su->getArtikel('expired');
+  }else{
+    $artikel = $su->getArtikel('all');
+  }
  ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +32,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard - Iklan</h1>
+            <h1 class="m-0 text-dark">Dashboard - Artikel</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-              <li class="breadcrumb-item active">Iklan</li>
+              <li class="breadcrumb-item active">Artikel</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -58,30 +64,32 @@
                   <thead>
                   <tr>
                     <th>No</th>
-                    <th>Nama Iklan</th>
-                    <th>Deskripsi Iklan</th>
-                    <th>Code</th>
+                    <th>Judul</th>
+                    <th>Deadline</th>
+                    <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
                     <?php 
                       $i=0;
-                      foreach ($iklan as $data) {
+                      foreach ($artikel as $data) {
                      ?>
                   <tr>
                     <td>
                       <?php echo $i+1; ?>
                     </td>
                     <td>
-                      <?php echo $iklan[$i]['name']; ?>
+                      <?php echo $data['judul']; ?> <span class="badge <?php if ($data['status'] == "expired"): ?>
+                      bg-danger
+                      <?php else: ?>
+                      bg-success
+                        
+                      <?php endif ?>"><?php echo ucwords($data['status']); ?></span>
                     </td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</td>
+                    <td> <?php echo @$data['date_tutup']? "": "28-Agustus-2019"; ?></td>
                     <td>
-                      <a href="#" class="text-muted">
-                        <i class="fas fa-eye"></i>
-                      </a> | <a href="#" class="text-muted">
-                        <i class="fas fa-trash"></i>
-                      </a>
+                      <span class="d-block"><a href="#"><i class="fas fa-trash"></i> Delete</a></span>
+                      
                     </td>
                   </tr>
                   <?php $i++; } ?>

@@ -12,8 +12,8 @@
         <div class="image">
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="info">
-          <a href="#" class="d-block">Administrator</a>
+        <div class="info d-block">
+          <a href="#"><?php echo $_SESSION['admin']['fullname']; ?></a> | <a href="logout.php">Logout</a>
         </div>
       </div>
 
@@ -23,15 +23,63 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="index.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="artikel.php" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Artikel
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="artikel.php?show=active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Loker Active</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="artikel.php?show=expired" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Loker Expired</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+           <li class="nav-item">
+            <a href="edit_about.php" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Page About
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="iklan.php" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Iklan
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="add_iklan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tambah Iklan</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="pengaturan.php" class="nav-link">
               <i class="nav-icon fas fa-tools"></i>
               <p>
                 Pengaturan
@@ -39,13 +87,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Artikel
-              </p>
-            </a>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
