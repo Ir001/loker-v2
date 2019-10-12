@@ -15,8 +15,9 @@ class grabbing extends mysqli
     {
         $url = $url;
         $aksi = $aksi;
-        include('simple_html_dom.php');
-        include('filterKota.php');
+        include 'simple_html_dom.php';
+        include 'filterKota.php';
+        include 'convertDate.php';
         $html = file_get_html($url);
         $panel = $html->find('div[class=panel-body]');
         $jmlData = count($html->find('div[class=panel-body]'));
@@ -55,11 +56,13 @@ class grabbing extends mysqli
             $why = $htmlDetil->find('#why_join_us', 0);
             $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
+            $date_buka = convertDate($dibuka); 
+            $date_tutup = convertDate($ditutup); 
             $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
             $hasil = $this->query($sqlCekJudul);
             $row = $hasil->fetch_assoc();
             if ($row['judul'] == '') {
-                $sql = "insert into td_lowongan           (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota)          values('$judul-$perusahaan',          '" . $this->real_escape_string($fullDesc) . "',          '" . $this->real_escape_string($shortDesc) . "',          '" . $this->real_escape_string($gambaran) . "',          '" . $this->real_escape_string($tentang) . "',          '" . $this->real_escape_string($why) . "',          '" . $this->real_escape_string($logo) . "',          '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota')";
+                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup) values('$judul-$perusahaan', '" . $this->real_escape_string($fullDesc) . "', '" . $this->real_escape_string($shortDesc) . "', '" . $this->real_escape_string($gambaran) . "', '" . $this->real_escape_string($tentang) . "', '" . $this->real_escape_string($why) . "', '" . $this->real_escape_string($logo) . "',  '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
                 $this->query($sql);
             }
             if ($aksi == 'cari' && $i == 6) {          /* keyword:marketing mobil          page:cari          kategori:          kategori_text:          lokasi:          wilayah_text:          aksi:cari */

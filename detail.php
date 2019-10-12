@@ -35,7 +35,6 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 <body class="background-color-white-drak ">
 <?php include 'template/navbar.php'; ?>
 <section id="job-Details" style="margin-top: 120px !important">
-
 						<div class="container background-color-full-white job-Details">
 							<div class="Exclusive-Product">
 								<h3><?php echo $data[0]['judul']; ?></h3>
@@ -67,6 +66,9 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 									<li><i class="fa fa-line-circle"></i>Semua iklan Lowongan Kerja ini adalah hasil dari<b> MENGUTIP LANGSUNG</b> dari web <b>Jobstreet</b>, kami TIDAK AKAN PERNAH meminta biaya baik secara langsung maupun melalui perusahaan bersangkutan.</li>
 									<li><i class="fa fa-line-circle"></i>Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li>Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
 								</ul>
+								<!-- 
+												Ads
+								 -->
 								<p><?php echo $data[0]['long_desc'] ?></p>
 								<h4>Apakah <?php echo $data[0]['judul']; ?> Asli (Bukan Palsu)? </h4>
 								
@@ -104,52 +106,25 @@ foreach($list as $social_media_name) {
 								</div>
 							</div>
 						</div>
-</section>
-<section>
+						
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 mt-5">
-				<h5 class="text-dark">Artikel Terkait</h5>
+			<div class="col-md-12 my-4">
+				<h3 class="text-dark">Artikel Terkait</h3>
 			</div>
-			<div class="col-md-4 my-5">
+			<div class="col-md-4 mb-2">
 				<div class="card">
-					<div class="card-header">
-						<img class="img-fluid" src="assets/images/logo.png"></img>
-					</div>
 					<div class="card-body">
-						<h4>Tips Melamar Kerja</h4>
+						<h4>Tips Melamar Kerja Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</h4>
 						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-				<a class="d-block mt-4">Selengkapnya>></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 my-5">
-				<div class="card">
-					<div class="card-header">
-						<img class="img-fluid" src="assets/images/logo.png"></img>
-					</div>
-					<div class="card-body">
-						<h4>Tips Melamar Kerja</h4>
-						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-				<a class="d-block mt-4">Selengkapnya>></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 my-5">
-				<div class="card">
-					<div class="card-header">
-						<img class="img-fluid" src="assets/images/logo.png"></img>
-					</div>
-					<div class="card-body">
-						<h4>Tips Melamar Kerja</h4>
-						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-				<a class="d-block mt-4">Selengkapnya>></a>
+						<a href="#" class="d-block mt-4">Selengkapnya>></a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+	
 
 <?php include 'template/footer.php'; ?>
 <?php include 'template/meta_footer.php'; ?>

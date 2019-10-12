@@ -354,7 +354,7 @@ if (isset($_POST['aksi'])) {
     }
 }else{
     $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
-    $myApp->insert($url, "cari");
+   // $myApp->insert($url, "cari");
 
 } 
 

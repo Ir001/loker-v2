@@ -60,6 +60,7 @@
                     <th>No</th>
                     <th>Nama Iklan</th>
                     <th>Deskripsi Iklan</th>
+                    <th>Ditayangkan pada</th>
                     <th>Code</th>
                   </tr>
                   </thead>
@@ -67,6 +68,19 @@
                     <?php 
                       $i=0;
                       foreach ($iklan as $data) {
+                        $show = $iklan[$i]['show'];
+                        if ($show == "front") {
+                          $showin = "Halaman Utama";
+                        }elseif ($show == "sidebar") {
+                          $showin = "Sidebar Halaman";
+                        }elseif ($show == "content") {
+                          $showin = "Halaman Detail";
+                        }elseif ($show == "bottom") {
+                          $showin = "Dibawah Halaman";
+                        }else{
+                          $showin = "Semua";
+
+                        }
                      ?>
                   <tr>
                     <td>
@@ -75,13 +89,42 @@
                     <td>
                       <?php echo $iklan[$i]['name']; ?>
                     </td>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</td>
                     <td>
-                      <a href="#" class="text-muted">
-                        <i class="fas fa-eye"></i>
-                      </a> | <a href="#" class="text-muted">
-                        <i class="fas fa-trash"></i>
-                      </a>
+                      <?php echo $iklan[$i]['description']; ?>
+                    </td>
+                    <td>
+                      <?php echo $showin; ?>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#show-ads-<?=$i;?>">
+                            Show
+                      </button>
+                      
+                      <!-- Modal -->
+                      <div class="modal fade" id="show-ads-<?=$i;?>">
+                        <div class="modal-dialog modal-md">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Ads Source Code</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <textarea class="form-control"><?php echo $iklan[$i]['code']; ?></textarea>
+                              </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                              <button type="button" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- End modal -->
                     </td>
                   </tr>
                   <?php $i++; } ?>
@@ -89,6 +132,8 @@
                 </table>
               </div>
             </div>
+            
+            
             <!-- /.card -->
           </div>
         </div>

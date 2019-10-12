@@ -1,45 +1,52 @@
-<?php
-	$now = date('Y-M-d');
-	function convertDate($month = "Ditayangkan : 01-January-2019"){
-		$month = $month;
-		if (preg_match('/Tutup/i', $month)) {
-			$string1 = explode("pada", $month);
-		}elseif (preg_match('/Ditayangkan/i', $month)) {
-			$string1 = explode(":", $month);
+<?php 
+
+	function convertDate($waktu_awal){
+		$waktu_awal = trim($waktu_awal);
+		$string_a = explode("-", $waktu_awal);
+		$tgl_exp = explode(" ", $string_a[0]);
+		//
+		$status = strtolower($tgl_exp[0]);
+		$status = trim($status);
+		// Tahun
+		$tahun = $string_a[2];
+		$tahun = trim($tahun);
+		// Bulan
+		$bulan_string = strtolower($string_a[1]);
+		if ($bulan_string == "january") {
+			$bulan = "01";
+		}elseif($bulan_string == "february"){
+			$bulan = "02";
+		}elseif($bulan_string == "march"){
+			$bulan = "03";
+		}elseif($bulan_string == "april"){
+			$bulan = "04";
+		}elseif($bulan_string == "may"){
+			$bulan = "05";
+		}elseif($bulan_string == "june"){
+			$bulan = "06";
+		}elseif($bulan_string == "july"){
+			$bulan = "07";
+		}elseif($bulan_string == "august"){
+			$bulan = "08";
+		}elseif($bulan_string == "september"){
+			$bulan = "09";
+		}elseif($bulan_string == "october"){
+			$bulan = "10";
+		}elseif($bulan_string == "november"){
+			$bulan = "11";
+		}elseif($bulan_string == "december"){
+			$bulan = "12";
 		}else{
-			$string1 = explode(" ", $month);
+			$bulan = "01";
 		}
-		$string2 = explode("-", $string1[1]);
-		$year = trim($string2[2]);
-		$tanggal = trim($string2[0]);
-		$real_month = strtolower($string2[1]);
-		if (preg_match('/january/i', $real_month)) {
-			$date = $year."-01"."-".$tanggal;
-		}elseif (preg_match('/february/i', $real_month)) {
-			$date = $year."-02"."-".$tanggal;
-		}elseif (preg_match('/march/i', $real_month)) {
-			$date = $year."-03"."-".$tanggal;
-		}elseif (preg_match('/april/i', $real_month)) {
-			$date = $year."-04"."-".$tanggal;
-		}elseif (preg_match('/may/i', $real_month)) {
-			$date = $year."-05"."-".$tanggal;
-		}elseif (preg_match('/june/i', $real_month)) {
-			$date = $year."-06"."-".$tanggal;
-		}elseif (preg_match('/july/i', $real_month)) {
-			$date = $year."-07"."-".$tanggal;
-		}elseif (preg_match('/august/i', $real_month)) {
-			$date = $year."-08"."-".$tanggal;
-		}elseif (preg_match('/september/i', $real_month)) {
-			$date = $year."-09"."-".$tanggal;
-		}elseif (preg_match('/october/i', $real_month)) {
-			$date = $year."-10"."-".$tanggal;
-		}elseif (preg_match('/november/i', $real_month)) {
-			$date = $year."-11"."-".$tanggal;
-		}elseif (preg_match('/december/i', $real_month)) {
-			$date = $year."-12"."-".$tanggal;
+		// Tanggal
+		if ($status == "ditayangkan:") {
+			$tanggal = $tgl_exp[1];
 		}else{
-			$date = date("Y-m-d");
+			$tanggal = $tgl_exp[2];
 		}
-		return $date;
+		$waktu = "$tahun-$bulan-$tanggal";
+		$waktu = trim($waktu);
+		return $waktu;
 	}
  ?>

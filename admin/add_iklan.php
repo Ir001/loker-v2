@@ -49,8 +49,8 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" id="settingForm">
-                <input type="hidden"  name="form" value="setting">
+              <form role="form" id="add_iklan">
+                <input type="hidden"  name="form" value="add_iklan">
                 <div class="card-body">
                   <div class="form-group">
                     <label for="">Nama Iklan</label>
@@ -65,9 +65,8 @@
                     <textarea  class="form-control" name="description" placeholder="Description"></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="">Ditayangkan Pada</label>
                       <div class="form-group">
-                        <label>Pilih</label>
+                        <label for="">Ditayangkan Pada</label>
                         <select name="show" class="form-control" required>
                           <option value="content" disabled selected>Pilih</option>
                           <option value="front">Halaman Utama</option>
@@ -105,14 +104,14 @@
 <?php include 'template/meta_footer.php'; ?>
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#settingForm').submit(function(e){
+  $('#add_iklan').submit(function(e){
     e.preventDefault();
     $('#load').removeClass('d-none');
     setTimeout(function(){
       $.ajax({
         type : 'POST',
         url : 'include/Save.php',
-        data : $('#settingForm').serialize(),
+        data : $('#add_iklan').serialize(),
         success : function(data){
           $('#load').addClass('d-none');
           alert(data);

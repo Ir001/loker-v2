@@ -1,5 +1,5 @@
 <?php
-include 'application/grab.php';
+include 'application/grab-v2.php';
 header('Content-type: application/xml; charset="ISO-8859-1"', true);
 
 /**

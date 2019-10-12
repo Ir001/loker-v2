@@ -114,7 +114,7 @@
     function getArtikel($param = "all"){
     	$data = array();
     	if ($param == "all") {
-    		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan WHERE 1=1";
+    		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan ORDER BY date_tutup DESC";
     	}elseif ($param == "active") {
     		$sql = "SELECT id_lowongan, judul, status, date_tutup FROM td_lowongan WHERE status = 'active'";
 
@@ -172,6 +172,42 @@
     	$tag_manager = $this->real_escape_string($tag_manager);
     	$adsense = $this->real_escape_string($adsense);
     	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense'";
+    	if ($exec = $this->query($sql)) {
+    		return 1;
+    	}else{
+    		return 0;
+    	}
+    }
+    // Add Iklan
+    function addAds($name, $sc, $desc, $show){
+    	// 
+    	$check = "SELECT show FROM ads WHERE show='$show'";
+    	$res = $this->query($check);
+    	$row = $res->num_rows;
+    	if($row == 0){
+    		$sql = "INSERT INTO (name, code, description, show) VALUES ('$name', '$sc', '$desc', '$show')";
+	    	if ($exec = $this->query($sql)) {
+	    		$data['status'] = 'success';
+    			$data['response'] = "Berhasil menambahkan iklan";
+	    	}else{
+	    		$data['status'] = 'failed';
+    			$data['response'] = "Terjadi kesalahan saat menambahkan iklan";
+	    	}
+    	}else{
+    		$data['status'] = 'failed';
+    		$data['response'] = "Iklan yang tayang pada halaman {$show} sudah ada. Jika Anda ingin mengubah silahkan edit pada bagian edit iklan";
+
+    	}
+    	return @$data;
+    	
+
+    }
+
+
+    // 
+    function deleteArtikel($id){
+    	$id = trim($id);
+    	$sql = "DELETE FROM td_lowongan WHERE id_lowongan = $id";
     	if ($exec = $this->query($sql)) {
     		return 1;
     	}else{

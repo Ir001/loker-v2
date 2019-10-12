@@ -1,5 +1,5 @@
 <?php 
-	require 'application/grab.php';
+	require 'application/grab-v2.php';
 	include 'application/funcSearch.php';
 	if (isset($_GET['keyword'])) {
 		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : ""));

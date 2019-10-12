@@ -40,9 +40,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="artikel.php?show=all" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Daftar Loker</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="artikel.php?show=active" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Loker Active</p>
+                  <p>Loker Aktif</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -70,6 +76,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="iklan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Daftar Iklan</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="add_iklan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

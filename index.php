@@ -7,9 +7,9 @@
 	    $id = $_GET['id'];
 	    $dataPost = $myApp->showDetail($judul,$id);
 	}else{
-	    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
+	    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?ojs=6';
 	    $aksi = "";
-	    // $myApp->insert($url, $aksi);
+	    //$myApp->insert($url, $aksi);
 	    $dataPost = '';
 	    
 	}

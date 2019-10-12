@@ -7,7 +7,4 @@ define('DB_PASSWD', 'lokerja000'); //lokerja000
 // define('url', 'https://job-fix.ant'); //lokerja000
 $conn  = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
 
-function base_url(){
-	$url = "http://localhost/job-fix";
-	echo $url;
-}
+?>
