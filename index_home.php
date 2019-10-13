@@ -2,13 +2,11 @@
 <html lang="ID">
 <head>
 	<meta charset="utf-8">
-	<meta name="author" content="John Doe">
-	<meta name="description" content="">
-	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="author" content="<?php echo $set['title'] ?>">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Loker.id - Home</title>
+	<title><?php echo $set['title'] ?> &mdash; <?php echo $set['tag_line']; ?></title>
 <?php include 'template/meta_head.php'; ?>
 </head>
 <body>
@@ -78,21 +76,30 @@
 				 ?>
 				<div class="detail">
 									<div class="media display-inline text-align-center">
-										<?php echo $job[$i]['logo']; ?>
+										<div class="col-md-3 col-sm-12">
+										<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
+										</div>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>
-												<i class="large material-icons">account_balance</i>
-												<span class="text"><?php echo  $a[1]; ?></span>
-											<br/>
-												<i class="large material-icons">place</i>
-												<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
-											<br>
-												<i class="large material-icons">money</i>
-												<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
-											<div class="float-right margin-top text-align-center" style="z-index: 99">
-												<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
-												<p class="date-time">Deadline: <?php echo $date; ?></p>
-											</div>
+												<div>
+													<i class="large material-icons">account_balance</i>
+													<span class="text"><?php echo  $a[1]; ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">place</i>
+													<span class="text font-size"><?php echo ucwords($job[$i]['kota']); ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">money</i>
+													<span class="text font-size"><?php echo @$_SESSION['user'] ? @$gaji : "Login untuk melihat gaji" ?></span>
+												</div>
+												<div>
+													<i class="large material-icons">timer</i>
+													<span class="text font-size">Ditutup <?php echo $date;?></span>
+												</div>
+												<div class="float-right margin-top text-align-center" style="z-index: 99">
+													<a href="<?php echo $url; ?>" class="part-full-time">Lihat Detail</a>
+												</div>
 										</div>
 									</div>
 								</div>

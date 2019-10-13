@@ -1,16 +1,20 @@
 <?php 
 	require 'application/grab-v2.php';
 	include 'application/funcSearch.php';
-	if (isset($_GET['keyword'])) {
+	if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']) OR isset($_GET['industri'])) {
 		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : ""));
 		$kategori  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['kategori'] ? $_GET['kategori'] : ""));
+		// $kategori = str_replace("&amp;", :, subject);
+		echo $kategori;
+		var_dump($kategori);
 		$lokasi  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['lokasi'] ? $_GET['lokasi'] : ""));
 		$job = $search->getSearch($keyword, $kategori, $lokasi);
 		 // $job = $myApp->cariArtikel($keyword, $kategori, $lokasi);
 	}else{
-		$param = '';
-		$page = '';
+		$param = "";
+		$page = "";
 		$job = $myApp->showArtikel($param, $page);
+
 	}
  ?>
 <!doctype html>
@@ -18,13 +22,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="author" content="John Doe">
-	<meta name="description" content="">
-	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="author" content="<?php echo $set['title'] ?>">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Loker.id - Cari Pekerjaan Mudah</title>
+	<title><?php echo $set['title']; ?> - <?php echo $set['tag_line']; ?></title>
 	<?php include 'template/meta_head.php'; ?>
 	<style type="text/css">
 		.list{font-family:proxima nova rg;font-size:16px;font-weight:400;margin-bottom:20px;padding-left:33px}
@@ -52,8 +54,25 @@
 							<div class="row">
 								<div class="col-lg-4 col-md-12">
 									<div class="box">
-										<p class="title" style="font-weight: 700">Job Category</p>
-										<ul style="padding-top: 20px">
+										<p class="title mb-4" style="font-weight: 700">Job Category</p>
+										<form>
+											<div class="form-group">
+												<select class="form-control" id="category">
+													<option value="all">Semua Kategori</option>
+													<?php 
+														$listcategory = $myApp->showKategori();
+														$i=0;
+														foreach ($listcategory as $kat) {
+													 ?>
+													<option value="<?php echo strtolower($kat['kategori']); ?>" <?php if (isset($_GET['kategori']) AND $_GET['kategori'] == strtolower($kat['kategori'])): ?>
+														selected
+													<?php endif ?>><?php echo $kat['kategori']; ?> (<?php echo $myApp->countKat($kat['kategori']);  ?>)</option>
+													<?php $i++; } ?>
+
+												</select>
+											</div>
+										</form>
+										<!-- <ul style="padding-top: 20px">
 											<?php 
 												$listcategory = $myApp->showKategori();
 												$i=0;
@@ -61,11 +80,28 @@
 											 ?>
 											<li class="list"><a href="job.php?kategori=<?php echo strtolower($kat['kategori']); ?>" class="font-color-black"><?php echo $kat['kategori']; ?> (<?php echo $myApp->countKat($kat['kategori']);  ?>)</a></li>
 											<?php $i++; } ?>
-										</ul>
+										</ul> -->
 									</div>
 									<div class="box">
-										<p class="title" style="font-weight: 700">Industry</p>
-										<ul style="padding-top: 20px">
+										<p class="title mb-3" style="font-weight: 700">Industry</p>
+										<form>
+											<div class="form-group">
+												<select class="form-control" id="industri">
+													<option value="all">Semua Industri</option>
+													<?php 
+														$listindustri = $myApp->getIndustri();
+														$i=0;
+														foreach ($listindustri as $kat) {
+													 ?>
+													<option value="<?php echo strtolower($kat['industri']); ?>" <?php if (isset($_GET['industri']) AND $_GET['industri'] == strtolower($kat['industri'])): ?>
+														selected
+													<?php endif ?>><?php echo $kat['industri']; ?></option>
+													<?php $i++; } ?>
+
+												</select>
+											</div>
+										</form>
+										<!-- <ul style="padding-top: 20px">
 											<?php 
 												$listindustri = $myApp->getIndustri();
 												$i=0;
@@ -73,7 +109,36 @@
 											 ?>
 											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
 											<?php $i++; } ?>
-										</ul>
+										</ul> -->
+									</div>
+									<div class="box">
+										<p class="title mb-3" style="font-weight: 700">Lokasi</p>
+										<form>
+											<div class="form-group">
+												<select class="form-control" id="lokasi">
+													<option value="all">Indonesia</option>
+													<?php 
+														$listlokasi = $myApp->getLokasi();
+														$i=0;
+														foreach ($listlokasi as $kat) {
+													 ?>
+													<option value="<?php echo strtolower($kat['lokasi']); ?>" <?php if (isset($_GET['lokasi']) AND $_GET['lokasi'] == strtolower($kat['lokasi'])): ?>
+														selected
+													<?php endif ?>><?php echo ucwords($kat['lokasi']); ?></option>
+													<?php $i++; } ?>
+
+												</select>
+											</div>
+										</form>
+										<!-- <ul style="padding-top: 20px">
+											<?php 
+												$listindustri = $myApp->getIndustri();
+												$i=0;
+												foreach ($listindustri as $kat) {
+											 ?>
+											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
+											<?php $i++; } ?>
+										</ul> -->
 									</div>
 								</div>
 
@@ -97,7 +162,9 @@
 								 ?>
 								<div class="detail width-100">
 									<div class="media display-inline text-align-center">
-										<?php echo $job[$i]['logo']; ?>
+										<div class="col-md-3 col-sm-12">
+										<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
+										</div>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>
 												<div>
@@ -149,14 +216,13 @@
 		$a =  explode("page", $last);
 		$b = trim($a[0], "&");
 		$url = 'http://'.$_SERVER['HTTP_HOST'].$b."&";
-
-	 }else{
+	 }else{ 
 		$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."?";
 	} 
 
 	?>
 	var paging = function () {
-			let curentUri = "<?php echo $url; ?>";
+			var curentUri = "<?php echo $url; ?>";
             $(function() {
                 $('.light-pagination').pagination({
                     items: <?php echo $item; ?>,
@@ -171,6 +237,24 @@
             });
         };
         paging();
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#category').change(function(){
+			var selected = $(this).children("option:selected").val();
+			//alert(selected);
+			//console.log(1);
+			window.location="job.php?kategori="+selected;
+		})
+		$('#industri').change(function(){
+			var selected_i = $(this).children("option:selected").val();
+			window.location="job.php?industri="+selected_i;
+		})
+		$('#lokasi').change(function(){
+			var selected_l = $(this).children("option:selected").val();
+			window.location="job.php?lokasi="+selected_l;
+		})
+	})
 </script>
 </body>
 </html

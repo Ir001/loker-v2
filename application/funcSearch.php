@@ -19,21 +19,23 @@ class search extends mysqli
             } else {
                 $posisi = ($halaman - 1) * $batas;
             }
-			if ($keyword != "") {
-				$sql = "SELECT * FROM td_lowongan WHERE long_desc LIKE '%$keyword%'";
-				$qPage = "SELECT count(*) as total FROM td_lowongan WHERE long_desc LIKE '%$keyword%'";
+				$sql = "SELECT * FROM td_lowongan WHERE 1=1";
+				$qPage = "SELECT count(*) as total FROM td_lowongan WHERE 1=1";
+				if($keyword != "") {
+					$sql = " AND long_desc LIKE '%$keyword%'";
+					$qPage = " AND long_desc LIKE '%$keyword%'";
+				}
 				if ($kategori != "") {
-					$sql.= "AND kategori = '$kategori'";
-					$qPage.= "AND kategori = '$kategori'";
+					$sql.= " AND kategori LIKE '%$kategori%'";
+					$qPage.= " AND kategori LIKE '%$kategori%'";
 				}
 				if ($lokasi != "") {
-					$qPage.= "AND kategori = '$kategori'";
-					$sql.= "AND lokasi = '$lokasi'";
+					$qPage.= " AND kota LIKE '%$lokasi%'";
+					$sql.= " AND kota LIKE '%$kategori%'";
 				}
-				$sql.="LIMIT $posisi, $batas";
+				$sql.=" AND status='active' LIMIT $posisi, $batas";
 				$data_page = $this->query($qPage);
 				$total_item = $data_page->fetch_assoc();
-			}
 			$exec = $this->query($sql);
 			$jumlah = $total_item['total'];
             $jmlhalaman = ceil($jumlah / $batas);

@@ -20,7 +20,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Loker.id - <?php echo $data[0]['judul']; ?></title>
+	<title><?php echo $set['title'] ?> &mdash; <?php echo $data[0]['judul']; ?></title>
 
 <?php include 'template/meta_head.php'; ?>
 <style type="text/css">

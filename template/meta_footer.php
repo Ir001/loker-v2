@@ -1,4 +1,4 @@
-<script data-cfasync="false" src="<?php base_url(); ?>/assets/js/email-decode.min.js"></script>
+<script data-cfasync="false" src="/assets/js/email-decode.min.js"></script>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/owlcarousel/owl.carousel.min.js"></script>

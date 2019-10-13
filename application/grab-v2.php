@@ -76,24 +76,24 @@ class grabbing extends mysqli
         $param = $param;
         $page = $page;
         $data=array();
-        $sql = "select * from td_lowongan ";
+        $sql = "SELECT * FROM td_lowongan";
         $batas = 10;
         if ($param == 'sitemap') {
             $sql .= " where 1=1";
             $paging2 = "select count(id_lowongan) jmldata from td_lowongan";
-        }elseif ($page == "industri" || $page == "kategori" || $page == "kota" ) {
-            $sql .= " where $page = '$param' ";
-            $paging2 = "select count(id_lowongan) jmldata from td_lowongan where $page = '$param'";
-        } else {
-            $sql .= " where 1=1";
-            $paging2 = "select count(id_lowongan) jmldata from td_lowongan";
+        }elseif ($page == "industri" || $page == "kategori" || $page == "kota") {
+            $sql .= " where $page = '$param' AND status='active' ";
+            $paging2 = "select count(id_lowongan) jmldata from td_lowongan where $page = '$param' AND status='active'";
+        }else{
+            $sql .= " WHERE status='active'";
+            $paging2 = "select count(id_lowongan) jmldata from td_lowongan where status='active'";
             
         }
             $jmldata = $this->query($paging2);
             $jmldata2 = $jmldata->fetch_assoc();
             $jmldataint = $jmldata2['jmldata'];
             $jmlhalaman = ceil($jmldataint / $batas);
-            $halaman = @$_GET['hal']?$_GET['hal']:1;
+            $halaman = @$_GET['page']?$_GET['page']:1;
             if ($halaman == 1) {
                 $posisi = 0;
             } else {
@@ -204,7 +204,7 @@ class grabbing extends mysqli
 
     function showKategori()
     {
-        $sql = "select distinct(kategori) from td_lowongan where 1=1 ";
+        $sql = "select distinct(kategori) from td_lowongan where 1=1 AND status='active'";
         $sql .= "  order by kategori asc  ";
         $hasil = $this->query($sql);
         if ($result = $this->query($sql)) {        /* fetch associative array */
@@ -236,7 +236,7 @@ class grabbing extends mysqli
         }
     }
     function countKat($kategori){
-        $sql = "SELECT count(id_lowongan) FROM td_lowongan WHERE kategori ='$kategori'";
+        $sql = "SELECT count(id_lowongan) FROM td_lowongan WHERE kategori ='$kategori' AND status='active'";
         $exec = $this->query($sql);
         $result = $exec->fetch_assoc();
         return $result['count(id_lowongan)'];
@@ -292,13 +292,13 @@ class grabbing extends mysqli
 
     function getLokasi()
     {
-        $sql = "select distinct(lokasi) from td_lowongan where 1=1 ";
-        $sql .= "  order by lokasi asc  ";
+        $sql = "select distinct(kota) from td_lowongan where 1=1 ";
+        $sql .= "  order by kota asc  ";
         $hasil = $this->query($sql);
         if ($result = $this->query($sql)) {        /* fetch associative array */
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['lokasi' => $row['lokasi']];
+                $data[$i] = ['lokasi' => $row['kota']];
                 $i++;
             }
             $row = $result->fetch_assoc();
@@ -320,19 +320,15 @@ class grabbing extends mysqli
             return $data;
         }
     }
-
-    function getDataSetting()
-    {
-        $sql = "select * from setting";
+    function getSetting(){
+        $sql = "SELECT * FROM settings";
         if ($result = $this->query($sql)) {              /* fetch associative array */
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['title' => $row['title'], 'tag_line' => $row['tag_line'], 'keywords' => $row['keywords'], 'analytics' => $row['analytics'], 'statistik' => $row['statistik'], 'fb_page' => $row['fb_page'], 'durasi' => $row['durasi']];
-                $i++;
-            }
-            $result->close();
+            $data = $result->fetch_assoc();
             return $data;
+        }else{
+            return null;
         }
+
     }
 }
 
@@ -342,6 +338,7 @@ if (isset($_POST['url'])) {
     $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
 }
 $myApp = new grabbing();
+$set = $myApp->getSetting();
 if (isset($_POST['aksi'])) {
     $aksi = $_POST['aksi'];
     if ($aksi == 'cari') {

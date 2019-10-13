@@ -6,14 +6,8 @@
 	    $judul = $_GET['post'];
 	    $id = $_GET['id'];
 	    $dataPost = $myApp->showDetail($judul,$id);
-	}else{
-	    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?ojs=6';
-	    $aksi = "";
-	    //$myApp->insert($url, $aksi);
-	    $dataPost = '';
-	    
 	}
-	if (isset($_GET['page'])) {
+	if(isset($_GET['page'])) {
 		switch ($_GET['page']) {
 			case 'lowongan':
 				include 'detail.php';
@@ -26,5 +20,8 @@
 	}else{
 		include 'index_home.php';
 	}
-
+	$url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
+	$aksi = "";
+	$myApp->insert($url, $aksi);
+	$dataPost = '';
  ?>
