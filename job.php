@@ -29,6 +29,11 @@
 	<title><?php echo $set['title']; ?> - <?php echo $set['tag_line']; ?></title>
 	<?php include 'template/meta_head.php'; ?>
 	<style type="text/css">
+		*,
+		*:after,
+		*:before{
+			font-family: Arial;
+		}
 		.list{font-family:proxima nova rg;font-size:16px;font-weight:400;margin-bottom:20px;padding-left:33px}
 		.box{
 			background-color:#fff;margin-bottom:20px;padding:23px 35px 42px 20px;text-align:left;
@@ -50,6 +55,8 @@
 <div class="vertical-space-85"></div>
 <div class="container text-center">
 							<h4 class="text-left">Filter Jobs Result</h4>
+					<?php echo $ads[0]['code']; ?>
+
 							<div class="vertical-space-30"></div>
 							<div class="row">
 								<div class="col-lg-4 col-md-12">
@@ -72,15 +79,6 @@
 												</select>
 											</div>
 										</form>
-										<!-- <ul style="padding-top: 20px">
-											<?php 
-												$listcategory = $myApp->showKategori();
-												$i=0;
-												foreach ($listcategory as $kat) {
-											 ?>
-											<li class="list"><a href="job.php?kategori=<?php echo strtolower($kat['kategori']); ?>" class="font-color-black"><?php echo $kat['kategori']; ?> (<?php echo $myApp->countKat($kat['kategori']);  ?>)</a></li>
-											<?php $i++; } ?>
-										</ul> -->
 									</div>
 									<div class="box">
 										<p class="title mb-3" style="font-weight: 700">Industry</p>
@@ -101,15 +99,6 @@
 												</select>
 											</div>
 										</form>
-										<!-- <ul style="padding-top: 20px">
-											<?php 
-												$listindustri = $myApp->getIndustri();
-												$i=0;
-												foreach ($listindustri as $kat) {
-											 ?>
-											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
-											<?php $i++; } ?>
-										</ul> -->
 									</div>
 									<div class="box">
 										<p class="title mb-3" style="font-weight: 700">Lokasi</p>
@@ -139,6 +128,10 @@
 											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
 											<?php $i++; } ?>
 										</ul> -->
+									</div>
+									<div class="box">
+										<?php $ads = $myApp->getAds("sidebar"); ?>
+										<?php echo $ads[0]['code']; ?>
 									</div>
 								</div>
 

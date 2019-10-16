@@ -22,8 +22,8 @@
 			print_r($_POST);
 		}elseif($form == 'add_iklan'){
 			$name = $_POST['name'];
-			$sc = $_POST['code'];
-			$desc = $_POST['description'];
+			$sc = $_POST['sc'];
+			$desc = $_POST['desc'];
 			$show = $_POST['show'];
 			print_r($su->addAds($name, $sc, $desc, $show));
 		}

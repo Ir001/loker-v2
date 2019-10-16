@@ -59,14 +59,6 @@
               </li>
             </ul>
           </li>
-           <li class="nav-item">
-            <a href="edit_about.php" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Page About
-              </p>
-            </a>
-          </li>
           <li class="nav-item has-treeview menu-open">
             <a href="iklan.php" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

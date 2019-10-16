@@ -1,6 +1,6 @@
 <?php 
 	function getBlog(){
-		$url_blog = 'http://blog.ant/wp-json/wp/v2/posts/per_page=6';
+		$url_blog = 'http://lowongan-kerja.id/blog/wp-json/wp/v2/posts';
 		$json = json_decode(file_get_contents($url_blog));
 		$total_blog = count($json);
 		$i=0;
@@ -12,7 +12,5 @@
 		}
 		return @$data;
 	}
-	print_r(getBlog());
-	
 	
  ?>

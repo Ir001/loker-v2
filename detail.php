@@ -59,6 +59,8 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								<div class="my-5">
 									<?php echo $data[0]['logo']; ?>
 								</div>
+								<?php $ads = $myApp->getAds("content"); ?>
+								 <?php echo $ads[0]['code']; ?>
 								<h4>Job description</h4>
 								<p>Sebelum Anda melamar lowongan <?php echo $data[0]['judul']; ?> ini atau menekan tombol <b>Lamar Pekerjaan</b>, Anda harus mengerti dan mengaplikasikan setiap ketentuan dari situs kami ( Lowongan-Kerja.id ) sebagai berikut:</p>
 								<ul class="list-group my-5" style="line-height: 25px;">
@@ -69,6 +71,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								<!-- 
 												Ads
 								 -->
+								 
 								<p><?php echo $data[0]['long_desc'] ?></p>
 								<h4>Apakah <?php echo $data[0]['judul']; ?> Asli (Bukan Palsu)? </h4>
 								
@@ -79,6 +82,8 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								</ul>
 								<div class="row">
 									<div class="col-md-2">
+										<?php $ads = $myApp->getAds("content"); ?>
+										 <?php echo $ads[0]['code']; ?>
 										<h4>Bagikan di</h4>
 									</div>
 									<div class="col-md-10 mt-5">
@@ -112,15 +117,23 @@ foreach($list as $social_media_name) {
 			<div class="col-md-12 my-4">
 				<h3 class="text-dark">Artikel Terkait</h3>
 			</div>
+			<?php 
+				include 'application/getBlog.php';
+				$blog = getBlog();
+				$i=0;
+				while ($blog <= 3) {
+				 ?>
 			<div class="col-md-4 mb-2">
 				<div class="card">
 					<div class="card-body">
-						<h4>Tips Melamar Kerja Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</h4>
-						<p class="mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
-						<a href="#" class="d-block mt-4">Selengkapnya>></a>
+						<h4><?=$blog[$i]['title'];?></h4>
+						<p class="mt-4"><?=substr($blog[$i]['content'], 0,900);?>.</p>
+						<a href="<?=$blog[$i]['link'];?>" class="d-block mt-4">Selengkapnya>></a>
 					</div>
 				</div>
 			</div>
+			<?php $i++; ?>
+		<?php } ?>
 		</div>
 	</div>
 </section>

@@ -5,6 +5,14 @@
     header("location:login.php");
   }
   $iklan = $su->showAds();
+  if (isset($_POST['edit'])) {
+    $id = $_POST['id'];
+    $code = $_POST['code'];
+    $edit = $su->editAds($id, $code);
+    if ($edit == 1) {
+      echo "<script>window.location='iklan.php'</script>";
+    }
+  }
  ?>
 
 <!DOCTYPE html>
@@ -12,7 +20,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Lowongankerja.id | Dashboard</title>
+  <title>Lowongan-Kerja.id | Dashboard</title>
   <?php include 'template/meta_head.php'; ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -68,7 +76,7 @@
                     <?php 
                       $i=0;
                       foreach ($iklan as $data) {
-                        $show = $iklan[$i]['show'];
+                        $show = $iklan[$i]['show_in'];
                         if ($show == "front") {
                           $showin = "Halaman Utama";
                         }elseif ($show == "sidebar") {
@@ -110,15 +118,18 @@
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
+                            <form method="POST" action="">
                             <div class="modal-body">
                               <div class="form-group">
-                                <textarea class="form-control"><?php echo $iklan[$i]['code']; ?></textarea>
+                                <input type="hidden" name="id" value="<?php echo $iklan[$i]['ads_id']; ?>">
+                                <textarea name="code" class="form-control" required><?php echo $iklan[$i]['source_code']; ?></textarea>
                               </div>
                             </div>
                             <div class="modal-footer justify-content-between">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                              <button type="button" class="btn btn-primary">Simpan Perubahan</button>
+                              <button type="submit" name="edit" class="btn btn-primary">Simpan Perubahan</button>
                             </div>
+                            </form>
                           </div>
                           <!-- /.modal-content -->
                         </div>

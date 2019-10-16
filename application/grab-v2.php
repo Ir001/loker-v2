@@ -307,13 +307,16 @@ class grabbing extends mysqli
         }
     }
 
-    function getAds()
-    {
-        $sql = "select * from ads_setting";
+    function getAds($param="front")
+    {       
+        $sql = "select * from ads WHERE show_in = '$param'";
         if ($result = $this->query($sql)) {              /* fetch associative array */
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['main_atas' => $row['main_atas'], 'main_bawah' => $row['main_bawah'], 'sidebar_kanan' => $row['sidebar_kanan'], 'sidebar_tengah' => $row['sidebar_tengah']];
+                $data[$i] = [
+                    'code' => $row['code'],
+                    'show_in' => $row['show_in'],
+                ];
                 $i++;
             }
             $result->close();
@@ -339,6 +342,7 @@ if (isset($_POST['url'])) {
 }
 $myApp = new grabbing();
 $set = $myApp->getSetting();
+$ads = $myApp->getAds();
 if (isset($_POST['aksi'])) {
     $aksi = $_POST['aksi'];
     if ($aksi == 'cari') {

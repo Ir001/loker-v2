@@ -60,6 +60,9 @@
 				<p class="max-width">Informasi Lowongan Pekerjaan Terbaru Minggu Ini.
 				</p>
 				<div class="vertical-space-60"></div>
+				<div class="col-12">
+					<?php echo $ads[0]['code']; ?>
+				</div>
 				<?php 
 					$param = '';
 					$page = '';

@@ -4,6 +4,17 @@
   if ($loged == 0) {
     header("location:login.php");
   }
+  // 
+  if (isset($_POST['add'])) {
+    $name = $_POST['name'];
+    $sc = $_POST['sc'];
+    $desc = $_POST['desc'];
+    $show = $_POST['show'];
+    $add = $su->addAds($name, $sc, $desc, $show);
+    if ($add == 1) {
+      echo "<script>setTimeout(function(){ toastr.success('Sukses')}, 500)</script>";
+    }
+  }
  ?>
 
 <!DOCTYPE html>
@@ -58,21 +69,23 @@
                   </div>
                   <div class="form-group">
                     <label for="">Source Code</label>
-                    <textarea name="code" class="form-control" placeholder="Script Iklan" required></textarea>
+                    <textarea name="sc" class="form-control" placeholder="Script Iklan" required></textarea>
                   </div>
                   <div class="form-group">
                     <label for="">Deskripsi Tentang Iklan</label>
-                    <textarea  class="form-control" name="description" placeholder="Description"></textarea>
+                    <textarea  class="form-control" name="desc" placeholder="Description"></textarea>
                   </div>
                   <div class="form-group">
                       <div class="form-group">
                         <label for="">Ditayangkan Pada</label>
                         <select name="show" class="form-control" required>
-                          <option value="content" disabled selected>Pilih</option>
+                          <option value="front" disabled selected>Pilih</option>
                           <option value="front">Halaman Utama</option>
-                          <option value="sidebar">Sidebar Job</option>
-                          <option value="content">Detail Page</option>
-                          <option value="bottom">Detail Page (Bawah)</option>
+                          <option value="job">Job Page (atas)</option>
+                          <option value="sidebar">Sidebar Job Page</option>
+                          <option value="detail-top">Detail Page (atas)</option>
+                          <option value="detail-bottom">Detail Page (bawah)</option>
+                          'sidebar','front','job','detail-top','detail-bottom'
                         </select>
                       </div>
                   </div>
@@ -80,7 +93,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" name="saveBtn" class="btn btn-primary">Simpan Pengaturan</button>
+                  <button type="submit" name="add" class="btn btn-primary">Tambah Iklan</button>
                 </div>
               </form>
               <div id="load" class="overlay d-none"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>

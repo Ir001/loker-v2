@@ -146,9 +146,9 @@
     			$data[$i] = [
     				'ads_id' => $row['ads_id'],
     				'name' => $row['name'],
-    				'code' => $row['code'],
+    				'source_code' => $row['source_code'],
     				'description' => $row['description'],
-    				'show' => $row['show']
+    				'show_in' => $row['show_in']
     			];
     			$i++;
     		}
@@ -156,6 +156,12 @@
 	    	$exec->close();
     		return @$data;
     	}
+    }
+    function editAds($id, $code){
+    	$sql = "UPDATE ads SET source_code = '$code' WHERE ads_id=$id";
+    	$exec = $this->query($sql);
+    	return 1;
+
     }
     function getSetting(){
     	$sql = "SELECT * FROM settings WHERE 1=1";
@@ -181,11 +187,11 @@
     // Add Iklan
     function addAds($name, $sc, $desc, $show){
     	// 
-    	$check = "SELECT show FROM ads WHERE show='$show'";
+    	$check = "SELECT show_in FROM ads WHERE show_in='$show'";
     	$res = $this->query($check);
     	$row = $res->num_rows;
     	if($row == 0){
-    		$sql = "INSERT INTO (name, code, description, show) VALUES ('$name', '$sc', '$desc', '$show')";
+    		$sql = "INSERT INTO ads (name, source_code, description, show_in) VALUES ('$name', '$sc', '$desc', '$show')";
 	    	if ($exec = $this->query($sql)) {
 	    		$data['status'] = 'success';
     			$data['response'] = "Berhasil menambahkan iklan";
