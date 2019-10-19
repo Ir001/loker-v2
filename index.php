@@ -22,9 +22,9 @@
 	}
 	$url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
 	$aksi = "";
-	//$myApp->insert($url, $aksi);
+	$myApp->insert($url, $aksi);
 	$dataPost = '';
-	//$myApp->updateDate();
-	//$myApp->checkExpired();
+	$myApp->updateDate();
+	$myApp->checkExpired();
 	
  ?>
