@@ -11,11 +11,11 @@
 						</div>
 						<nav class="main_nav_contaner ml-auto">
 							<ul class="main_nav">
-								<li><a href="index.php">Home</a></li>
-								<li><a href="about.php">About</a></li>
+								<li><a href="/index.php">Home</a></li>
+								<li><a href="/about.php">About</a></li>
 								<li><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
-								<li><a href="job.php?kategori=akuntansi">Kategori</a></li>
-								<li><a href="job.php?lokasi=jabodetabek">Wilayah</a></li>
+								<li><a href="/job.php?kategori=akuntansi">Kategori</a></li>
+								<li><a href="/job.php?lokasi=jabodetabek">Wilayah</a></li>
 							</ul>
 							<div class="hamburger menu_mm menu-vertical">
 								<i class="large material-icons font-color-white menu_mm menu-vertical">menu</i>
@@ -44,11 +44,11 @@
 		</div>
 		<nav class="menu_nav">
 			<ul class="menu_mm">
-				<li class="menu_mm"><a href="index.php">Home</a></li>
-				<li class="menu_mm"><a href="about.php">About</a></li>
+				<li class="menu_mm"><a href="/index.php">Home</a></li>
+				<li class="menu_mm"><a href="/about.php">About</a></li>
 				<li class="menu_mm"><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
-				<li class="menu_mm"><a href="job.php?kategori=akuntansi">Kategori</a></li>
-				<li class="menu_mm"><a href="job.php?lokasi=jabodetabek">Wilayah</a></li>
+				<li class="menu_mm"><a href="/job.php?kategori=akuntansi">Kategori</a></li>
+				<li class="menu_mm"><a href="/job.php?lokasi=jabodetabek">Wilayah</a></li>
 			</ul>
 			</nav>
 		</div>

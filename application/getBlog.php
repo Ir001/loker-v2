@@ -1,16 +1,13 @@
 <?php 
 	function getBlog(){
-		$url_blog = 'http://lowongan-kerja.id/blog/wp-json/wp/v2/posts';
-		$json = json_decode(file_get_contents($url_blog));
-		$total_blog = count($json);
-		$i=0;
-		while ($i < $total_blog) {
-			$data[$i]['link'] =  $json[$i]->link;
-			$data[$i]['title'] =  $json[$i]->title->rendered;
-			$data[$i]['content'] =  $json[$i]->excerpt->rendered;
-			$i++;
-		}
-		return @$data;
+		$url="http://lowongan-kerja.id/blog/wp-json/wp/v2/posts?per_page=3";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        $result=curl_exec($ch);
+        $posts = json_decode($result, true);
+        return @$posts;
 	}
-	
+
  ?>

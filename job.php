@@ -131,7 +131,7 @@
 									</div>
 									<div class="box">
 										<?php $ads = $myApp->getAds("sidebar"); ?>
-										<?php echo $ads[0]['code']; ?>
+										<?php echo $ads[0]['source_code']; ?>
 									</div>
 								</div>
 

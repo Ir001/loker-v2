@@ -7,7 +7,7 @@ $a = explode("-", $data[0]['judul']);
 $title = $a[0];
 $url_title = trim(str_replace(" ", "+", strtolower($title)));
 $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
-
+$perusahaan = $data[0]['perusahaan'];
 // 
 
  ?>
@@ -15,9 +15,6 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 <html lang="id">
 <head>
 	<meta charset="utf-8">
-	<meta name="author" content="John Doe">
-	<meta name="description" content="">
-	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $set['title'] ?> &mdash; <?php echo $data[0]['judul']; ?></title>
@@ -25,7 +22,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 <?php include 'template/meta_head.php'; ?>
 <style type="text/css">
 	div, p, ul li{
-		font-family: proxima nova;
+		font-family: 'Roboto', sans-serif;
 	}
 	li{
 		line-height: 29px;
@@ -52,7 +49,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 						        <input type="hidden" name="fr" id="fr" value="">
 						        <button id="apply_button" type="submit" class="Apply-Now">Lamar Sekarang</button>
 						      </form>
-								<h6 class="font-color-orange"><?php echo $data[0]['perusahaan'] ?></h6>
+								<h6 class="font-color-orange"><?php echo $perusahaan ?></h6>
 								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>">View more similar jobs</a>
 								<i class="material-icons">place</i>
 								<span class="text"><?php echo $data[0]['alamat'] ?></span>
@@ -64,7 +61,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								<h4>Job description</h4>
 								<p>Sebelum Anda melamar lowongan <?php echo $data[0]['judul']; ?> ini atau menekan tombol <b>Lamar Pekerjaan</b>, Anda harus mengerti dan mengaplikasikan setiap ketentuan dari situs kami ( Lowongan-Kerja.id ) sebagai berikut:</p>
 								<ul class="list-group my-5" style="line-height: 25px;">
-									<li><i class="fa fa-line-circle"></i>Iklan Lowongan Pekerjaan ini dibuat oleh <?php echo $data[0]['perusahaan']; ?> , kami tidak pernah mengubah / menambahkan / memvalidasi setiap lowongan kerja secara langsung. </li>
+									<li><i class="fa fa-line-circle"></i>Iklan Lowongan Pekerjaan ini dibuat oleh <?=$perusahaan;?> , kami tidak pernah mengubah / menambahkan / memvalidasi setiap lowongan kerja secara langsung. </li>
 									<li><i class="fa fa-line-circle"></i>Semua iklan Lowongan Kerja ini adalah hasil dari<b> MENGUTIP LANGSUNG</b> dari web <b>Jobstreet</b>, kami TIDAK AKAN PERNAH meminta biaya baik secara langsung maupun melalui perusahaan bersangkutan.</li>
 									<li><i class="fa fa-line-circle"></i>Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li>Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
 								</ul>
@@ -75,7 +72,7 @@ $url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 								<p><?php echo $data[0]['long_desc'] ?></p>
 								<h4>Apakah <?php echo $data[0]['judul']; ?> Asli (Bukan Palsu)? </h4>
 								
-									<p>Harap pastikan bahwa <?php echo $data[0]['perusahaan']; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?php echo $data[0]['perusahaan']; ?>. </p>
+									<p>Harap pastikan bahwa <?=$perusahaan; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?=$perusahaan; ?>. </p>
 									<p>Berhati-hatilah dengan perusahaan yang hanya menggunakan alamat email publik/gratisan (seperti @gmail atau @yahoo.com) atau SMS (termasuk aplikasi sejenis TELEGRAM atau WHATSAPP ) sebagai media komunikasi. Perusahaan akan lebih meyakinkan jika memiliki telepon kantor sendiri atau alamat email domain web perusahaan. </p>
 									<p> Jika Anda dimintai uang untuk alasan administrasi atau apapun, sebaiknya Anda HINDARI lowongan kerja tersebut. Beberapa alasan sering dipakai adalah biaya seragam, biaya training (pelatihan), biaya penggantian materai, dan membayar formulir/surat perjanjian.</li>
 									<p>Pastikan bahwa lowongan yang Anda incar sesuai dengan judul dari lowongan ini, yaitu <?php echo $data[0]['judul']; ?> Pastikan Anda tidak ditawari bisnis investasi yang mencurigakan atau menjadi member MLM yang tidak jelas.</li>
@@ -120,19 +117,20 @@ foreach($list as $social_media_name) {
 			<?php 
 				include 'application/getBlog.php';
 				$blog = getBlog();
-				$i=0;
-				while ($blog <= 3) {
+				
+				foreach ($blog as $blog) {
 				 ?>
 			<div class="col-md-4 mb-2">
 				<div class="card">
 					<div class="card-body">
-						<h4><?=$blog[$i]['title'];?></h4>
-						<p class="mt-4"><?=substr($blog[$i]['content'], 0,900);?>.</p>
-						<a href="<?=$blog[$i]['link'];?>" class="d-block mt-4">Selengkapnya>></a>
+						<h4><?=$blog['title']['rendered'];?></h4>
+						<p class="mt-4"><?php echo substr($blog['excerpt']['rendered'], 0, 200);?>...</p>
+						<a href="<?=$blog['link'];?>" class="d-block mt-4">Selengkapnya>></a>
 					</div>
 				</div>
 			</div>
-			<?php $i++; ?>
+			<?php// $i++; } ?>
+
 		<?php } ?>
 		</div>
 	</div>

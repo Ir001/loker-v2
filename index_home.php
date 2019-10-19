@@ -11,11 +11,11 @@
 </head>
 <body>
 <?php include 'template/navbar.php'; ?>
-		<section id="intro">
-			<div class="carousel-item active">
-				<div class="carousel-background"><img src="assets/imags/slider/slider1.jpg" alt=""></div>
+		<section id="intro" style="height: 400px">
+			<div class="carousel-item active" style="height: 400px">
+				<div class="carousel-background"><img src="/assets/imags/slider/slider1.jpg" style="height: 400px" alt=""></div>
 				<div class="carousel-container">
-					<div class="carousel-content">
+					<div class="carousel-content mt-5">
 						<h2 class="font-color-white">Cari Dengan Mudah Pekerjaan Sesuai Pasionmu</h2>
 						<p class="font-color-white">Temukan lebih dari 10.000 informasi terbaru lowongan pekerjaan di seluruh Indonesia.</p>
 
@@ -38,10 +38,10 @@
 					<div class="col-lg-3 col-md-6 max-width-50">
 						<div class="box background-color-white-light">
 							<div class="circle">
-								<img src="assets/imags/icone/service-icone-<?php echo $i+1; ?>.png" alt="">
+								<img src="/assets/imags/icone/service-icone-<?php echo $i+1; ?>.png" alt="">
 							</div>
 							<h6><?php echo $category[$i]['kategori']; ?></h6>
-							<a href="job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
+							<a href="/job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
 						</div>
 					</div>
 					<?php $i++; ?>
@@ -61,7 +61,7 @@
 				</p>
 				<div class="vertical-space-60"></div>
 				<div class="col-12">
-					<?php echo $ads[0]['code']; ?>
+					<?php echo $ads[0]['source_code']; ?>
 				</div>
 				<?php 
 					$param = '';
@@ -80,7 +80,7 @@
 				<div class="detail">
 									<div class="media display-inline text-align-center">
 										<div class="col-md-3 col-sm-12">
-										<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
+										<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='/assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
 										</div>
 										<div class="mx-3 media-body text-left  text-align-center">
 											<h6><?php echo $title; ?></h6>

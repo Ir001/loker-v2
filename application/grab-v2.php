@@ -56,8 +56,8 @@ class grabbing extends mysqli
             $why = $htmlDetil->find('#why_join_us', 0);
             $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
-            $date_buka = convertDate($dibuka); 
-            $date_tutup = convertDate($ditutup); 
+            $date_buka = convertDate("$dibuka"); 
+            $date_tutup = convertDate("$ditutup"); 
             $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
             $hasil = $this->query($sqlCekJudul);
             $row = $hasil->fetch_assoc();
@@ -314,13 +314,13 @@ class grabbing extends mysqli
             $i = 0;
             while ($row = $result->fetch_assoc()) {
                 $data[$i] = [
-                    'code' => $row['code'],
+                    'source_code' => $row['source_code'],
                     'show_in' => $row['show_in'],
                 ];
                 $i++;
             }
             $result->close();
-            return $data;
+            return @$data;
         }
     }
     function getSetting(){
@@ -332,6 +332,40 @@ class grabbing extends mysqli
             return null;
         }
 
+    }
+    function updateDate(){
+        $sql  = "SELECT id_lowongan,dibuka, ditutup FROM td_lowongan ORDER BY id_lowongan DESC";
+        $exec = $this->query($sql);
+        while ($result = $exec->fetch_assoc()) {
+            $id_lowongan = $result['id_lowongan'];
+            $dibuka = convertDate($result['dibuka']);
+            $ditutup = convertDate($result['ditutup']);
+            // 
+            $update = "UPDATE td_lowongan SET date_buka = '$dibuka', date_tutup = '$ditutup' WHERE id_lowongan = $id_lowongan";
+            $query = $this->query($update);
+
+        }
+        return 1;
+    }
+    function checkExpired(){
+        date_default_timezone_set('Asia/Jakarta');
+        $now = date('Y-m-d');
+        $sql  = "SELECT id_lowongan, date_tutup FROM td_lowongan WHERE 1=1";
+        $exec = $this->query($sql);
+        $i = 0;
+        while ($result = $exec->fetch_assoc()) {
+            $deadline = $result['date_tutup'];
+            $id_lowongan = $result['id_lowongan'];
+            if($deadline < $now){
+                $status = 'expired';
+            }else{
+                $status = 'active';
+            }
+            $sql = "UPDATE td_lowongan SET status = '$status' WHERE id_lowongan = $id_lowongan";
+            $this->query($sql);
+            $i++;   
+        }
+        return 1;
     }
 }
 
