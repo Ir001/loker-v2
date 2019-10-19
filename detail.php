@@ -57,7 +57,7 @@ $perusahaan = $data[0]['perusahaan'];
 									<?php echo $data[0]['logo']; ?>
 								</div>
 								<?php $ads = $myApp->getAds("content"); ?>
-								 <?php echo $ads[0]['code']; ?>
+								 <?php echo $ads[0]['source_code']; ?>
 								<h4>Job description</h4>
 								<p>Sebelum Anda melamar lowongan <?php echo $data[0]['judul']; ?> ini atau menekan tombol <b>Lamar Pekerjaan</b>, Anda harus mengerti dan mengaplikasikan setiap ketentuan dari situs kami ( Lowongan-Kerja.id ) sebagai berikut:</p>
 								<ul class="list-group my-5" style="line-height: 25px;">
@@ -80,7 +80,7 @@ $perusahaan = $data[0]['perusahaan'];
 								<div class="row">
 									<div class="col-md-2">
 										<?php $ads = $myApp->getAds("content"); ?>
-										 <?php echo $ads[0]['code']; ?>
+										 <?php echo $ads[0]['source_code']; ?>
 										<h4>Bagikan di</h4>
 									</div>
 									<div class="col-md-10 mt-5">

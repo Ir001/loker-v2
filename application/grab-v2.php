@@ -76,7 +76,11 @@ class grabbing extends mysqli
         $param = $param;
         $page = $page;
         $data=array();
-        $sql = "SELECT * FROM td_lowongan";
+        if ($param != 'sitemap') {
+            $sql = "SELECT * FROM td_lowongan";
+        }else{
+            $sql = "SELECT id_lowongan, judul FROM td_lowongan";
+        }
         $batas = 10;
         if ($param == 'sitemap') {
             $sql .= " where 1=1";
@@ -101,7 +105,7 @@ class grabbing extends mysqli
             }
             $sql .= " order by id_lowongan desc ";
             if ($param == 'sitemap') {
-                $sql .= " limit 0,10000 ";
+                //$sql .= " limit 0,10000 ";
             }else{
                 $sql .= " limit $posisi,$batas ";
             }
@@ -110,17 +114,36 @@ class grabbing extends mysqli
             $data['jmlhalaman'] = $jmlhalaman;
 
 //        print_r($sql);exit();
-        if ($result = $this->query($sql)) {        /* fetch associative array */
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],'date_tutup' => $row['date_tutup'],];
-                $i++;
+        if ($param == 'sitemap') {
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = [
+                        'id_lowongan' => $row['id_lowongan'],
+                        'judul' => $row['judul'],
+                    ];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                
+
             }
-            $row = $result->fetch_assoc();
-            $result->close();
-            
+        }else{
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],'date_tutup' => $row['date_tutup'],];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                
+
+            }
 
         }
+        
         return @$data;
     }
 

@@ -55,7 +55,7 @@
 <div class="vertical-space-85"></div>
 <div class="container text-center">
 							<h4 class="text-left">Filter Jobs Result</h4>
-					<?php echo $ads[0]['code']; ?>
+					<?php echo $ads[0]['source_code']; ?>
 
 							<div class="vertical-space-30"></div>
 							<div class="row">
