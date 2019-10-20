@@ -129,8 +129,6 @@ foreach($list as $social_media_name) {
 					</div>
 				</div>
 			</div>
-			<?php// $i++; } ?>
-
 		<?php } ?>
 		</div>
 	</div>

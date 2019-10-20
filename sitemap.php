@@ -43,10 +43,14 @@ foreach ($data as $val) {
     // print_r($data);
     if(isset($data[$i])){
         try {
+        $a = explode("-", $data[$i]['judul']);
+        $title = $a[0];
+        $url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
+        $detail = $data[$i]['id_lowongan']."_lowongan_".$url_title.".html";
         $xjudul = explode("-", $data[$i]['judul']);
         $judul = trim(str_replace(" ", "_", strtolower($xjudul[0])));
             print_r('<url>
-                <loc>'.$url.'/'.$data[$i]['id_lowongan'].'_lowongan_'.$judul.'.html</loc>
+                <loc>'.$url.'/'.$detail.'</loc>
                 <priority>0.9</priority>
             </url>');
         } catch (Exception $e) {

@@ -8,7 +8,7 @@
 		$status = strtolower($tgl_exp[0]);
 		$status = trim($status);
 		// Tahun
-		$tahun = $string_a[2];
+		$tahun = @$string_a[2];
 		$tahun = trim($tahun);
 		// Bulan
 		$bulan_string = strtolower($string_a[1]);

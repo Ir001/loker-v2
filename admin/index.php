@@ -4,6 +4,11 @@
   if ($loged == 0) {
     header("location:login.php");
   }
+  if (isset($_POST['update'])) {
+    $su->updateDate();
+    $su->checkExpired();
+    echo "<script>alert('Sukses Update!');</script>";
+  }
  ?>
 
 <!DOCTYPE html>
@@ -77,6 +82,12 @@
                    ?>
                   <li class="nav-item">
                     <a class="nav-link">Total Postingan: <span class="float-right badge bg-primary"><?php echo $jumlah; ?></span></a>
+                  </li>
+                  <li class="nav-item p-3">
+                    <p class="text-dark float-left">Update & Check Expired</p>
+                    <form method="POST" action="">
+                      <button type="submit" name="update" class="float-right btn btn-sm btn-primary">Update All</button>
+                    </form>
                   </li>
                 </ul>
               </div>
