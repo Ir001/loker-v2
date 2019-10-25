@@ -42,7 +42,7 @@ $perusahaan = $data[0]['perusahaan'];
 								    $idJob = $url2[$jmlData-1];
 							     ?>
 							     <!-- action="https://myjobstreet-id.jobstreet.co.id/application/online-apply.php" -->
-						      <form id="job-form"  id="apply-now-link">
+						      <form id="apply-now-link">
 						        <input type="hidden" value="<?php echo "$idJob"; ?>" name="job_id" id="job_id">
 						        <input type="hidden" value="40" name="s" id="s">
 						        <input type="hidden" value="1" name="AdvertisementSource" id="AdvertisementSource">
@@ -139,22 +139,27 @@ foreach($list as $social_media_name) {
 <?php include 'template/meta_footer.php'; ?>
 <script type="text/javascript">
 
-	$('#job-form').submit(function(e){
+	$('#apply-now-link').submit(function(e){
 		e.preventDefault();
 		$.ajax({
 			type: "POST",
-			url : "job.php",
-			data: $('#job-form').serialize(),
+			url : "http://myjobstreet-id.jobstreet.co.id/application/online-apply.php",
+			 headers: {
+		        'Authorization':'Basic 2342423wfdwer',
+		        'X-CSRF-TOKEN':'sfwfwewerwdsfwe',
+		        'Content-Type':'application/x-www-form-urlencoded'
+		    },
+			data: $('#apply-now-link').serialize(),
 			success: function(data){
-				window.open('job.php','Lowongankerja.id - <?php echo $data[0]['judul'] ?>','height=420px,width=380px;location=yes;scrollbars=yes;');
+				getJob();
 			}
 		})
-		console.log('Success');
+				getJob();
 	})
 
-	// function getJob(){
-	// 	window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','width=360px,height=720px',status=1,scrollbars=yes)
-	// }
+	 function getJob(){
+	 	window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','height=420px,width=380px;location=yes;scrollbars=yes');
+	}
 </script>
 </body>
 

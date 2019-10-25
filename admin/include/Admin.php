@@ -255,9 +255,61 @@
         }
         return 1;
     }
+    function grabing($location)
+    {
+        $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location=$location&specialization=&area=&salary=&ojs=3&src=12";
+        include '../application/simple_html_dom.php';
+        include '../application/filterKota.php';
+        include '../application/convertDate.php';
+        $html = file_get_html($url);
+        $panel = $html->find('div[class=panel-body]');
+        $jmlData = count($html->find('div[class=panel-body]'));
+        $tot = 10;
+        for ($i = 1; $i < $tot; $i++) {
+            $judul = $html->find("#position_title_$i", 0)->plaintext;
+            $permalink = str_replace(' ', '-', $judul);
+            $url = $html->find("#position_title_$i", 0)->href;
+            $perusahaan = $html->find("#company_name_$i", 0)->plaintext;
+            $lokasi = $html->find("#job_location_$i", 0)->plaintext;
+            $kota = filterKota($lokasi);
+            $shortDesc = $html->find("#job_desc_detail_$i", 0);
+            $logo = str_replace('data-original', 'src', $html->find("#img_company_logo_$i", 0));
+            $kategori = $html->find("#job_specialization_desc", 0)->plaintext;
+            $parent = str_replace('>', '', $html->find("#job_role_desc", 0)->plaintext);
+            $industri = $html->find("#job_industry_desc", 0)->plaintext;
+            $htmlDetil = file_get_html($url);
+            $fullDesc = $htmlDetil->find('#job_description', 0);
+            $cekAddress = explode('address', $htmlDetil);
+            if (count($cekAddress) > 1) {
+                $alamat = $htmlDetil->find('#address', 0)->plaintext;
+            } else {
+                $alamat = '';
+            }
+            $gambaran = $htmlDetil->find('.panel-clean', 0);
+            $foto = $htmlDetil->find('#main-img', 0);
+            $tentang = $htmlDetil->find('#company_overview_all', 0);
+            $why = $htmlDetil->find('#why_join_us', 0);
+            $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
+            $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
+            $date_buka = convertDate("$dibuka"); 
+            $date_tutup = convertDate("$ditutup"); 
+            $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
+            $hasil = $this->query($sqlCekJudul);
+            $row = $hasil->fetch_assoc();
+            if ($row['judul'] == '') {
+                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup) values('$judul-$perusahaan', '" . $this->real_escape_string($fullDesc) . "', '" . $this->real_escape_string($shortDesc) . "', '" . $this->real_escape_string($gambaran) . "', '" . $this->real_escape_string($tentang) . "', '" . $this->real_escape_string($why) . "', '" . $this->real_escape_string($logo) . "',  '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
+                $this->query($sql);
+            }
+        }
+    }
 
 
 	}
+
+
+    //
+
+    
 
 
 	$su = new admin();

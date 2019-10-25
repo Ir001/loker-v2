@@ -4,9 +4,6 @@
 	if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']) OR isset($_GET['industri'])) {
 		$keyword  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['keyword'] ? $_GET['keyword'] : ""));
 		$kategori  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['kategori'] ? $_GET['kategori'] : ""));
-		// $kategori = str_replace("&amp;", :, subject);
-		echo $kategori;
-		var_dump($kategori);
 		$lokasi  = htmlspecialchars(mysqli_real_escape_string($conn, @$_GET['lokasi'] ? $_GET['lokasi'] : ""));
 		$job = $search->getSearch($keyword, $kategori, $lokasi);
 		 // $job = $myApp->cariArtikel($keyword, $kategori, $lokasi);
@@ -119,15 +116,6 @@
 												</select>
 											</div>
 										</form>
-										<!-- <ul style="padding-top: 20px">
-											<?php 
-												$listindustri = $myApp->getIndustri();
-												$i=0;
-												foreach ($listindustri as $kat) {
-											 ?>
-											<li class="list"><a href="#" class="font-color-black"><?php echo $kat['industri']; ?></a></li>
-											<?php $i++; } ?>
-										</ul> -->
 									</div>
 									<div class="box">
 										<?php $ads = $myApp->getAds("sidebar"); ?>

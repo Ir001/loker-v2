@@ -105,7 +105,7 @@ class grabbing extends mysqli
             }
             $sql .= " order by id_lowongan desc ";
             if ($param == 'sitemap') {
-                //$sql .= " limit 0,10000 ";
+                $sql .= " limit 0,10000 ";
             }else{
                 $sql .= " limit $posisi,$batas ";
             }
@@ -225,21 +225,38 @@ class grabbing extends mysqli
         }
     }
 
-    function showKategori()
+    function showKategori($param="all")
     {
-        $sql = "select distinct(kategori) from td_lowongan where 1=1 AND status='active'";
-        $sql .= "  order by kategori asc  ";
-        $hasil = $this->query($sql);
-        if ($result = $this->query($sql)) {        /* fetch associative array */
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['kategori' => $row['kategori']];
-                $i++;
+        if ($param=="all") {
+            $sql = "select distinct(kategori) from td_lowongan where 1=1 AND status='active'";
+            $sql .= "  order by kategori asc  ";
+            $hasil = $this->query($sql);
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = ['kategori' => $row['kategori']];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                return $data;
             }
-            $row = $result->fetch_assoc();
-            $result->close();
-            return $data;
+        }else{
+            $sql = "select distinct(kategori) from td_lowongan where 1=1 AND status='active'";
+            $sql .= "  order by kategori asc LIMIT 0, $param";
+            $hasil = $this->query($sql);
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = ['kategori' => $row['kategori']];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                return $data;
+            }
         }
+       
     }
      function thumbKat()
     {
@@ -313,21 +330,38 @@ class grabbing extends mysqli
         }
     }
 
-    function getLokasi()
+    function getLokasi($param="all")
     {
-        $sql = "select distinct(kota) from td_lowongan where 1=1 ";
-        $sql .= "  order by kota asc  ";
-        $hasil = $this->query($sql);
-        if ($result = $this->query($sql)) {        /* fetch associative array */
-            $i = 0;
-            while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['lokasi' => $row['kota']];
-                $i++;
+        if ($param=="all") {
+            $sql = "select distinct(kota) from td_lowongan where 1=1 ";
+            $sql .= "  order by kota asc  ";
+            $hasil = $this->query($sql);
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = ['lokasi' => $row['kota']];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                return $data;
             }
-            $row = $result->fetch_assoc();
-            $result->close();
-            return $data;
+        }else{
+            $sql = "select distinct(kota) from td_lowongan where 1=1 ";
+            $sql .= "  order by kota asc LIMIT 0, $param";
+            $hasil = $this->query($sql);
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = ['lokasi' => $row['kota']];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                return $data;
+            }
         }
+        
     }
 
     function getAds($param="front")
