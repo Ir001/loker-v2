@@ -170,14 +170,15 @@
     	return @$data;
     }
     // 
-    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense){
+    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense, $kd_location){
     	$title = $this->real_escape_string($title);
     	$tag_line = $this->real_escape_string($tag_line);
     	$description = $this->real_escape_string($description);
     	$keywords = $this->real_escape_string($keywords);
     	$tag_manager = $this->real_escape_string($tag_manager);
-    	$adsense = $this->real_escape_string($adsense);
-    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense'";
+        $adsense = $this->real_escape_string($adsense);
+    	$kd_location = $this->real_escape_string($kd_location);
+    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense', kd_location = '$kd_location'";
     	if ($exec = $this->query($sql)) {
     		return 1;
     	}else{
@@ -301,6 +302,23 @@
                 $this->query($sql);
             }
         }
+    }
+    function get_kode_location(){
+        $sql = "SELECT name, kode FROM kd_location WHERE 1=1";
+            $hasil = $this->query($sql);
+            if ($result = $this->query($sql)) {        /* fetch associative array */
+                $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $data[$i] = [
+                        'name' => $row['name'],
+                        'kode' => $row['kode']
+                    ];
+                    $i++;
+                }
+                $row = $result->fetch_assoc();
+                $result->close();
+                return $data;
+            }
     }
 
 

@@ -162,5 +162,9 @@ foreach($list as $social_media_name) {
 	}
 </script>
 </body>
-
 </html>
+<?php 
+	$kd_location = $set['kd_location'];
+    $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
+    $myApp->insert($url, "");
+ ?>

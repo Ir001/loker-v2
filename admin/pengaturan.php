@@ -62,6 +62,21 @@
                     <input type="text" name="tag_line" class="form-control" value="<?php echo $data['tag_line'] ?>" placeholder="Tag Line">
                   </div>
                   <div class="form-group">
+                    <label for="">Grabing Konten by Location</label>
+                    <select class="form-control" name="kd_location">
+                      <option value="" selected>Default</option>
+                      <?php 
+                        $get_kode = $su->get_kode_location();
+                        foreach ($get_kode as $get_kode) {
+                       ?>
+                      <option value="<?=$get_kode['kode'];?>" <?php if ($get_kode['kode'] == $data['kd_location']): ?>
+                        selected
+                      <?php endif ?>> <?=$get_kode['name'];?></option>
+
+                     <?php } ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
                     <label for="">Meta Keywords</label>
                     <textarea  class="form-control" name="keyword" placeholder="Meta Keywords"><?php echo $data['keywords'] ?></textarea>
                   </div>
@@ -115,7 +130,7 @@ $(document).ready(function(){
         data : $('#settingForm').serialize(),
         success : function(data){
           $('#load').addClass('d-none');
-          alert(data);
+          alert("Sukses mengubah data!");
         }
       })}, 8000)
   })

@@ -132,7 +132,7 @@
                                 <option value="31900" class="opt-indent">Sulawesi Selatan</option>
                                 <option value="32000" class="opt-indent">Sulawesi Tengah</option>
                                 <option value="32100" class="opt-indent">Sulawesi Tenggara</option>
-                                <option value="32200" selected="selected"  class="opt-indent">Sulawesi Utara</option>
+                                <option value="32200" class="opt-indent">Sulawesi Utara</option>
                                 <option value="32300" class="opt-indent">Sumatera Barat</option>
                                 <option value="32400" class="opt-indent">Sumatera Selatan</option>
                                 <option value="32500" class="opt-indent">Sumatera Utara</option>

@@ -128,10 +128,6 @@
 		</section>
 
 <?php include 'template/footer.php'; ?>
-<?php include 'template/meta_footer.php'; ?>
-
-
-	
+<?php include 'template/meta_footer.php'; ?>	
 </body>
-
 </html>

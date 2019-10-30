@@ -424,6 +424,7 @@ class grabbing extends mysqli
         }
         return 1;
     }
+    
 }
 
 if (isset($_POST['url'])) {
@@ -443,7 +444,8 @@ if (isset($_POST['aksi'])) {
         $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=$key&location=$lok&specialization=$kat&area=&salary=&ojs=3&src=1";
         $myApp->insert($url, $aksi);
     } else {
-        $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php';
+        $kd_location = $set['kd_location'];
+        $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
         $myApp->insert($url, $aksi);
     }
 }

@@ -4,17 +4,17 @@ RewriteRule ^sitemap.xml$ sitemap.php [L]
 #RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?page=$1&keyword=$2&kategori=$3&lokasi=$4 [L]
 
 
-# 301 --- http://www.id-loker.com/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Lampung => http://www.id-loker.com/cari-staff-Personalia-Lampung.html
+# 301 --- http://job-fix.ant/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Banten => http://lowongan-kerja.id/cari-staff-Personalia-Banten.html
 #RewriteCond %{QUERY_STRING} (^|&)page\=cari($|&)
 #RewriteCond %{QUERY_STRING} (^|&)keyword\=$1($|&)
 #RewriteCond %{QUERY_STRING} (^|&)kategori\=$2($|&)
 #RewriteCond %{QUERY_STRING} (^|&)lokasi\=$3($|&)
 #RewriteRule ^index\.php$ /cari-$1-$2-$3.html? [L,R=301]
 
-# 301 --- http://www.id-loker.com/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Lampung => http://www.id-loker.com/cari-staff-Personalia-Lampung.html
+# 301 --- http://lowongan-kerja.id/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Banten => http://lowongan-kerja.id/cari-staff-Personalia-Banten.html
 #RewriteCond %{QUERY_STRING} (^|&)page\=cari($|&)
 #RewriteCond %{QUERY_STRING} (^|&)keyword\=staff($|&)
 #RewriteCond %{QUERY_STRING} (^|&)kategori\=Personalia($|&)
-#RewriteCond %{QUERY_STRING} (^|&)lokasi\=Lampung($|&)
-#RewriteRule ^index\.php$ /cari-staff-Personalia-Lampung.html? [L,R=301]
+#RewriteCond %{QUERY_STRING} (^|&)lokasi\=Banten($|&)
+#RewriteRule ^index\.php$ /cari-staff-Personalia-Banten.html? [L,R=301]
 
