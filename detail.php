@@ -41,7 +41,6 @@ $perusahaan = $data[0]['perusahaan'];
 								    $jmlData = count($url2);
 								    $idJob = $url2[$jmlData-1];
 							     ?>
-							     <!-- action="https://myjobstreet-id.jobstreet.co.id/application/online-apply.php" -->
 						      <form id="apply-now-link">
 						        <input type="hidden" value="<?php echo "$idJob"; ?>" name="job_id" id="job_id">
 						        <input type="hidden" value="40" name="s" id="s">
@@ -164,7 +163,9 @@ foreach($list as $social_media_name) {
 </body>
 </html>
 <?php 
+if ($set['auto_grab'] == "on") {
 	$kd_location = $set['kd_location'];
     $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
     $myApp->insert($url, "");
+}
  ?>

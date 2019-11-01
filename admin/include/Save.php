@@ -13,7 +13,8 @@
 			$tag_manager = $_POST['tag_manager'];
 			$adsense = $_POST['adsense'];
 			$kd_location = $_POST['kd_location'];
-			$update = $su->updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense,$kd_location);
+			$auto_grab = $_POST['auto_grab'];
+			$update = $su->updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense,$kd_location, $auto_grab);
 			if ($update == 1) {
 				echo "success";
 			}else{

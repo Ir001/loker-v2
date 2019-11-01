@@ -105,7 +105,7 @@ class grabbing extends mysqli
             }
             $sql .= " order by id_lowongan desc ";
             if ($param == 'sitemap') {
-                $sql .= " limit 0,10000 ";
+                $sql .= " limit 0,5000 ";
             }else{
                 $sql .= " limit $posisi,$batas ";
             }
@@ -435,18 +435,20 @@ if (isset($_POST['url'])) {
 $myApp = new grabbing();
 $set = $myApp->getSetting();
 $ads = $myApp->getAds();
-if (isset($_POST['aksi'])) {
-    $aksi = $_POST['aksi'];
-    if ($aksi == 'cari') {
-        $lok = $_POST['lokasi'];
-        $kat = $_POST['kategori'];
-        $key = str_replace(' ', '+', $_POST['keyword']);
-        $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=$key&location=$lok&specialization=$kat&area=&salary=&ojs=3&src=1";
-        $myApp->insert($url, $aksi);
-    } else {
-        $kd_location = $set['kd_location'];
-        $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
-        $myApp->insert($url, $aksi);
+if ($set['auto_grab'] == "on") {
+    if (isset($_POST['aksi'])) {
+        $aksi = $_POST['aksi'];
+        if ($aksi == 'cari') {
+            $lok = $_POST['lokasi'];
+            $kat = $_POST['kategori'];
+            $key = str_replace(' ', '+', $_POST['keyword']);
+            $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=$key&location=$lok&specialization=$kat&area=&salary=&ojs=3&src=1";
+            $myApp->insert($url, $aksi);
+        } else {
+            $kd_location = $set['kd_location'];
+            $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
+            $myApp->insert($url, $aksi);
+        }
     }
 }
 ?>

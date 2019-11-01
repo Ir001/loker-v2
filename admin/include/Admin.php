@@ -170,7 +170,7 @@
     	return @$data;
     }
     // 
-    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense, $kd_location){
+    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense, $kd_location, $auto_grab){
     	$title = $this->real_escape_string($title);
     	$tag_line = $this->real_escape_string($tag_line);
     	$description = $this->real_escape_string($description);
@@ -178,7 +178,7 @@
     	$tag_manager = $this->real_escape_string($tag_manager);
         $adsense = $this->real_escape_string($adsense);
     	$kd_location = $this->real_escape_string($kd_location);
-    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense', kd_location = '$kd_location'";
+    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense', kd_location = '$kd_location', auto_grab = '$auto_grab'";
     	if ($exec = $this->query($sql)) {
     		return 1;
     	}else{

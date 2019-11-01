@@ -62,6 +62,17 @@
                     <input type="text" name="tag_line" class="form-control" value="<?php echo $data['tag_line'] ?>" placeholder="Tag Line">
                   </div>
                   <div class="form-group">
+                    <label for="">Auto Grab Konten</label>
+                    <select class="form-control" name="auto_grab">
+                      <option value="on" <?php if ($data['auto_grab'] == "on"): ?>
+                        selected
+                      <?php endif ?>>ON</option>
+                      <option value="off" <?php if ($data['auto_grab'] == "off"): ?>
+                        selected
+                      <?php endif ?>>OFF</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
                     <label for="">Grabing Konten by Location</label>
                     <select class="form-control" name="kd_location">
                       <option value="" selected>Default</option>
