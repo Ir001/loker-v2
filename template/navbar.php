@@ -13,7 +13,7 @@
 							<nav class="main_nav_contaner ml-auto">
 								<ul class="main_nav">
 									<li><a href="/index.php">Home</a></li>
-									<li><a href="/about.php">About</a></li>
+									<li><a href="#">About</a></li>
 									<li><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
 									<li class="nav-item dropdown">
 										<a class="nav-link dropdown-toggle" href="#" id="down" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">

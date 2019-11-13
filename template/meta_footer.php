@@ -10,6 +10,5 @@ $(".search-icone").click(function(){
      // $(".menu").animate({height: "100vh"});
  });
 $("#search-box_search_form_3").submit(function(){
-	console.log(1);
 });
 </script>

@@ -49,7 +49,7 @@ $perusahaan = $data[0]['perusahaan'];
 						        <button id="apply_button" type="submit" class="Apply-Now">Lamar Sekarang</button>
 						      </form>
 								<h6 class="font-color-orange"><?php echo $perusahaan ?></h6>
-								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>">View more similar jobs</a>
+								<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>" class="float-right">View more similar jobs</a>
 								<i class="material-icons">place</i>
 								<span class="text"><?php echo $data[0]['alamat'] ?></span>
 								<div class="my-5">
@@ -166,6 +166,6 @@ foreach($list as $social_media_name) {
 if ($set['auto_grab'] == "on") {
 	$kd_location = $set['kd_location'];
     $url = 'http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location='.$kd_location.'&specialization=&area=&salary=&ojs=3&src=1';
-    $myApp->insert($url, "");
+    //$myApp->insert($url, "");
 }
  ?>

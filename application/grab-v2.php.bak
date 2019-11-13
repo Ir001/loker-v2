@@ -147,7 +147,68 @@ class grabbing extends mysqli
         return @$data;
     }
 
-  function showDetail($judul, $id)
+    private function findField()
+    {
+        $findField = ["judul", "long_desc", "gambaran_pers", "tentang_pers", "mengapa", "kategori", "lokasi", "perusahaan", "dibuka", "ditutup", "industri"];
+        return $findField;
+    }
+
+    private function buildSqlSearchingCriteria($keywords, $findField)
+    {
+        $arrayKata = explode(' ', $keywords);
+        foreach ($arrayKata as $hasil) {
+            if ($hasil != 'lowongan') {
+                foreach ($findField as $fieldName) {
+                    $criteria[] = "LOWER($fieldName) like '%$hasil%'";
+                }
+                $queryCriteria[] = implode(" OR ", $criteria);
+            }
+        }
+        $resultCriteria = implode(" OR ", $queryCriteria);
+        return $resultCriteria;
+    }
+
+    function cariArtikel($key, $kat, $lok)
+    {
+        $key = $key;
+        $keyPlus = str_replace(' ', '+', $key);
+        $lok = $lok;
+        $kat = $kat;
+        $sql = "select * from td_lowongan where 1=1 ";
+        if ($key != '') {
+            $keywords = strtolower($key);
+            $findField = $this->findField();
+            $criteria = $this->buildSqlSearchingCriteria($keywords, $findField);
+            $sql .= " and ($criteria) ";
+        }
+        if ($kat != '') {
+            $sql .= " and kategori like '%$kat%' ";
+        }
+        if ($lok != '') {
+            $sql .= " and lokasi like '%$lok%' ";
+        }
+        $sql .= " order by id_lowongan asc limit 50";
+        $hasil = $this->query($sql);
+        if ($result = $this->query($sql)) {        /* fetch associative array */
+            $data = '';
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'],];
+                $i++;
+            }
+            $row = $result->fetch_assoc();
+            $result->close();
+            if ($data == '') {
+                return "Data tidak ditemukan";
+            } else {
+                return $data;
+            }
+        } else {
+            return "Data tidak ditemukan";
+        }
+    }
+
+    function showDetail($judul, $id)
     {
         $sql = "select * from td_lowongan where 1=1 and id_lowongan='$id'";
         $sql .= " order by id_lowongan desc ";
@@ -237,7 +298,21 @@ class grabbing extends mysqli
         }
     }
 
-   
+    function showParent()
+    {
+        $sql = "select distinct(kategori_parent) from td_lowongan order by id_lowongan desc ";
+        $hasil = $this->query($sql);
+        if ($result = $this->query($sql)) {        /* fetch associative array */
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $data[$i] = ['kategori_parent' => $row['kategori_parent']];
+                $i++;
+            }
+            $row = $result->fetch_assoc();
+            $result->close();
+            return $data;
+        }
+    }
 
     function getIndustri()
     {
