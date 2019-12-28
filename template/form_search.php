@@ -30,6 +30,7 @@
 
 				
 			</div>
+			<input type="hidden" name="industri" value="">
 			<button type="submit" class="search-box_search_button">Cari</button>
 		</form>
 	</div>

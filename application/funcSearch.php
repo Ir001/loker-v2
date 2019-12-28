@@ -10,7 +10,7 @@ class search extends mysqli
 		}
 		parent::set_charset('utf-8');
 	}
-	function getSearch($keyword, $kategori, $lokasi){
+	function getSearch($keyword, $kategori, $lokasi, $industri){
 			$batas = 5;
 			$data = array();
 			$halaman = @$_GET['page']?$_GET['page']:1;
@@ -31,7 +31,11 @@ class search extends mysqli
 				}
 				if ($lokasi != "") {
 					$qPage.= " AND kota LIKE '%$lokasi%'";
-					$sql.= " AND kota LIKE '%$kategori%'";
+					$sql.= " AND kota LIKE '%$lokasi%'";
+				}
+				if ($industri != "") {
+					$qPage.= " AND industri LIKE '%$industri%'";
+					$sql.= " AND industri LIKE '%$industri%'";
 				}
 				$sql.=" AND status='active' LIMIT $posisi, $batas";
 				$data_page = $this->query($qPage);

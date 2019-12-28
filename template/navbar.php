@@ -72,7 +72,7 @@
 			<nav class="menu_nav">
 				<ul class="menu_mm">
 					<li class="menu_mm"><a href="/index.php">Home</a></li>
-					<li class="menu_mm"><a href="/about.php">About</a></li>
+					<li class="menu_mm"><a href="#">About</a></li>
 					<li class="menu_mm"><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
 					<li class="nav-item dropdown">
 										<a class="nav-link dropdown-toggle" href="#" id="down" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
