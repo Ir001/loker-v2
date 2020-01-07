@@ -6,15 +6,15 @@
 					<div class="col">
 						<div class="header_content d-flex flex-row align-items-center justify-content-start">
 							<div class="logo_container">
-								<a href="index.php">
+								<a href="<?=$set['base_url']?>">
 									<img src="assets/images/logo.png" style="max-height: 49px; max-width: 220px" class="logo-text" alt="">
 								</a>
 							</div>
 							<nav class="main_nav_contaner ml-auto">
 								<ul class="main_nav">
-									<li><a href="/index.php">Home</a></li>
-									<li><a href="#">About</a></li>
-									<li><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
+									<li><a href="<?=$set['base_url']?>">Home</a></li>
+									<li><a href="<?=$set['base_url']?>about.php">About</a></li>
+									<li><a href="<?=$set['base_url']?>blog" target="_blank">Blog</a></li>
 									<li class="nav-item dropdown">
 										<a class="nav-link dropdown-toggle" href="#" id="down" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
 											Kategori
@@ -25,7 +25,7 @@
 												$i=0;
 												foreach ($listcategory as $kat) {
 													?>
-												<a class="dropdown-item" href="/job.php?kategori=<?php echo strtolower($kat['kategori']); ?>"><?php echo $kat['kategori']; ?></a>								
+												<a class="dropdown-item" href="<?=$set['base_url']?>job.php?kategori=<?php echo strtolower($kat['kategori']); ?>"><?php echo $kat['kategori']; ?></a>								
 											<?php $i++; } ?>
 										</div>
 									</li>
@@ -39,7 +39,7 @@
 												$i=0;
 												foreach ($listlokasi as $kat) {
 													?>
-												<a class="dropdown-item" href="/job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
+												<a class="dropdown-item" href="<?=$set['base_url']?>job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
 											<?php $i++; } ?>
 										</div>
 									</li>
@@ -71,8 +71,8 @@
 			</div>
 			<nav class="menu_nav">
 				<ul class="menu_mm">
-					<li class="menu_mm"><a href="/index.php">Home</a></li>
-					<li class="menu_mm"><a href="#">About</a></li>
+					<li class="menu_mm"><a href="<?=$set['base_url']?>">Home</a></li>
+					<li class="menu_mm"><a href="<?=$set['base_url']?>about.php">About</a></li>
 					<li class="menu_mm"><a href="http://lowongan-kerja.id/blog" target="_blank">Blog</a></li>
 					<li class="nav-item dropdown">
 										<a class="nav-link dropdown-toggle" href="#" id="down" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
@@ -84,7 +84,7 @@
 												$i=0;
 												foreach ($listcategory as $kat) {
 													?>
-												<a class="dropdown-item" href="/job.php?kategori=<?php echo strtolower($kat['kategori']); ?>"><?php echo substr($kat['kategori'], 0, 7)."..."; ?></a>								
+												<a class="dropdown-item" href="<?=$set['base_url']?>job.php?kategori=<?php echo strtolower($kat['kategori']); ?>"><?php echo substr($kat['kategori'], 0, 7)."..."; ?></a>								
 											<?php $i++; } ?>
 										</div>
 									</li>
@@ -98,7 +98,7 @@
 												$i=0;
 												foreach ($listlokasi as $kat) {
 													?>
-												<a class="dropdown-item" href="/job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
+												<a class="dropdown-item" href="<?=$set['base_url']?>job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
 											<?php $i++; } ?>
 										</div>
 									</li>

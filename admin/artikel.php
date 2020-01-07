@@ -29,6 +29,21 @@
       $msg['response'] = 'Gagal menghapus artikel';
     }
   }
+  // 
+  $menu = "artikel";
+  if (isset($_GET['show'])) {
+    if ($_GET['show'] == "all") {
+      $menuItem = "all";
+    }elseif($_GET['show'] == "expired"){
+      $menuItem = "expired";
+    }elseif ($_GET['show'] == "active") {
+      $menuItem = "active";
+    }else{
+      $menuItem = "all";
+    }
+  }else{
+      $menuItem = "all";
+    }
  ?>
 <!DOCTYPE html>
 <html>
@@ -79,7 +94,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <table id="artikel" class="table table-striped table-valign-middle">
+                <table id="artikel" class="table table-striped table-bordered">
                   <thead>
                   <tr>
                     <th>No</th>
@@ -94,13 +109,17 @@
                       $i=0;
                       foreach ($artikel as $data) {
                         $date = date('d, F, Y', strtotime($data['date_tutup']));
+                        $a = explode("-", $data['judul']);
+                        $title = $a[0];
+                        $url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
+                        $url = $data['id_lowongan']."_lowongan_".$url_title.".html";
                      ?>
                   <tr>
                     <td>
                       <?php echo $i+1; ?>
                     </td>
                     <td>
-                      <?php echo $data['judul']; ?> 
+                      <?php echo substr($data['judul'], 0,30)."..."; ?> 
                     </td>
                     <td>
                       <span class="badge <?php if ($data['status'] == "expired"): ?>
@@ -111,12 +130,15 @@
                       <?php endif ?>"><?php echo ucwords($data['status']); ?></span>
                     </td>
                     <td> <?php echo @$date; ?></td>
-                    <td>
-                      <form id="deleteArtikel">
-                        <input type="hidden" name="page" value="delete">
-                        <input type="hidden" name="id" value="<?php echo $data['id_lowongan']; ?>">
-                        <button type="submit" onclick="var status = confirm('Apakah Anda yakin? artikel yang sudah dihapus tidak dapat dikembalikan'); if (status == true) {return true} else{return false}" class="d-block btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                      </form>
+                    <td style=" vertical-align: middle;">
+                      <div class="btn-group text-center">
+                        <a href="<?=$set['base_url'].$url;?>" target="_blank" class="btn mr-1 btn-sm btn-info"><i class="fas fa-eye" title="View detail"></i></a>
+                        <form class="delete_artikel">
+                          <input type="hidden" name="delete_artikel" value="1">
+                          <input type="hidden" name="id" value="<?php echo $data['id_lowongan']; ?>">
+                          <button type="submit" class="btn btn-sm btn-delete btn-danger"><i class="fas fa-trash" title="Delete this"></i></button>
+                        </form>
+                      </div>
                     </td>
                   </tr>
                   <?php $i++; } ?>
@@ -147,16 +169,40 @@
 <script src="plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
   $(function(){
-    $('#artikel').DataTable();
-  })
-  $(document).ready(function(){
-     <?php if($msg['status'] == 'success'): ?>
-      setTimeout(function(){ toastr.success('<?php echo($msg['response']); ?>')}, 500);
-    <?php elseif($msg['status'] == 'failed'): ?>
-      setTimeout(function(){ toastr.danger('<?php echo($msg['response']); ?>')}, 500);
-    <?php endif; ?>
+    $('#artikel').DataTable({
+      "fnDrawCallback": function( oSettings ) {
+        // componentHandler.upgradeDOM();
+        $('.btn-delete').click(function(){
+          if (confirm("Apakah anda yakin?")) {
+            $('.delete_artikel').submit(function(e){
+              e.preventDefault();
+              $.ajax({
+                type : 'POST',
+                url : 'include/Event.artikel.php',
+                data : $(this).serialize(),
+                dataType : 'json',
+                success : function(data){
+                  if (data.success) {
+                    toastr['success'](data.message);
+                    setTimeout(function(){window.location.reload();},500)
+                  }else{
+                    toastr['error'](data.message);
+                  }
+                }
+              })
+            })
+          }else{
+            $('.form-delete').submit(function(e){
+              e.preventDefault();
+            })
+          }
+        });
 
+      }
+
+    });
   })
+ 
 </script>
 </body>
 </html>

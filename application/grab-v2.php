@@ -147,15 +147,33 @@ class grabbing extends mysqli
         return @$data;
     }
 
-  function showDetail($judul, $id)
+/*
+    Function anti SQL Injection
+*/
+  function anti_inject($string){
+    $string = @trim($string);
+    $string = htmlspecialchars($string);
+    $string = $this->real_escape_string($string);
+    return @$string;
+  }
+
+  function showDetail($judul, $id) 
     {
+        $id = $this->anti_inject($id);
         $sql = "select * from td_lowongan where 1=1 and id_lowongan='$id'";
         $sql .= " order by id_lowongan desc ";
         $hasil = $this->query($sql);
         if ($result = $this->query($sql)) {        /* fetch associative array */
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'alamat' => $row['alamat'], 'url' => $row['url'], 'id_lowongan' => $row['id_lowongan'], 'gambaran_pers' => $row['gambaran_pers'], 'tentang_pers' => $row['tentang_pers'], 'permalink' => $row['permalink'], 'mengapa' => $row['mengapa']];
+                $data[$i] = 
+                ['judul' => $row['judul'], 
+                'long_desc' => $row['long_desc'], 
+                'short_desc' => $row['short_desc'], 
+                'kategori' => $row['kategori'], 
+                'lokasi' => $row['lokasi'], 
+                'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'alamat' => $row['alamat'], 'url' => $row['url'], 'id_lowongan' => $row['id_lowongan'], 'gambaran_pers' => $row['gambaran_pers'], 't
+                entang_pers' => $row['tentang_pers'], 'permalink' => $row['permalink'], 'mengapa' => $row['mengapa']];
                 $i++;
             }
             $row = $result->fetch_assoc();
@@ -348,6 +366,13 @@ class grabbing extends mysqli
             $i++;   
         }
         return 1;
+    }
+    function getContent($url){
+        $url = strtolower($url);
+        $sql = "SELECT * FROM page WHERE type = '$url'";
+        $query = $this->query($sql);
+        $result = $query->fetch_assoc();
+        return @$result;
     }
     
 }

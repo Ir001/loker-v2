@@ -20,10 +20,10 @@ class search extends mysqli
                 $posisi = ($halaman - 1) * $batas;
             }
 				$sql = "SELECT * FROM td_lowongan WHERE 1=1";
-				$qPage = "SELECT count(*) as total FROM td_lowongan WHERE 1=1";
+				$qPage = "SELECT count('id_lowongan') as total FROM td_lowongan WHERE 1=1";
 				if($keyword != "") {
-					$sql = " AND long_desc LIKE '%$keyword%'";
-					$qPage = " AND long_desc LIKE '%$keyword%'";
+					$sql.= " AND judul LIKE '%$keyword%'";
+					$qPage.= " AND judul LIKE '%$keyword%'";
 				}
 				if ($kategori != "") {
 					$sql.= " AND kategori LIKE '%$kategori%'";

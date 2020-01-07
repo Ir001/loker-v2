@@ -13,6 +13,8 @@
       echo "<script>window.location='iklan.php'</script>";
     }
   }
+  $menu = "iklan";
+  $menuItem = "daftar_iklan"; 
  ?>
 
 <!DOCTYPE html>

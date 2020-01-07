@@ -5,8 +5,8 @@
 		if ($form == 'setting') {
 			$update = 1;
 			//
-			print_r($_POST);
 			$title = $_POST['judul'];
+			$base_url = $_POST['base_url'];
 			$tag_line = $_POST['tag_line'];
 			$description = $_POST['deskripsi'];
 			$keywords = $_POST['keyword'];
@@ -14,12 +14,15 @@
 			$adsense = $_POST['adsense'];
 			$kd_location = $_POST['kd_location'];
 			$auto_grab = $_POST['auto_grab'];
-			$update = $su->updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense,$kd_location, $auto_grab);
-			if ($update == 1) {
-				echo "success";
+			$update = $su->updateSetting($title, $base_url, $tag_line, $description, $keywords, $tag_manager, $adsense,$kd_location, $auto_grab);
+			if ($update) {
+				$msg['success'] = true;
+				$msg['message'] = 'Berhasil menyimpan pengaturan';
 			}else{
-				echo "error";
+				$msg['success'] = false;
+				$msg['message'] = 'Gagal menyimpan pengaturan';
 			}
+			echo json_encode($msg);
 		}elseif ($form == "delete_artikel") {
 			print_r($_POST);
 		}elseif($form == 'add_iklan'){
@@ -29,5 +32,16 @@
 			$show = $_POST['show'];
 			print_r($su->addAds($name, $sc, $desc, $show));
 		}
+	}elseif (isset($_POST['setContent'])) {
+		$judul = trim($_POST['judul']);
+		$content = trim($_POST['content']);
+		$type = trim($_POST['type']);
+		$data = array(
+			'judul' => $judul,
+			'content' => $content,
+			'type' => $type,
+		);
+		$setContent = $su->setContent($data);
+		echo json_encode($setContent);
 	}
  ?>

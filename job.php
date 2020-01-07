@@ -67,7 +67,7 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 											$i=0;
 											foreach ($listcategory as $kat) {
 										?>
-											<li class="py-2"><a href="/job.php?keyword=&lokasi=&industri=&kategori=<?=$kat['kategori'];?>"><?=ucwords($kat['kategori']);?></a></li>
+											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&industri=&kategori=<?=$kat['kategori'];?>"><?=ucwords($kat['kategori']);?></a></li>
 
 										<?php $i++; } ?>
 									</ul>
@@ -82,7 +82,7 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 										$i=0;
 										foreach ($listindustri as $kat) {
 											?>
-											<li class="py-2"><a href="/job.php?keyword=&lokasi=&kategori=&industri=<?=$kat['industri'];?>"><?=ucwords($kat['industri']);?></a></li>
+											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&kategori=&industri=<?=$kat['industri'];?>"><?=ucwords($kat['industri']);?></a></li>
 
 										<?php $i++; } ?>
 									</ul>
@@ -97,7 +97,7 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 										$i=0;
 										foreach ($listlokasi as $kat) {
 											?>
-											<li class="py-2"><a href="/job.php?keyword=&industri=&kategori=&lokasi=<?=$kat['lokasi'];?>"><?=ucwords($kat['lokasi']);?></a></li>
+											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&industri=&kategori=&lokasi=<?=$kat['lokasi'];?>"><?=ucwords($kat['lokasi']);?></a></li>
 
 										<?php $i++; } ?>
 									</ul>

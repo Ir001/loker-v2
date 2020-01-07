@@ -170,7 +170,7 @@
     	return @$data;
     }
     // 
-    function updateSetting($title, $tag_line, $description, $keywords, $tag_manager, $adsense, $kd_location, $auto_grab){
+    function updateSetting($title, $base_url, $tag_line, $description, $keywords, $tag_manager, $adsense, $kd_location, $auto_grab){
     	$title = $this->real_escape_string($title);
     	$tag_line = $this->real_escape_string($tag_line);
     	$description = $this->real_escape_string($description);
@@ -178,7 +178,7 @@
     	$tag_manager = $this->real_escape_string($tag_manager);
         $adsense = $this->real_escape_string($adsense);
     	$kd_location = $this->real_escape_string($kd_location);
-    	$sql = "UPDATE settings SET title = '$title', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense', kd_location = '$kd_location', auto_grab = '$auto_grab'";
+    	$sql = "UPDATE settings SET title = '$title', base_url = '$base_url', tag_line = '$tag_line', description = '$description', keywords = '$keywords', tag_manager = '$tag_manager', adsense = '$adsense', kd_location = '$kd_location', auto_grab = '$auto_grab'";
     	if ($exec = $this->query($sql)) {
     		return 1;
     	}else{
@@ -256,12 +256,12 @@
         }
         return 1;
     }
-    function grabing($location)
+    function grabing($location, $pg)
     {
-        $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location=$location&specialization=&area=&salary=&ojs=3&src=12";
-        include '../application/simple_html_dom.php';
-        include '../application/filterKota.php';
-        include '../application/convertDate.php';
+        $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location=$location&specialization=&area=&salary=&ojs=3&src=12&pg=$pg";
+        include_once '../application/simple_html_dom.php';
+        include_once '../application/filterKota.php';
+        include_once '../application/convertDate.php';
         $html = file_get_html($url);
         $panel = $html->find('div[class=panel-body]');
         $jmlData = count($html->find('div[class=panel-body]'));
@@ -320,6 +320,43 @@
                 return $data;
             }
     }
+    function delete_artikel($id){
+        $id = $this->real_escape_string($id);
+        $sql = "DELETE FROM td_lowongan WHERE id_lowongan = '$id'";
+        $query = $this->query($sql);
+        if ($query) {
+            $msg['success'] = true;
+            $msg['message'] = 'Berhasil menghapus data!';
+        }else{
+            $msg['success'] = false;
+            $msg['message'] = 'Gagal menghapus data!';
+        }
+        return @$msg;
+    }
+    /*Page*/
+    function setContent($data=array()){
+        $type = $this->real_escape_string($data['type']);
+        $title = $this->real_escape_string($data['judul']);
+        $content = $data['content'];
+        //
+        $sql = "UPDATE page SET title = '$title', content = '$content', updated_at = NOW() WHERE type = '$type'";
+        $query = $this->query($sql);
+        if ($query) {
+            $msg['success'] = true;
+            $msg['message'] = 'Berhasil menyimpan informasi';
+        }else{
+            $msg['success'] = false;
+            $msg['message'] = 'Gagal menyimpan informasi';
+        }
+        return $msg;
+    }
+    function getContent($url){
+        $url = strtolower($url);
+        $sql = "SELECT * FROM page WHERE type = '$url'";
+        $query = $this->query($sql);
+        $result = $query->fetch_assoc();
+        return @$result;
+    }
 
 
 	}
@@ -332,5 +369,6 @@
 
 	$su = new admin();
   	$loged = $su->cekLogin();
+    $set = $su->getSetting();
 
  ?>

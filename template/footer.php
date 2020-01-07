@@ -13,36 +13,33 @@
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-6 vertical-space-2">
-				<h5>Kategori</h5>
+				<h5>Halaman</h5>
+				<div class="text">
+					<a title="Tentang Kami" href="<?=$set['base_url']?>about.php">About</a>								
+					<a title="Privacy Policy" href="<?=$set['base_url']?>privacy-policy.php">Privacy Policy</a>
+					<a title="FAQ" href="<?=$set['base_url']?>faq.php">FAQ</a>	
+					<a title="Kontak Kami" href="<?=$set['base_url']?>contact.php">Contact Us</a>								
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-6 vertical-space-2">
+				<h5>Wilayah</h5>
 				<div class="text">
 					<?php 
-					$listcategory = $myApp->showKategori(4);
+					$listlokasi = $myApp->getLokasi(4);
 					$i=0;
-					foreach ($listcategory as $kat) {
+					foreach ($listlokasi as $kat) {
 						?>
-						<a title="<?=$kat['kategori']?>" href="/job.php?kategori=<?php echo strtolower($kat['kategori']); ?>"><?php echo substr($kat['kategori'], 0, 19)."..."; ?></a>								
+						<a href="<?=$set['base_url']?>job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
 						<?php $i++; } ?>
 					</div>
 				</div>
-				<div class="col-lg-2 col-md-6 vertical-space-2">
-					<h5>Wilayah</h5>
-					<div class="text">
-						<?php 
-						$listlokasi = $myApp->getLokasi(4);
-						$i=0;
-						foreach ($listlokasi as $kat) {
-							?>
-							<a href="/job.php?wilayah=<?php echo strtolower($kat['lokasi']); ?>"><?php echo ucwords($kat['lokasi']); ?></a>								
-							<?php $i++; } ?>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 vertical-space-2">
-						<h5>Sponsor</h5>
-						<div class="vertical-space-30"></div>
-						<?php $ads = $myApp->getAds("sidebar"); ?>
-						<?php echo $ads[0]['source_code']; ?>
-					</div>
+				<div class="col-lg-4 col-md-6 vertical-space-2">
+					<h5>Sponsor</h5>
+					<div class="vertical-space-30"></div>
+					<?php $ads = $myApp->getAds("sidebar"); ?>
+					<?php echo $ads[0]['source_code']; ?>
 				</div>
-				<div class="vertical-space-60"></div>
 			</div>
-		</footer>
+			<div class="vertical-space-60"></div>
+		</div>
+	</footer>

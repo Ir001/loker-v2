@@ -15,6 +15,8 @@
       echo "<script>setTimeout(function(){ toastr.success('Sukses')}, 500)</script>";
     }
   }
+  $menu = "iklan";
+  $menuItem = "add_iklan";
  ?>
 
 <!DOCTYPE html>

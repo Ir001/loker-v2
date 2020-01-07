@@ -41,7 +41,7 @@
 								<img src="/assets/imags/icone/service-icone-<?php echo $i+1; ?>.png" alt="">
 							</div>
 							<h6><?php echo $category[$i]['kategori']; ?></h6>
-							<a href="/job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
+							<a href="<?=$set['base_url']?>job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
 						</div>
 					</div>
 					<?php $i++; ?>
@@ -73,7 +73,7 @@
 						$a = explode("-", $job[$i]['judul']);
 						$title = $a[0];
 						$url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
-						$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
+						$url = $set['base_url'].$job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
 						$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 
 				 ?>
@@ -111,13 +111,13 @@
 		<?php } ?>
 				<div class="vertical-space-20"></div>
 				<div class="job-list">
-					<a href="job.php" class="Open-Jobs-Page margin-auto">Lihat Semua<i class="large material-icons float-right">trending_flat</i></a>
+					<a href="<?=$set['base_url']?>job.php" class="Open-Jobs-Page margin-auto">Lihat Semua<i class="large material-icons float-right">trending_flat</i></a>
 					<ul class="pagination justify-content-end margin-auto">
 						<li class="page-item"><a class="page-link pdding-none" href="javascript:void(0);"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
-						<li class="page-item"><a class="page-link active" href="job.php?page=1">1</a></li>
-						<li class="page-item"><a class="page-link" href="job.php?page=2">2</a></li>
-						<li class="page-item"><a class="page-link" href="job.php?page=3">3</a></li>
-						<li class="page-item"><a class="page-link" href="job.php?page=4">4</a></li>
+						<li class="page-item"><a class="page-link active" href="<?=$set['base_url']?>job.php?page=1">1</a></li>
+						<li class="page-item"><a class="page-link" href="<?=$set['base_url']?>job.php?page=2">2</a></li>
+						<li class="page-item"><a class="page-link" href="<?=$set['base_url']?>job.php?page=3">3</a></li>
+						<li class="page-item"><a class="page-link" href="<?=$set['base_url']?>job.php?page=4">4</a></li>
 						<li class="page-item">
 							<a class="page-link pdding-none" href="javascript:void(0);"> <i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_right</i></a>
 						</li>

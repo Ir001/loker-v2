@@ -1,11 +1,11 @@
 <?php 
-  session_start();
-  include 'include/Admin.php';
-  if ($loged == 0) {
-    header("location:login.php");
-  }
-  $data = $su->getSetting();
- ?>
+session_start();
+include 'include/Admin.php';
+if ($loged == 0) {
+  header("location:login.php");
+}
+$data = $su->getSetting();
+?>
 
 <!DOCTYPE html>
 <html>
@@ -16,78 +16,86 @@
   <?php include 'template/meta_head.php'; ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-<?php include 'template/navbar.php'; ?>
-<?php include 'template/side_navbar.php'; ?>
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard - Pengaturan</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-              <li class="breadcrumb-item active">Pengaturan</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+  <div class="wrapper">
+    <?php include 'template/navbar.php'; ?>
+    <?php include 'template/side_navbar.php'; ?>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Dashboard - Pengaturan</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                <li class="breadcrumb-item active">Pengaturan</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
 
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Pengaturan - Configurasi Situs</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form role="form" id="settingForm">
-                <input type="hidden"  name="form" value="setting">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="">Judul Situs</label>
-                    <input type="text" name="judul" class="form-control" value="<?php echo $data['title'] ?>" placeholder="Judul Situs">
-                  </div>
-                  <div class="form-group">
-                    <label for="">Tag Line</label>
-                    <input type="text" name="tag_line" class="form-control" value="<?php echo $data['tag_line'] ?>" placeholder="Tag Line">
-                  </div>
-                  <div class="form-group">
-                    <label for="">Auto Grab Konten</label>
-                    <select class="form-control" name="auto_grab">
-                      <option value="on" <?php if ($data['auto_grab'] == "on"): ?>
-                        selected
-                      <?php endif ?>>ON</option>
-                      <option value="off" <?php if ($data['auto_grab'] == "off"): ?>
-                        selected
-                      <?php endif ?>>OFF</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="">Grabing Konten by Location</label>
-                    <select class="form-control" name="kd_location">
-                      <option value="" selected>Default</option>
-                      <?php 
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Pengaturan - Configurasi Situs</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" id="settingForm">
+                  <input type="hidden"  name="form" value="setting">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="">Judul Situs</label>
+                      <input type="text" name="judul" class="form-control" value="<?php echo $data['title'] ?>" placeholder="Judul Situs">
+                    </div>
+                    <div class="form-group">
+                      <label for="">URL</label>
+                      <div class="radio">
+                        <label><input type="radio" class="radio-control" name="ssl" value="http"> HTTP</label>
+                        <label><input type="radio" class="radio-control" name="ssl" value="https"> HTTPS</label>
+                      </div>
+                      <input type="text" name="base_url" id="url" class="form-control" value="<?php echo $_SERVER['HTTP_HOST']."/" ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Tag Line</label>
+                      <input type="text" name="tag_line" class="form-control" value="<?php echo $data['tag_line'] ?>" placeholder="Tag Line">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Auto Grab Konten</label>
+                      <div class="radio">
+                        <label><input type="radio" name="auto_grab" <?php if ($data['auto_grab'] == "on"): ?>
+                        checked
+                        <?php endif ?> value="on">ON</label>
+                        <label><input type="radio" name="auto_grab" <?php if ($data['auto_grab'] == "off"): ?>
+                        checked
+                        <?php endif ?> value="off">OFF</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Grabing Konten by Location</label>
+                      <select class="form-control" name="kd_location">
+                        <option value="" selected>Default</option>
+                        <?php 
                         $get_kode = $su->get_kode_location();
                         foreach ($get_kode as $get_kode) {
-                       ?>
-                      <option value="<?=$get_kode['kode'];?>" <?php if ($get_kode['kode'] == $data['kd_location']): ?>
-                        selected
-                      <?php endif ?>> <?=$get_kode['name'];?></option>
+                         ?>
+                         <option value="<?=$get_kode['kode'];?>" <?php if ($get_kode['kode'] == $data['kd_location']): ?>
+                         selected
+                         <?php endif ?>> <?=$get_kode['name'];?></option>
 
-                     <?php } ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
+                       <?php } ?>
+                     </select>
+                   </div>
+                   <div class="form-group">
                     <label for="">Meta Keywords</label>
                     <textarea  class="form-control" name="keyword" placeholder="Meta Keywords"><?php echo $data['keywords'] ?></textarea>
                   </div>
@@ -124,28 +132,39 @@
   </div>
   <!-- /.content-wrapper -->
 
- <?php include 'template/footer.php'; ?>
+  <?php include 'template/footer.php'; ?>
 </div>
 <!-- ./wrapper -->
 
 <?php include 'template/meta_footer.php'; ?>
 <script type="text/javascript">
-$(document).ready(function(){
-  $('#settingForm').submit(function(e){
-    e.preventDefault();
-    $('#load').removeClass('d-none');
-    setTimeout(function(){
+  $(document).ready(function(){
+    $('#settingForm').submit(function(e){
+      e.preventDefault();
+      $('#load').removeClass('d-none');
       $.ajax({
         type : 'POST',
         url : 'include/Save.php',
         data : $('#settingForm').serialize(),
+        dataType : 'json',
         success : function(data){
-          $('#load').addClass('d-none');
-          alert("Sukses mengubah data!");
+          if (data.success) {
+            $('#load').addClass('d-none');
+            toastr['success'](data.message);
+          } else {
+            toastr['error'](data.message);
+          }
         }
-      })}, 8000)
+      });
+    });
+    /*SSL*/
+    $('.radio-control').click(function(){
+      var ssl = $(this).val()+'://';
+      var url = $('#url');
+      var domain = '<?=$_SERVER['HTTP_HOST']."/"?>';
+      url.val(ssl+domain);
+    })
   })
-})
 
 </script>
 </body>

@@ -1,6 +1,6 @@
 <?php 
 $judul = $_GET['post'];
-$id = $_GET['id'];
+$id = @trim($_GET['id']);
 $post = $_GET['post'];
 $data = $myApp->showDetail($post, $id);
 $a = explode("-", $data[0]['judul']);
@@ -39,13 +39,18 @@ $perusahaan = $data[0]['perusahaan'];
 		<div class="container background-color-full-white job-Details">
 			<div class="Exclusive-Product">
 				<h3><?php echo $data[0]['judul']; ?></h3>
-				<h6 class="font-color-orange"><?php echo $perusahaan ?></h6>
-				<br>
-				<i class="material-icons">place</i>
-				<span class="text"><?php echo $data[0]['alamat'] ?></span>
-				<div class="py-5 float-right">
-					<div id="google_translate_element"></div>
+				<div class="row">
+					<div class="col-md-10">
+						<h6 class="font-color-orange"><?php echo $perusahaan ?></h6>
+					</div>
+					<div class="col-md-2">
+						<div class="pt-3">
+							<div id="google_translate_element2"></div>
+						</div>
+					</div>
 				</div>
+				
+				
 				<div class="my-5">
 					<?php echo $data[0]['logo']; ?>
 				</div>
@@ -59,6 +64,23 @@ $perusahaan = $data[0]['perusahaan'];
 					<li><i class="fa fa-line-circle"></i>Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li>Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
 				</ul>
 				<p><?php echo $data[0]['long_desc'] ?></p>
+				<div class="row">
+					<div class="col-md-6 pt-4">
+						<?php 
+						$uri = explode('?fr', $data[0]['url']);
+						$url2 = explode('-', $uri[0]);
+						$jmlData = count($url2);
+						$idJob = $url2[$jmlData-1];
+						?>
+						<form id="apply-now-link">
+							<input type="hidden" value="<?php echo "$idJob"; ?>" name="job_id" id="job_id">
+							<input type="hidden" value="40" name="s" id="s">
+							<input type="hidden" value="1" name="AdvertisementSource" id="AdvertisementSource">
+							<input type="hidden" name="fr" id="fr" value="">
+							<button id="apply_button" type="submit" class="Apply-Now float-left">Lamar Sekarang</button>
+						</form>
+					</div>
+				</div>
 				<h4>Apakah <?php echo $data[0]['judul']; ?> Asli (Bukan Palsu)? </h4>
 				<p>Harap pastikan bahwa <?=$perusahaan; ?> merupakan salah satu perusahaan terpercaya dan <i>kredibel</i> nya jelas. Silakan Anda periksa terlebih dahulu dan verifikasi apakah perusahaan itu benar-benar asli (bukan fiktif). Periksa juga tanggapan dari karyawan atau pegawai dari <?=$perusahaan; ?>. </p>
 				<p>Berhati-hatilah dengan perusahaan yang hanya menggunakan alamat email publik/gratisan (seperti @gmail atau @yahoo.com) atau SMS (termasuk aplikasi sejenis TELEGRAM atau WHATSAPP ) sebagai media komunikasi. Perusahaan akan lebih meyakinkan jika memiliki telepon kantor sendiri atau alamat email domain web perusahaan. </p>
@@ -69,27 +91,12 @@ $perusahaan = $data[0]['perusahaan'];
 					<div class="row">
 						<div class="col-md-12">
 							<h4>Alamat Perusahaan <?php echo $data[0]['perusahaan']; ?></h4>
+							<p><i class="material-icons">place</i> <?php echo $data[0]['perusahaan'].",".$data[0]['alamat'] ?></p>
 							<a href="https://www.google.com/maps/search/<?php echo $data[0]['perusahaan']; ?>" target="_blank" rel="nofollow" class="float-left mt-3">Lihat di Google Maps</a>
-						</div>
-						<div class="clearfix"></div>
-						<div class="col-md-12 pt-3">
-							<?php 
-							$uri = explode('?fr', $data[0]['url']);
-							$url2 = explode('-', $uri[0]);
-							$jmlData = count($url2);
-							$idJob = $url2[$jmlData-1];
-							?>
-							<form id="apply-now-link">
-								<input type="hidden" value="<?php echo "$idJob"; ?>" name="job_id" id="job_id">
-								<input type="hidden" value="40" name="s" id="s">
-								<input type="hidden" value="1" name="AdvertisementSource" id="AdvertisementSource">
-								<input type="hidden" name="fr" id="fr" value="">
-								<button id="apply_button" type="submit" class="Apply-Now float-left">Lamar Sekarang</button>
-							</form>
 							<a href="job.php?kategori=<?php echo strtolower($data[0]['kategori']); ?>" class="mt-3 mr-5">Lihat loker sejenis</a>
 						</div>
 						<div class="clearfix"></div>
-						<div class="col-md-12">
+						<div class="col-md-12 pt-3">
 							<?php $ads = $myApp->getAds("detail-bottom"); ?>
 							<?php echo $ads[0]['source_code']; ?>
 						</div>
@@ -148,18 +155,19 @@ $perusahaan = $data[0]['perusahaan'];
 			</div>
 		</section>
 		<!-- GTranslate: https://gtranslate.io/ -->
-		<style type="text/css">
-			<!--
-			#goog-gt-tt {display:none !important;}
-			.goog-te-banner-frame {display:none !important;}
-			.goog-te-menu-value:hover {text-decoration:none !important;}
-			.goog-te-gadget-icon {background-image:url(//gtranslate.net/flags/gt_logo_19x19.gif) !important;background-position:0 0 !important;}
-			body {top:0 !important;}
-			-->
-		</style>
+
 		<script type="text/javascript">
-			function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay: false, includedLanguages: ''}, 'google_translate_element');}
-		</script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+			function googleTranslateElementInit2() {new google.translate.TranslateElement({pageLanguage: 'en',autoDisplay: false}, 'google_translate_element2');}
+		</script><script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}',43,43,'||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'),0,{}))
+			/* ]]> */
+		</script>
+
+
 		<?php include 'template/footer.php'; ?>
 		<?php include 'template/meta_footer.php'; ?>
 		<script type="text/javascript">
