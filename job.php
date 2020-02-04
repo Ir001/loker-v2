@@ -136,7 +136,7 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 														<h6><?php echo $title; ?></h6>
 														<div>
 															<i class="large material-icons">account_balance</i>
-															<span class="text"><?php echo  $a[1]; ?></span>
+															<span class="text"><?=$job[$i]['perusahaan'] ;?></span>
 														</div>
 														<div>
 															<i class="large material-icons">place</i>

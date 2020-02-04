@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	include 'Admin.php';
 	if (isset($_POST['form'])) {
 		$form = $_POST['form'];
@@ -43,5 +44,50 @@
 		);
 		$setContent = $su->setContent($data);
 		echo json_encode($setContent);
+	}elseif (isset($_POST['changeName'])) {
+		$fullname = htmlspecialchars($_POST['username']);
+		$id = htmlspecialchars($_POST['admin_id']);
+		$update = $su->updateNama($fullname, $id);
+		if ($update) {
+			$_SESSION['admin']['fullname'] = $fullname;			
+			$msg['status'] = true;
+			$msg['message'] = "Berhasil mengubah nama";
+		}else{
+			$msg['status'] = false;
+			$msg['message'] = "Error saat mengubah nama";
+		}
+		header("Content-Type:application/json");
+		echo json_encode($msg, JSON_PRETTY_PRINT);
+	}elseif (isset($_POST['changePwd'])) {
+		$id = htmlspecialchars($_POST['admin_id']);
+		$old_password = htmlspecialchars($_POST['password']);
+		$new_password = htmlspecialchars($_POST['new_password']);
+		$confirm_password = htmlspecialchars($_POST['repassword']);
+		if ($su->checkPwd($old_password, $id)) {
+			if ($new_password == $confirm_password) {
+				$update = $su->updatePwd($new_password, $id);
+				if ($update) {
+					$msg['status'] = true;
+					$msg['message'] = "Berhasil mengubah password!";
+				}else{
+					$msg['status'] = false;
+					$msg['message'] = "Error saat mengubah password!";
+				}
+			}else{
+				$msg['status'] = false;
+				$msg['message'] = "Konfirmasi tidak cocok!";
+			}
+			
+		}else{
+			$msg['status'] = false;
+			$msg['message'] = "Kata sandi sekarang tidak cocok!";
+		}
+		header("Content-Type:application/json");
+		echo json_encode($msg, JSON_PRETTY_PRINT);
+	}else{
+		// header("Content-Type:application/json");
+		$msg['status'] = false;
+		$msg['message'] = "Woy! Thats Illegal";
+		echo json_encode($msg);
 	}
  ?>

@@ -4,20 +4,6 @@ include 'include/Admin.php';
 if ($loged == 0) {
   header("location:login.php");
 }
-if (isset($_POST['update'])) {
-  $su->updateDate();
-  $su->checkExpired();
-  echo "<script>alert('Sukses Update!');</script>";
-}elseif(isset($_POST['grab'])){
-  $id_location = $_POST['location'];
-  $pg = $_POST['pg'];
-  $i=1;
-  while ($i <= $pg) {
-    $grabing = $su->grabing($id_location, $i);
-    $i++;
-  }
-  echo "<script>alert('Sukses Grabing!');</script>";
-}
 $menu = "dashboard";
 $menuItem = "";
 ?>
@@ -96,8 +82,9 @@ $menuItem = "";
                   </li>
                   <li class="nav-item p-3">
                     <p class="text-dark float-left">Update & Check Expired</p>
-                    <form method="POST" action="">
-                      <button type="submit" name="update" class="float-right btn btn-sm btn-primary">Update All</button>
+                    <form id="updateForm">
+                      <input type="hidden" name="update" value="1">
+                      <button type="submit" class="float-right btn btn-sm btn-primary">Update All</button>
                     </form>
                   </li>
                   <li class="nav-item p-3">
@@ -105,78 +92,88 @@ $menuItem = "";
                       <p class="text-dark float-left">Grab Loker by Location</p>
                     </div>
                     <div class="clearfix"></div>
-                    <form method="POST" action="">
-                      <div class="row">
-                        <div class="col-md-12">
-                         <div class="form-group">
-                           <select name="location" id="location" class="form-control">
-                            <option value="">Semua lokasi</option> 
-                            <optgroup label="Indonesia"><option value="30100" class="opt-indent">Aceh</option>
-                              <option value="30200" class="opt-indent">Bali</option>
-                              <option value="32800" class="opt-indent">Bangka Belitung</option>
-                              <option value="32900" class="opt-indent">Banten</option>
-                              <option value="30300" class="opt-indent">Bengkulu</option>
-                              <option value="33000" class="opt-indent">Gorontalo</option>
-                              <option value="30500" class="opt-indent">Jakarta Raya</option>
-                              <option value="30600" class="opt-indent">Jambi</option>
-                              <option value="30700" class="opt-indent">Jawa Barat</option>
-                              <option value="30800" class="opt-indent">Jawa Tengah</option>
-                              <option value="30900" class="opt-indent">Jawa Timur</option>
-                              <option value="31000" class="opt-indent">Kalimantan Barat</option>
-                              <option value="31100" class="opt-indent">Kalimantan Selatan</option>
-                              <option value="31200" class="opt-indent">Kalimantan Tengah</option>
-                              <option value="31300" class="opt-indent">Kalimantan Timur</option>
-                              <option value="33500" class="opt-indent">Kalimantan Utara</option>
-                              <option value="33200" class="opt-indent">Kepulauan Riau</option>
-                              <option value="31400" class="opt-indent">Lampung</option>
-                              <option value="31500" class="opt-indent">Maluku</option>
-                              <option value="33100" class="opt-indent">Maluku Utara</option>
-                              <option value="31600" class="opt-indent">Nusa Tenggara Barat</option>
-                              <option value="31700" class="opt-indent">Nusa Tenggara Timur</option>
-                              <option value="30400" class="opt-indent">Papua</option>
-                              <option value="33300" class="opt-indent">Papua Barat</option>
-                              <option value="31800" class="opt-indent">Riau</option>
-                              <option value="33400" class="opt-indent">Sulawesi Barat</option>
-                              <option value="31900" class="opt-indent">Sulawesi Selatan</option>
-                              <option value="32000" class="opt-indent">Sulawesi Tengah</option>
-                              <option value="32100" class="opt-indent">Sulawesi Tenggara</option>
-                              <option value="32200" class="opt-indent">Sulawesi Utara</option>
-                              <option value="32300" class="opt-indent">Sumatera Barat</option>
-                              <option value="32400" class="opt-indent">Sumatera Selatan</option>
-                              <option value="32500" class="opt-indent">Sumatera Utara</option>
-                              <option value="32700" class="opt-indent">Yogyakarta</option>
-                            </optgroup>
-                            <optgroup label="Luar Negeri">
-                              <option value="60000" class="opt-indent">Filipina</option>
-                              <option value="20000" class="opt-indent">Hongkong</option>
-                              <option value="40000" class="opt-indent">India</option>
-                              <option value="150000" class="opt-indent">Jepang</option>
-                              <option value="50000" class="opt-indent">Malaysia</option>
-                              <option value="70000" class="opt-indent">Singapura</option>
-                              <option value="80000" class="opt-indent">Thailand</option>
-                              <option value="100000" class="opt-indent">Tiongkok  </option>
-                              <option value="110000" class="opt-indent">Vietnam</option>
-                            </optgroup><optgroup label="Lokasi kerja yang lain">
-                              <option value="90100" class="opt-indent">Semua lokasi kerja yang lain</option>
-                              <option value="90110" class="opt-indent">Afrika</option>
-                              <option value="90120" class="opt-indent">Asia – Timur Tengah</option>
-                              <option value="90130" class="opt-indent">Asia – lainnya</option>
-                              <option value="90140" class="opt-indent">Australia &amp; Selandia Baru</option>
-                              <option value="90150" class="opt-indent">Eropa</option>
-                              <option value="90160" class="opt-indent">Amerika Utara</option>
-                              <option value="90170" class="opt-indent">Amerika Selatan</option>
-                            </optgroup>
-                          </select>
+                    <form id="grabing" class="mb-2">
+                        <input type="hidden" name="grab" value="1">
+                        <div class="row">
+                          <div class="col-md-12">
+                           <div class="form-group">
+                             <select name="location" id="location" class="form-control">
+                              <option value="">Semua lokasi</option> 
+                              <optgroup label="Indonesia"><option value="30100" class="opt-indent">Aceh</option>
+                                <option value="30200" class="opt-indent">Bali</option>
+                                <option value="32800" class="opt-indent">Bangka Belitung</option>
+                                <option value="32900" class="opt-indent">Banten</option>
+                                <option value="30300" class="opt-indent">Bengkulu</option>
+                                <option value="33000" class="opt-indent">Gorontalo</option>
+                                <option value="30500" class="opt-indent">Jakarta Raya</option>
+                                <option value="30600" class="opt-indent">Jambi</option>
+                                <option value="30700" class="opt-indent">Jawa Barat</option>
+                                <option value="30800" class="opt-indent">Jawa Tengah</option>
+                                <option value="30900" class="opt-indent">Jawa Timur</option>
+                                <option value="31000" class="opt-indent">Kalimantan Barat</option>
+                                <option value="31100" class="opt-indent">Kalimantan Selatan</option>
+                                <option value="31200" class="opt-indent">Kalimantan Tengah</option>
+                                <option value="31300" class="opt-indent">Kalimantan Timur</option>
+                                <option value="33500" class="opt-indent">Kalimantan Utara</option>
+                                <option value="33200" class="opt-indent">Kepulauan Riau</option>
+                                <option value="31400" class="opt-indent">Lampung</option>
+                                <option value="31500" class="opt-indent">Maluku</option>
+                                <option value="33100" class="opt-indent">Maluku Utara</option>
+                                <option value="31600" class="opt-indent">Nusa Tenggara Barat</option>
+                                <option value="31700" class="opt-indent">Nusa Tenggara Timur</option>
+                                <option value="30400" class="opt-indent">Papua</option>
+                                <option value="33300" class="opt-indent">Papua Barat</option>
+                                <option value="31800" class="opt-indent">Riau</option>
+                                <option value="33400" class="opt-indent">Sulawesi Barat</option>
+                                <option value="31900" class="opt-indent">Sulawesi Selatan</option>
+                                <option value="32000" class="opt-indent">Sulawesi Tengah</option>
+                                <option value="32100" class="opt-indent">Sulawesi Tenggara</option>
+                                <option value="32200" class="opt-indent">Sulawesi Utara</option>
+                                <option value="32300" class="opt-indent">Sumatera Barat</option>
+                                <option value="32400" class="opt-indent">Sumatera Selatan</option>
+                                <option value="32500" class="opt-indent">Sumatera Utara</option>
+                                <option value="32700" class="opt-indent">Yogyakarta</option>
+                              </optgroup>
+                              <optgroup label="Luar Negeri">
+                                <option value="60000" class="opt-indent">Filipina</option>
+                                <option value="20000" class="opt-indent">Hongkong</option>
+                                <option value="40000" class="opt-indent">India</option>
+                                <option value="150000" class="opt-indent">Jepang</option>
+                                <option value="50000" class="opt-indent">Malaysia</option>
+                                <option value="70000" class="opt-indent">Singapura</option>
+                                <option value="80000" class="opt-indent">Thailand</option>
+                                <option value="100000" class="opt-indent">Tiongkok  </option>
+                                <option value="110000" class="opt-indent">Vietnam</option>
+                              </optgroup><optgroup label="Lokasi kerja yang lain">
+                                <option value="90100" class="opt-indent">Semua lokasi kerja yang lain</option>
+                                <option value="90110" class="opt-indent">Afrika</option>
+                                <option value="90120" class="opt-indent">Asia – Timur Tengah</option>
+                                <option value="90130" class="opt-indent">Asia – lainnya</option>
+                                <option value="90140" class="opt-indent">Australia &amp; Selandia Baru</option>
+                                <option value="90150" class="opt-indent">Eropa</option>
+                                <option value="90160" class="opt-indent">Amerika Utara</option>
+                                <option value="90170" class="opt-indent">Amerika Selatan</option>
+                              </optgroup>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <input type="number" name="pg" class="form-control" placeholder="Jumlah Halaman" required>
+                          </div>
+                        <button type="submit" name="grab" class="float-right btn btn-grab btn-sm btn-primary">Grab Now</button>
                         </div>
-                        <div class="form-group">
-                          <input type="number" name="pg" class="form-control" placeholder="Jumlah Halaman">
-                        </div>
-                      <button type="submit" name="grab" class="float-right btn btn-sm btn-primary">Grab Now</button>
+                      </div>
+                    </form>
+                    <div id="message">
+                      
+                    </div>
+                    <div class="row" id="respon_div">
+                      <div class="col-12">
+                        <label for="">Response</label> <a href="index.php" class="float-right"><i class="fa fa-sync"></i> Refresh</a>
+                        <div id="response" style="overflow-y: scroll; max-height: 200px"></div>
+                        <!-- <textarea name="response" id="response" style="min-height: 200px" class="form-control" readonly></textarea> -->
+                        
                       </div>
                     </div>
-
-
-                  </form>
                 </li>
               </ul>
             </div>
@@ -224,5 +221,47 @@ $menuItem = "";
 <!-- ./wrapper -->
 
 <?php include 'template/meta_footer.php'; ?>
+<script>
+  $('#respon_div').hide();
+  $('#grabing').submit(function(e){
+    e.preventDefault(); 
+    $('button').attr('disabled', true);
+    $('.btn-grab').html('<i class="fas fa-sync fa-spin"></i> Loading');   
+    toastr['info']('Loading');    
+    $.ajax({
+      type : "POST",
+      url : 'include/Response.php',
+      data : $(this).serialize(),
+      success : function(data){
+        $('#respon_div').show();
+        $('#response').html(data);
+        toastr['success']('Berhasil melakukan grabing');
+        $('button').attr('disabled', false);
+        $('.btn-grab').html('Grab Now');        
+      }
+    })
+  })
+  //
+  $('#updateForm').submit(function(e){
+    e.preventDefault();
+    $('#message').html('<p class="alert alert-danger">Dont close or leave this page!</p>');
+    $.ajax({
+      type : 'POST',
+      url : 'include/Response.php',
+      data : $(this).serialize(),
+      dataType: 'json',
+      success : function(data){
+        if (data.success) {
+          toastr['success']('Berhasil mengupdate '+data.total+' postingan');
+          window.location.reload();
+        } else {
+          toastr['error']('Internal server error');
+          console.log(data);
+        }
+
+      }
+    })
+  })
+</script>
 </body>
 </html>

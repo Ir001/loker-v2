@@ -30,15 +30,6 @@ $data = $myApp->getContent('contact');
 		<div class="container background-color-full-white job-Details">
 			<div class="Exclusive-Product">
 				<h3><?php echo $data['title']; ?></h3>
-				<div class="row">
-					<div class="col-md-10">
-					</div>
-					<div class="col-md-2">
-						<div class="pt-3">
-							<div id="google_translate_element2"></div>
-						</div>
-					</div>
-				</div>
 				<?php $ads = $myApp->getAds("content"); ?>
 				<?php echo $data['content'];?>				
 

@@ -27,6 +27,10 @@ $perusahaan = $data[0]['perusahaan'];
 		li{
 			line-height: 29px;
 		}
+		#why_join_us div, #company_overview_all, p{
+			line-height: 26px;
+		}
+
 	</style>
 </head>
 <body class="background-color-white-drak ">
@@ -56,14 +60,18 @@ $perusahaan = $data[0]['perusahaan'];
 				</div>
 				<?php $ads = $myApp->getAds("content"); ?>
 				<?php echo $ads[0]['source_code']; ?>
-				<h4>Deskripsi Pekerjaan</h4>
 				<p>Sebelum Anda melamar lowongan <?php echo $data[0]['judul']; ?> ini atau menekan tombol <b>Lamar Pekerjaan</b>, Anda harus mengerti dan mengaplikasikan setiap ketentuan dari situs kami ( Lowongan-Kerja.id ) sebagai berikut:</p>
 				<ul class="list-group my-5" style="line-height: 25px;">
 					<li><i class="fa fa-line-circle"></i>Iklan Lowongan Pekerjaan ini dibuat oleh <?=$perusahaan;?> , kami tidak pernah mengubah / menambahkan / memvalidasi setiap lowongan kerja secara langsung. </li>
 					<li><i class="fa fa-line-circle"></i>Semua iklan Lowongan Kerja ini adalah hasil dari<b> MENGUTIP LANGSUNG</b> dari web <b>Jobstreet</b>, kami TIDAK AKAN PERNAH meminta biaya baik secara langsung maupun melalui perusahaan bersangkutan.</li>
 					<li><i class="fa fa-line-circle"></i>Segala transaksi yang terjadi saat Anda melamar dalam iklan <?php echo $data[0]['judul']; ?> di luar dari tanggung jawab kami.</li> <li>Di situs kami ini anda akan menemukan banyak link, berupa banner maupun text, ke situs lain. Tetapi kami tidak betanggungjawab atas isi dan akibat yang ditimbulkan dari situs-situs tersebut</li>
 				</ul>
+				<h4>Informasi Perusahaan</h4>
+				<p><?php echo $data[0]['tentang_pers'] ?></p>
+				<h4>Deskripsi Pekerjaan</h4>
 				<p><?php echo $data[0]['long_desc'] ?></p>
+				<h4>Mengapa Bergabung Dengan Kami?</h4>
+				<p><?php echo $data[0]['mengapa'] ?></p>
 				<div class="row">
 					<div class="col-md-6 pt-4">
 						<?php 

@@ -144,7 +144,9 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="pengaturan.php" class="nav-link">
+            <a href="pengaturan.php" class="nav-link <?php if ($menu == "pengaturan"): ?>
+            active
+          <?php endif ?>">
               <i class="nav-icon fas fa-tools"></i>
               <p>
                 Pengaturan

@@ -1,4 +1,5 @@
 <?php 
+    error_reporting(0);
 	include 'config.php';
 	/**
 	 * 
@@ -221,87 +222,109 @@
     		return 0;
     	}
     }
-    function updateDate(){
-    	include '../application/convertDate.php';
-        $sql  = "SELECT id_lowongan,dibuka, ditutup FROM td_lowongan ORDER BY id_lowongan DESC";
-        $exec = $this->query($sql);
-        while ($result = $exec->fetch_assoc()) {
-            $id_lowongan = $result['id_lowongan'];
-            $dibuka = convertDate($result['dibuka']);
-            $ditutup = convertDate($result['ditutup']);
-            // 
-            $update = "UPDATE td_lowongan SET date_buka = '$dibuka', date_tutup = '$ditutup' WHERE id_lowongan = $id_lowongan";
-            $query = $this->query($update);
+    // function updateDate(){
+    // 	include '../application/convertDate.php';
+    //     $sql  = "SELECT id_lowongan,dibuka, ditutup FROM td_lowongan ORDER BY id_lowongan DESC";
+    //     $exec = $this->query($sql);
+    //     while ($result = $exec->fetch_assoc()) {
+    //         $id_lowongan = $result['id_lowongan'];
+    //         $dibuka = convertDate($result['dibuka']);
+    //         $ditutup = convertDate($result['ditutup']);
+    //         // 
+    //         $update = "UPDATE td_lowongan SET date_buka = '$dibuka', date_tutup = '$ditutup' WHERE id_lowongan = $id_lowongan";
+    //         $query = $this->query($update);
 
-        }
-        return 1;
-    }
+    //     }
+    //     return 1;
+    // }
     function checkExpired(){
         date_default_timezone_set('Asia/Jakarta');
         $now = date('Y-m-d');
-        $sql  = "SELECT id_lowongan, date_tutup FROM td_lowongan WHERE 1=1";
-        $exec = $this->query($sql);
-        $i = 0;
-        while ($result = $exec->fetch_assoc()) {
-            $deadline = $result['date_tutup'];
-            $id_lowongan = $result['id_lowongan'];
-            if($deadline < $now){
-                $status = 'expired';
-            }else{
-                $status = 'active';
-            }
-            $sql = "UPDATE td_lowongan SET status = '$status' WHERE id_lowongan = $id_lowongan";
-            $this->query($sql);
-            $i++;   
-        }
-        return 1;
+        $sql = "UPDATE td_lowongan SET status = 'expired' WHERE date_tutup < '$now'";
+        $query = $this->query($sql);
+        //
+        $sql_return = "SELECT id_lowongan FROM td_lowongan WHERE date_tutup < '$now'";
+        $query_return = $this->query($sql_return);
+        $row = $query_return->num_rows;
+        return $row;
     }
     function grabing($location, $pg)
-    {
+    {   
+        // $aksi = "cari";
         $url = "http://www.jobstreet.co.id/id/job-search/job-vacancy.php?key=&location=$location&specialization=&area=&salary=&ojs=3&src=12&pg=$pg";
-        include_once '../application/simple_html_dom.php';
-        include_once '../application/filterKota.php';
-        include_once '../application/convertDate.php';
+        include_once '../../application/simple_html_dom.php';
+        include_once '../../application/filterKota.php';
+        include_once '../../application/convertDate.php';
         $html = file_get_html($url);
         $panel = $html->find('div[class=panel-body]');
         $jmlData = count($html->find('div[class=panel-body]'));
-        $tot = 10;
+        // if ($aksi == 'cari') {
+        //     if ($jmlData > 5) {
+        //         $tot = 5;
+        //     } else {
+        //         $tot = $jmlData;
+        //     }
+        // } else {
+        //     $tot = 10;
+        // }
+        $tot = 15;
+        $total = 0;
         for ($i = 1; $i < $tot; $i++) {
-            $judul = $html->find("#position_title_$i", 0)->plaintext;
-            $permalink = str_replace(' ', '-', $judul);
-            $url = $html->find("#position_title_$i", 0)->href;
-            $perusahaan = $html->find("#company_name_$i", 0)->plaintext;
-            $lokasi = $html->find("#job_location_$i", 0)->plaintext;
-            $kota = filterKota($lokasi);
-            $shortDesc = $html->find("#job_desc_detail_$i", 0);
-            $logo = str_replace('data-original', 'src', $html->find("#img_company_logo_$i", 0));
-            $kategori = $html->find("#job_specialization_desc", 0)->plaintext;
-            $parent = str_replace('>', '', $html->find("#job_role_desc", 0)->plaintext);
-            $industri = $html->find("#job_industry_desc", 0)->plaintext;
+            $judul = $this->real_escape_string($html->find("#position_title_$i", 0)->plaintext);
+            $permalink = $this->real_escape_string(str_replace(' ', '-', $judul));
+            $url = $this->real_escape_string($html->find("#position_title_$i", 0)->href);
+            $perusahaan = $this->real_escape_string($html->find("#company_name_$i", 0)->plaintext);
+            $lokasi = $this->real_escape_string($html->find("#job_location_$i", 0)->plaintext);
+            $kota = $this->real_escape_string(filterKota($lokasi));
+            $logo = $this->real_escape_string(str_replace('data-original', 'src', $html->find("#img_company_logo_$i", 0)));
+            $kategori = $this->real_escape_string($html->find("#job_specialization_desc", 0)->plaintext);
+            $industri = $this->real_escape_string($html->find("#job_industry_desc", 0)->plaintext);
             $htmlDetil = file_get_html($url);
-            $fullDesc = $htmlDetil->find('#job_description', 0);
+            $fullDesc = $this->real_escape_string($htmlDetil->find('#job_description', 0));
             $cekAddress = explode('address', $htmlDetil);
             if (count($cekAddress) > 1) {
-                $alamat = $htmlDetil->find('#address', 0)->plaintext;
+                $alamat = $this->real_escape_string($htmlDetil->find('#address', 0)->plaintext);
             } else {
                 $alamat = '';
             }
-            $gambaran = $htmlDetil->find('.panel-clean', 0);
-            $foto = $htmlDetil->find('#main-img', 0);
-            $tentang = $htmlDetil->find('#company_overview_all', 0);
-            $why = $htmlDetil->find('#why_join_us', 0);
+            $gambaran = $htmlDetil->find('.panel-clean', 0); /*Gambaran Perusaahaan*/
+            $tentang = $htmlDetil->find('#company_overview_all', 0); /*Tentang Pers*/
+            $why = $htmlDetil->find('#why_join_us', 0); /*Mengapa Bergabung*/
+            $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
             $date_buka = convertDate("$dibuka"); 
             $date_tutup = convertDate("$ditutup"); 
-            $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
+            $sqlCekJudul = "select judul from td_lowongan where judul = '$judul - $perusahaan'";
             $hasil = $this->query($sqlCekJudul);
             $row = $hasil->fetch_assoc();
             if ($row['judul'] == '') {
-                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup) values('$judul-$perusahaan', '" . $this->real_escape_string($fullDesc) . "', '" . $this->real_escape_string($shortDesc) . "', '" . $this->real_escape_string($gambaran) . "', '" . $this->real_escape_string($tentang) . "', '" . $this->real_escape_string($why) . "', '" . $this->real_escape_string($logo) . "',  '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
-                $this->query($sql);
-            }
+                $sql = "INSERT INTO td_lowongan (judul, long_desc, gambaran_pers, tentang_pers, mengapa, logo, kategori, industri, lokasi, kota, perusahaan, alamat, url, permalink, date_buka, date_tutup) VALUES ('$judul - $perusahaan', '$fullDesc', '$gambaran', '$tentang', '$why', '$logo', '$kategori', '$industri
+                ', '$lokasi', '$kota', '$perusahaan', '$alamat', '$url', '$permalink', '$date_buka', '$date_tutup')";
+                
+                // $this->query($sql);
+                if($this->query($sql)){
+                    /*Record Judul*/
+                    $total = $total+1;
+                    $data[$i] = array(
+                        'status' => 'success',
+                        'title' => "$judul - $perusahaan",
+                        'kota' => "$kota",
+
+                    );
+                }
+            }elseif($tot > $jmlData){
+                return @$data;
+            }else{
+                $data[$i] = array(
+                        'status' => 'failed',
+                        'title' => "$judul - $perusahaan",
+                        'kota' => "$kota",
+                    );
+                $tot++;
+            }            
         }
+        return @$data;
     }
     function get_kode_location(){
         $sql = "SELECT name, kode FROM kd_location WHERE 1=1";
@@ -356,6 +379,52 @@
         $query = $this->query($sql);
         $result = $query->fetch_assoc();
         return @$result;
+    }
+
+
+    //Akun
+    function getAkun(){
+        $id = $_SESSION['admin']['admin_id'];
+        $sql = "SELECT admin_id, fullname, email FROM admin WHERE admin_id = '$id'";
+        $query = $this->query($sql);
+        if ($query->num_rows >= 1) {
+            $data = $query->fetch_assoc();
+            return @$data;
+        }else{
+            return null;
+        }
+    }
+    function updateNama($fullname, $id){
+        $fullname = $this->real_escape_string($fullname);
+
+        $sql = "UPDATE admin SET fullname = '$fullname' WHERE admin_id = '$id'";
+        $query = $this->query($sql);
+        if ($query) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    function checkPwd($password, $id){
+        $sql = "SELECT password FROM admin WHERE admin_id = '$id'";
+        $query = $this->query($sql);
+        $data = $query->fetch_assoc();
+        if ($data['password'] == md5($password)) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    function updatePwd($new, $id){
+        $password = md5($this->real_escape_string($new));
+        $sql = "UPDATE admin SET password = '$password' WHERE admin_id = '$id'";
+        $query = $this->query($sql);
+        if ($query) {
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 
 

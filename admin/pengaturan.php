@@ -5,6 +5,8 @@ if ($loged == 0) {
   header("location:login.php");
 }
 $data = $su->getSetting();
+$menu = "pengaturan";
+$menuItem = "";
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +45,7 @@ $data = $su->getSetting();
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
               <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title">Pengaturan - Configurasi Situs</h3>
@@ -121,7 +123,62 @@ $data = $su->getSetting();
               <div id="load" class="overlay d-none"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
 
             </div>
-            
+
+          </div>
+          <div class="col-md-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Akun</h3>
+              </div>
+              <?php 
+                $akun = $su->getAkun();
+               ?>
+              <div class="card-body">
+                <form id="formAkun">
+                  <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="hidden" name="changeName" value="1">
+                    <input type="hidden" name="admin_id" value="<?=$akun['admin_id']?>">
+                    <input type="text" name="username" class="form-control" value="<?=$akun['fullname'];?>" placeholder="Nama Lengkap" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" value="<?=$akun['email'];?>" placeholder="Email" disabled>
+                  </div>
+                  <div class="form-group">
+                    <a href="#changePw" class="btn btn-danger float-left" id="btn_change_pw">Ganti Sandi</a>
+                    <button type="submit" class="btn btn-success float-right">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card card-danger" id="changePw" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Ganti Kata Sandi</h3>
+              </div>
+              <div class="card-body">
+                <form id="formPwd">
+                  <div class="form-group">
+                    <label>Kata Sandi Sekarang</label>
+                    <input type="hidden" name="changePwd" value="1">
+                    <input type="hidden" name="admin_id" value="<?=$akun['admin_id']?>">
+                    <input type="password" name="password" class="form-control" placeholder="Password Now" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Kata Sandi Baru</label>
+                    <input type="password" name="new_password" class="form-control" placeholder="New Password" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Konfirmasi Kata Sandi</label>
+                    <input type="password" name="repassword" class="form-control" placeholder="Confirm Password" required>
+                  </div>
+                  <div class="form-group">
+                    <a href="#formAkun" id="btn_close_pw" class="btn btn-danger float-left">Tutup</a>
+                    <button class="btn btn-success float-right">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
         <!-- /.row -->
@@ -157,13 +214,54 @@ $data = $su->getSetting();
         }
       });
     });
+    $('#formAkun').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        type : 'POST',
+        url : 'include/Save.php',
+        data : $(this).serialize(),
+        dataType : 'json',
+        success : function(data){
+          if (data.status) {
+            toastr['success'](data.message);
+            setTimeout(function(){window.location.replace('pengaturan.php');}, 700);
+          } else {
+            toastr['error'](data.message);
+          }
+        }
+      })
+    });
+    $('#formPwd').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        type : 'POST',
+        url : 'include/Save.php',
+        data : $(this).serialize(),
+        dataType : 'json',
+        success : function(data){
+          if (data.status) {
+            toastr['success'](data.message);
+            setTimeout(function(){window.location.replace('pengaturan.php');}, 700);
+          }else {
+            toastr['error'](data.message);
+          }
+        }
+      })
+    })
     /*SSL*/
     $('.radio-control').click(function(){
       var ssl = $(this).val()+'://';
       var url = $('#url');
       var domain = '<?=$_SERVER['HTTP_HOST']."/"?>';
       url.val(ssl+domain);
-    })
+    });
+    $('#btn_change_pw').click(function(){
+      // e.preventDefault();
+      $('#changePw').show();
+    });
+    $('#btn_close_pw').click(function(){
+      $('#changePw').hide();
+    });
   })
 
 </script>

@@ -11,13 +11,13 @@ class grabbing extends mysqli
         parent::set_charset('utf-8');
     }
 
-    function insert($url, $aksi)
+    function insert($url, $aksi="cari")
     {
         $url = $url;
         $aksi = $aksi;
-        include 'simple_html_dom.php';
-        include 'filterKota.php';
-        include 'convertDate.php';
+        include_once 'simple_html_dom.php';
+        include_once 'filterKota.php';
+        include_once 'convertDate.php';
         $html = file_get_html($url);
         $panel = $html->find('div[class=panel-body]');
         $jmlData = count($html->find('div[class=panel-body]'));
@@ -31,39 +31,41 @@ class grabbing extends mysqli
             $tot = 10;
         }
         for ($i = 1; $i < $tot; $i++) {
-            $judul = $html->find("#position_title_$i", 0)->plaintext;
-            $permalink = str_replace(' ', '-', $judul);
-            $url = $html->find("#position_title_$i", 0)->href;
-            $perusahaan = $html->find("#company_name_$i", 0)->plaintext;
-            $lokasi = $html->find("#job_location_$i", 0)->plaintext;
-            $kota = filterKota($lokasi);
-            $shortDesc = $html->find("#job_desc_detail_$i", 0);
-            $logo = str_replace('data-original', 'src', $html->find("#img_company_logo_$i", 0));
-            $kategori = $html->find("#job_specialization_desc", 0)->plaintext;
-            $parent = str_replace('>', '', $html->find("#job_role_desc", 0)->plaintext);
-            $industri = $html->find("#job_industry_desc", 0)->plaintext;
+            $judul = $this->real_escape_string($html->find("#position_title_$i", 0)->plaintext);
+            $permalink = $this->real_escape_string(str_replace(' ', '-', $judul));
+            $url = $this->real_escape_string($html->find("#position_title_$i", 0)->href);
+            $perusahaan = $this->real_escape_string($html->find("#company_name_$i", 0)->plaintext);
+            $lokasi = $this->real_escape_string($html->find("#job_location_$i", 0)->plaintext);
+            $kota = $this->real_escape_string(filterKota($lokasi));
+            $logo = $this->real_escape_string(str_replace('data-original', 'src', $html->find("#img_company_logo_$i", 0)));
+            $kategori = $this->real_escape_string($html->find("#job_specialization_desc", 0)->plaintext);
+            $industri = $this->real_escape_string($html->find("#job_industry_desc", 0)->plaintext);
             $htmlDetil = file_get_html($url);
-            $fullDesc = $htmlDetil->find('#job_description', 0);
+            $fullDesc = $this->real_escape_string($htmlDetil->find('#job_description', 0));
             $cekAddress = explode('address', $htmlDetil);
             if (count($cekAddress) > 1) {
-                $alamat = $htmlDetil->find('#address', 0)->plaintext;
+                $alamat = $this->real_escape_string($htmlDetil->find('#address', 0)->plaintext);
             } else {
                 $alamat = '';
             }
-            $gambaran = $htmlDetil->find('.panel-clean', 0);
-            $foto = $htmlDetil->find('#main-img', 0);
-            $tentang = $htmlDetil->find('#company_overview_all', 0);
-            $why = $htmlDetil->find('#why_join_us', 0);
+            $gambaran = $htmlDetil->find('.panel-clean', 0); /*Gambaran Perusaahaan*/
+            $tentang = $htmlDetil->find('#company_overview_all', 0); /*Tentang Pers*/
+            $why = $htmlDetil->find('#why_join_us', 0); /*Mengapa Bergabung*/
+            $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $dibuka = $htmlDetil->find('#posting_date', 0)->plaintext;
             $ditutup = $htmlDetil->find('#closing_date', 0)->plaintext;
             $date_buka = convertDate("$dibuka"); 
             $date_tutup = convertDate("$ditutup"); 
-            $sqlCekJudul = "select judul from td_lowongan where judul = '$judul-$perusahaan'";
+            $sqlCekJudul = "select judul from td_lowongan where judul = '$judul - $perusahaan'";
             $hasil = $this->query($sqlCekJudul);
             $row = $hasil->fetch_assoc();
             if ($row['judul'] == '') {
-                $sql = "insert into td_lowongan (judul,long_desc,short_desc,gambaran_pers,tentang_pers,mengapa,logo,kategori,kategori_parent,industri,lokasi,          perusahaan,dibuka,ditutup,url,alamat,permalink, kota, date_buka, date_tutup) values('$judul-$perusahaan', '" . $this->real_escape_string($fullDesc) . "', '" . $this->real_escape_string($shortDesc) . "', '" . $this->real_escape_string($gambaran) . "', '" . $this->real_escape_string($tentang) . "', '" . $this->real_escape_string($why) . "', '" . $this->real_escape_string($logo) . "',  '$kategori','$parent','$industri','$lokasi','$perusahaan','$dibuka','$ditutup','$url','$alamat','$permalink', '$kota', '$date_buka', '$date_tutup')";
+                $sql = "INSERT INTO td_lowongan (judul, long_desc, gambaran_pers, tentang_pers, mengapa, logo, kategori, industri, lokasi, kota, perusahaan, alamat, url, permalink, date_buka, date_tutup) VALUES ('$judul - $perusahaan', '$fullDesc', '$gambaran', '$tentang', '$why', '$logo', '$kategori', '$industri
+                ', '$lokasi', '$kota', '$perusahaan', '$alamat', '$url', '$permalink', '$date_buka', '$date_tutup')";
+                
                 $this->query($sql);
+            }else{
+                $tot+1;
             }
             if ($aksi == 'cari' && $i == 6) {          /* keyword:marketing mobil          page:cari          kategori:          kategori_text:          lokasi:          wilayah_text:          aksi:cari */
                 exit();
@@ -133,7 +135,7 @@ class grabbing extends mysqli
             if ($result = $this->query($sql)) {        /* fetch associative array */
                 $i = 0;
                 while ($row = $result->fetch_assoc()) {
-                    $data[$i] = ['judul' => $row['judul'], 'long_desc' => $row['long_desc'], 'short_desc' => $row['short_desc'], 'kategori' => $row['kategori'], 'lokasi' => $row['lokasi'], 'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'id_lowongan' => $row['id_lowongan'], 'alamat' => $row['alamat'], 'permalink' => $row['permalink'], 'kota' => $row['kota'],'date_tutup' => $row['date_tutup'],];
+                    $data[$i] = $row;
                     $i++;
                 }
                 $row = $result->fetch_assoc();
@@ -166,14 +168,7 @@ class grabbing extends mysqli
         if ($result = $this->query($sql)) {        /* fetch associative array */
             $i = 0;
             while ($row = $result->fetch_assoc()) {
-                $data[$i] = 
-                ['judul' => $row['judul'], 
-                'long_desc' => $row['long_desc'], 
-                'short_desc' => $row['short_desc'], 
-                'kategori' => $row['kategori'], 
-                'lokasi' => $row['lokasi'], 
-                'logo' => $row['logo'], 'perusahaan' => $row['perusahaan'], 'ditutup' => $row['ditutup'], 'dibuka' => $row['dibuka'], 'alamat' => $row['alamat'], 'url' => $row['url'], 'id_lowongan' => $row['id_lowongan'], 'gambaran_pers' => $row['gambaran_pers'], 't
-                entang_pers' => $row['tentang_pers'], 'permalink' => $row['permalink'], 'mengapa' => $row['mengapa']];
+                $data[$i] = $row;
                 $i++;
             }
             $row = $result->fetch_assoc();
