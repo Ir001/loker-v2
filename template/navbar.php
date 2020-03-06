@@ -7,7 +7,7 @@
 						<div class="header_content d-flex flex-row align-items-center justify-content-start">
 							<div class="logo_container">
 								<a href="<?=$set['base_url']?>">
-									<img src="assets/images/logo.png" style="max-height: 49px; max-width: 220px" class="logo-text" alt="">
+									<img src="/assets/images/logo.png" style="max-height: 49px; max-width: 220px" class="logo-text" alt="">
 								</a>
 							</div>
 							<nav class="main_nav_contaner ml-auto">

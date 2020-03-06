@@ -1,4 +1,4 @@
-<?php 
+<?php  
 require 'application/grab-v2.php';
 include 'application/funcSearch.php';
 if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']) OR isset($_GET['industri'])) {
@@ -61,28 +61,28 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 					<div class="box">
 						<p class="title mb-4" style="font-weight: 700">Kategori Pekerjaan</p>
 						<div style="max-height: 250px;overflow-y: scroll;">
-									<ul class="ml-4">
-										<?php 
-											$listcategory = $myApp->showKategori();
-											$i=0;
-											foreach ($listcategory as $kat) {
-										?>
-											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&industri=&kategori=<?=$kat['kategori'];?>"><?=ucwords($kat['kategori']);?></a></li>
+							<ul class="ml-4">
+								<?php 
+								$listcategory = $myApp->showKategori();
+								$i=0;
+								foreach ($listcategory as $kat) {
+									?>
+									<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&industri=&kategori=<?=$kat['kategori'];?>"><?=ucwords($kat['kategori']);?></a></li>
 
-										<?php $i++; } ?>
-									</ul>
-								</div>
+									<?php $i++; } ?>
+								</ul>
 							</div>
+						</div>
 						<div class="box">
 							<p class="title mb-3" style="font-weight: 700">Industri</p>
 							<div style="max-height: 250px;overflow-y: scroll;">
-									<ul class="ml-4">
-										<?php 
-										$listindustri = $myApp->getIndustri();
-										$i=0;
-										foreach ($listindustri as $kat) {
-											?>
-											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&kategori=&industri=<?=$kat['industri'];?>"><?=ucwords($kat['industri']);?></a></li>
+								<ul class="ml-4">
+									<?php 
+									$listindustri = $myApp->getIndustri();
+									$i=0;
+									foreach ($listindustri as $kat) {
+										?>
+										<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&lokasi=&kategori=&industri=<?=$kat['industri'];?>"><?=ucwords($kat['industri']);?></a></li>
 
 										<?php $i++; } ?>
 									</ul>
@@ -99,9 +99,9 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 											?>
 											<li class="py-2"><a href="<?=$set['base_url']?>job.php?keyword=&industri=&kategori=&lokasi=<?=$kat['lokasi'];?>"><?=ucwords($kat['lokasi']);?></a></li>
 
-										<?php $i++; } ?>
-									</ul>
-								</div>
+											<?php $i++; } ?>
+										</ul>
+									</div>
 								</div>
 								<div class="box">
 									<?php $ads = $myApp->getAds("sidebar"); ?>
@@ -121,10 +121,14 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 									$i=0;
 									foreach ($job as $data) {
 										if (isset($job[$i])) {
-											$a = explode("-", $job[$i]['judul']);
-											$title = $a[0];
-											$url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
-											$url = $job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
+											$id_loker = $job[$i]['id_lowongan'];
+											$judul = explode("-", $job[$i]['judul']);
+											$low_judul = strtolower($judul[0]);
+											$exp_judul = explode("/", $low_judul);
+											$title = str_replace(" ", "-", $exp_judul[0]);
+											$title = trim($title, "-");
+											// 
+											$url = $set['base_url']."detail/".$id_loker."/".$title;
 											$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 											?>
 											<div class="detail width-100">
@@ -133,7 +137,7 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 														<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
 													</div>
 													<div class="mx-3 media-body text-left  text-align-center">
-														<h6><?php echo $title; ?></h6>
+														<h6><a style="color: #333" href="<?php echo $url; ?>"><?php echo $job[$i]['judul']; ?></a></h6>
 														<div>
 															<i class="large material-icons">account_balance</i>
 															<span class="text"><?=$job[$i]['perusahaan'] ;?></span>
@@ -171,6 +175,11 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 							</div>
 						</div>
 						<div class="vertical-space-60"></div>
+						<?php
+						$item = $job['jmlhalaman'];
+
+
+						?>
 					</section>
 
 					<?php include 'template/footer.php'; ?>
@@ -183,8 +192,13 @@ if (isset($_GET['keyword']) OR isset($_GET['kategori']) OR isset($_GET['lokasi']
 							$a =  explode("page", $last);
 							$b = trim($a[0], "&");
 							$url = 'http://'.$_SERVER['HTTP_HOST'].$b."&";
-						}else{ 
-							$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."?";
+						}else{
+							$path =  $_SERVER['REQUEST_URI'];
+							if (preg_match_all("/keyword/i", $path, $out) || preg_match_all("/kategori/i", $path, $out) || preg_match_all("/lokasi/i", $path, $out)) {
+								$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."&";
+							 }else{
+								$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."?";
+							 }
 						} 
 
 						?>

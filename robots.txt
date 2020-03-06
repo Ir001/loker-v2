@@ -5,3 +5,5 @@ Disallow: assets/
 Disallow: template/
 Disallow: application/
 Disallow: admin/
+Disallow: 404/
+Disallow: DB/

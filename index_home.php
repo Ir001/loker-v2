@@ -41,7 +41,7 @@
 								<img src="/assets/imags/icone/service-icone-<?php echo $i+1; ?>.png" alt="">
 							</div>
 							<h6><?php echo $category[$i]['kategori']; ?></h6>
-							<a href="<?=$set['base_url']?>job.php?category=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
+							<a href="<?=$set['base_url']?>job.php?kategori=<?php echo strtolower($category[$i]['kategori']); ?>" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span><?php echo $myApp->countKat($category[$i]['kategori']);  ?> Job Posts</span></a>
 						</div>
 					</div>
 					<?php $i++; ?>
@@ -70,10 +70,14 @@
 					$i=0;
 					foreach ($job as $data) {
 						if (isset($job[$i])) {
-						$a = explode("-", $job[$i]['judul']);
-						$title = $a[0];
-						$url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
-						$url = $set['base_url'].$job[$i]['id_lowongan']."_lowongan_".$url_title.".html";
+						$id_loker = $job[$i]['id_lowongan'];
+						$judul = explode("-", $job[$i]['judul']);
+						$low_judul = strtolower($judul[0]);
+						$exp_judul = explode("/", $low_judul);
+						$title = str_replace(" ", "-", $exp_judul[0]);
+						$title = trim($title, "-");
+						// 
+						$url = $set['base_url']."detail/".$id_loker."/".$title;
 						$date = date('d, F, Y', strtotime($job[$i]['date_tutup']));
 
 				 ?>
@@ -83,7 +87,7 @@
 										<?php echo @$job[$i]['logo'] ? $job[$i]['logo'] : "<img class='img-fluid img-company-logo' id='img_company_logo_1' src='/assets/imags/logo_perusahaan.png' alt='Lowongan-Kerja.id'>"; ?>
 										</div>
 										<div class="mx-3 media-body text-left  text-align-center">
-											<h6><?php echo $title; ?></h6>
+											<h6><a style="color: #333;" href="<?=$url ;?>"><?=$job[$i]['judul'] ;?></a></h6>
 												<div>
 													<i class="large material-icons">account_balance</i>
 													<span class="text"><?=$job[$i]['perusahaan'] ;?></span>

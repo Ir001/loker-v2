@@ -18,7 +18,7 @@ print_r('<url>
 
 $param = 'sitemap';
 $page  = 1;
-$data = $myApp->sitemap(1);
+$data = $myApp->sitemap(2);
 $i = 0;
 foreach ($data as $val) {
     // print_r($data);
@@ -38,6 +38,7 @@ foreach ($data as $val) {
                     <priority>0.9</priority>
                 </url>');
             }
+                
         } catch (Exception $e) {
 
         }

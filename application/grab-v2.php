@@ -73,79 +73,65 @@ class grabbing extends mysqli
         }
     }
 
-    function showArtikel($param, $page)
-    {
+    function showArtikel($param, $page){
         $param = $param;
         $page = $page;
-        $data=array();
-        if ($param != 'sitemap') {
-            $sql = "SELECT * FROM td_lowongan";
-        }else{
-            $sql = "SELECT id_lowongan, judul FROM td_lowongan";
-        }
         $batas = 10;
-        if ($param == 'sitemap') {
-            $sql .= " where 1=1";
-            $paging2 = "select count(id_lowongan) jmldata from td_lowongan";
-        }elseif ($page == "industri" || $page == "kategori" || $page == "kota") {
+        $data=array();
+        $sql = "SELECT * FROM td_lowongan";        
+        if ($page == "industri" || $page == "kategori" || $page == "kota") {
             $sql .= " where $page = '$param' AND status='active' ";
             $paging2 = "select count(id_lowongan) jmldata from td_lowongan where $page = '$param' AND status='active'";
         }else{
             $sql .= " WHERE status='active'";
             $paging2 = "select count(id_lowongan) jmldata from td_lowongan where status='active'";
-            
         }
-            $jmldata = $this->query($paging2);
-            $jmldata2 = $jmldata->fetch_assoc();
-            $jmldataint = $jmldata2['jmldata'];
-            $jmlhalaman = ceil($jmldataint / $batas);
-            $halaman = @$_GET['page']?$_GET['page']: 1;
-            if ($halaman == 1) {
-                $posisi = 0;
-            } else {
-                $posisi = ($halaman-1)*$batas;
+        $jmldata = $this->query($paging2);
+        $jmldata2 = $jmldata->fetch_assoc();
+        $jmldataint = $jmldata2['jmldata'];
+        $jmlhalaman = ceil($jmldataint / $batas);
+        $halaman = @$_GET['page']?$_GET['page']: 1;
+        if ($halaman == 1) {
+             $posisi = 0;
+        }else {
+            $posisi = ($halaman-1)*$batas;
+        }
+        $sql .= " order by id_lowongan desc ";        
+        $sql .= " limit $posisi,$batas ";        
+        $data['jmldata'] = $jmldataint;
+        $data['jmlhalaman'] = $jmlhalaman;       
+        if ($result = $this->query($sql)) {        /* fetch associative array */
+            $i = 0;
+            while ($row = $result->fetch_assoc()) {
+                $data[$i] = $row;
+                $i++;
             }
-            $sql .= " order by id_lowongan desc ";
-            if ($param == 'sitemap') {
-                $sql .= " limit 0,49999 ";
-            }else{
-                $sql .= " limit $posisi,$batas ";
-            }
-            
-            $data['jmldata'] = $jmldataint;
-            $data['jmlhalaman'] = $jmlhalaman;
-
-//        print_r($sql);exit();
-        if ($param == 'sitemap') {
-            if ($result = $this->query($sql)) {        /* fetch associative array */
-                $i = 0;
-                while ($row = $result->fetch_assoc()) {
-                    $data[$i] = [
-                        'id_lowongan' => $row['id_lowongan'],
-                        'judul' => $row['judul'],
-                    ];
-                    $i++;
-                }
-                $row = $result->fetch_assoc();
-                $result->close();
-                
-
+            $row = $result->fetch_assoc();
+            $result->close();
+        }        
+        return @$data;
+    }
+    function sitemap($number){
+        $show = 50000; 
+        $limit = $number*$show; 
+        $offset = $limit-$show; 
+        $sql = "SELECT id_lowongan, judul FROM td_lowongan LIMIT $limit OFFSET $offset";
+        $query = $this->query($sql);
+        $i=0;
+        $row = $query->num_rows;
+        $data['row'] = $row;
+        if ($row > 0) {
+            while ($res = $query->fetch_assoc()) {
+                $data[$i] = $res;
+                $i++;
             }
         }else{
-            if ($result = $this->query($sql)) {        /* fetch associative array */
-                $i = 0;
-                while ($row = $result->fetch_assoc()) {
-                    $data[$i] = $row;
-                    $i++;
-                }
-                $row = $result->fetch_assoc();
-                $result->close();
-                
-
-            }
-
+            $data[0] = array(
+                'id_lowongan' => null,
+                'judul' => null,
+            );
         }
-        
+        $query->close();
         return @$data;
     }
 

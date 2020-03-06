@@ -1,18 +1,24 @@
 <?php 
-$judul = $_GET['post'];
+require 'application/grab-v2.php';
+date_default_timezone_set('Asia/Jakarta');
 $id = @trim($_GET['id']);
 $post = $_GET['post'];
 $data = $myApp->showDetail($post, $id);
-$a = explode("-", $data[0]['judul']);
-$title = $a[0];
-$url_title = trim(str_replace(" ", "+", strtolower($title)));
-$url = $data[0]['id_lowongan']."_lowongan_".$url_title.".html";
 $perusahaan = $data[0]['perusahaan'];
+$id_loker = $data[0]['id_lowongan'];
+$judul = explode("-", $data[0]['judul']);
+$low_judul = strtolower($judul[0]);
+$exp_judul = explode("/", $low_judul);
+$title = str_replace(" ", "-", $exp_judul[0]);
+$title = trim($title, "-");
+						// 
+$url = $set['base_url']."detail/".$id_loker."/".$title;
+$date = date('d, F, Y', strtotime($data[0]['date_tutup']));
 // 
 
 ?>
 <!doctype html>
-<html lang="id">
+<html lang="id"> 
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -25,10 +31,23 @@ $perusahaan = $data[0]['perusahaan'];
 			font-family: 'Roboto', sans-serif;
 		}
 		li{
+			margin-left: 25px;
 			line-height: 29px;
 		}
-		#why_join_us div, #company_overview_all, p{
+		#company_overview_all, 
+		p,
+		p#why_join_us > div,
+		p#why_join_us + div,
+		.cmpy_desc_p > div
+		{
 			line-height: 26px;
+		}
+		h1#position_title {
+			display: block;
+		    margin-left: 15px;
+		    margin-top: 10px;
+		    font-size: 22px;
+		    font-family: 'Roboto', sans-serif;
 		}
 
 	</style>
@@ -68,10 +87,22 @@ $perusahaan = $data[0]['perusahaan'];
 				</ul>
 				<h4>Informasi Perusahaan</h4>
 				<p><?php echo $data[0]['tentang_pers'] ?></p>
+				<div class="clean"></div>
+				<h4>Gambaran Perusahaan</h4>
+				<div class="row pl-3">
+						<?php echo $data[0]['gambaran_pers'] ?>
+				</div>
+				
 				<h4>Deskripsi Pekerjaan</h4>
 				<p><?php echo $data[0]['long_desc'] ?></p>
 				<h4>Mengapa Bergabung Dengan Kami?</h4>
-				<p><?php echo $data[0]['mengapa'] ?></p>
+				<p style="line-height: 30px !important;">
+					<?php 
+					$why = trim($data[0]['mengapa']);
+					echo $why;
+					?>
+				</p>
+				<div class="clean"></div>
 				<div class="row">
 					<div class="col-md-6 pt-4">
 						<?php 
@@ -131,7 +162,7 @@ $perusahaan = $data[0]['perusahaan'];
 								$sosmed_name = ucwords($social_media_name);
 								?>
 								<div style="display: inline-block;">
-									<a href="<?php echo $social_media_url; ?>" target="_blank"><img src="assets/imags/<?php echo $social_media_name; ?>.png" class="img-fluid" style="display: inline-block;" title="<?=$sosmed_name?>"></a>
+									<a href="<?php echo $social_media_url; ?>" rel="nofollow"><img src="/assets/imags/<?php echo $social_media_name; ?>.png" class="img-fluid" style="display: inline-block;" title="<?=$sosmed_name?>"></a>
 								</div>
 							<?php } ?>
 						</div>
@@ -179,6 +210,13 @@ $perusahaan = $data[0]['perusahaan'];
 		<?php include 'template/footer.php'; ?>
 		<?php include 'template/meta_footer.php'; ?>
 		<script type="text/javascript">
+			$('.panel-clean').removeClass('panel').addClass('card');
+			$('.panel-body').removeClass('panel-body').addClass('card-body');
+			$('.table-location-div').removeClass('col-lg-4 col-md-4 col-sm-4').addClass('col-12');
+			$('.col-xs-12').removeClass('col-lg-6 col-md-6 col-sm-5').addClass('col-12');
+			$('.col-xs-12').removeClass('col-lg-2 col-md-2 col-sm-3').addClass('col-12');
+			$('#multiple_work_location_link').addClass('d-none');
+			$('.job-info-wrap').addClass('pt-4');
 
 			$('#apply-now-link').submit(function(e){
 				e.preventDefault();
@@ -201,6 +239,12 @@ $perusahaan = $data[0]['perusahaan'];
 			function getJob(){
 				window.open('<?php echo $data[0]['url']; ?>','<?php echo $data[0]['judul']; ?>','height=420px,width=380px;location=yes;scrollbars=yes');
 			}
+			// Logo
+			//
+			var logo_parrent = $('.logo_sm_wrap');
+			var img = logo_parrent.find('img');
+			var src = img.attr("data-original");
+			img.attr("src", src);
 		</script>
 	</body>
 	</html>

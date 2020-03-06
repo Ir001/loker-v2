@@ -1,20 +1,18 @@
-RewriteEngine On 
-RewriteRule ^([^_]*)_([^_]*)_([^_]*)\.html$ /index.php?id=$1&page=$2&post=$3 [L]
+RewriteEngine On
+RewriteRule ^detail/([0-9]+)/([0-9a-zA-Z]+) detail.php?id=$1&post=$2 [L]
 RewriteRule ^sitemap.xml$ sitemap.php [L]
-#RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)\.html$ /index.php?page=$1&keyword=$2&kategori=$3&lokasi=$4 [L]
+RewriteRule ^sitemap-2.xml$ sitemap-2.php [L]
 
+ErrorDocument 404 http://job-fix.ant/404/
+# or map them to one error document:
+# ErrorDocument 404 /404.php
 
-# 301 --- http://job-fix.ant/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Banten => http://lowongan-kerja.id/cari-staff-Personalia-Banten.html
-#RewriteCond %{QUERY_STRING} (^|&)page\=cari($|&)
-#RewriteCond %{QUERY_STRING} (^|&)keyword\=$1($|&)
-#RewriteCond %{QUERY_STRING} (^|&)kategori\=$2($|&)
-#RewriteCond %{QUERY_STRING} (^|&)lokasi\=$3($|&)
-#RewriteRule ^index\.php$ /cari-$1-$2-$3.html? [L,R=301]
+RewriteEngine On
+RewriteBase /
 
-# 301 --- http://lowongan-kerja.id/index.php?page=cari&keyword=staff&kategori=Personalia&lokasi=Banten => http://lowongan-kerja.id/cari-staff-Personalia-Banten.html
-#RewriteCond %{QUERY_STRING} (^|&)page\=cari($|&)
-#RewriteCond %{QUERY_STRING} (^|&)keyword\=staff($|&)
-#RewriteCond %{QUERY_STRING} (^|&)kategori\=Personalia($|&)
-#RewriteCond %{QUERY_STRING} (^|&)lokasi\=Banten($|&)
-#RewriteRule ^index\.php$ /cari-staff-Personalia-Banten.html? [L,R=301]
+RewriteCond %{REQUEST_URI} ^/404/$
+RewriteRule ^(.*)$ /404.php [L]
 
+# or map them to one error document:
+#RewriteCond %{REQUEST_URI} ^/$i [OR]
+#RewriteRule ^(.*)$ /404.php [L]
