@@ -4,11 +4,11 @@
 		<div class="row">
 			<div class="col-lg-4 col-md-6 vertical-space-200">
 				<h5>Tentang Kami</h5>
-				<p class="paregraf" style="margin-bottom: 50px"><a href="#">Lowongan Kerja ID</a> adalah portal lowongan kerja terbaik yang bisa anda temukan di indonesia. Kami akan memberikan pelayanan informasi lowongan kerja terbaik untuk anda, dan ikut serta dalam mengurangi pengangguran di Indonesia.</p>
+				<p class="paregraf" style="margin-bottom: 50px"><a href="<?=$set['base_url'];?>">Lowongan Kerja ID</a> adalah portal lowongan kerja terbaik yang bisa anda temukan di indonesia. Kami akan memberikan pelayanan informasi lowongan kerja terbaik untuk anda, dan ikut serta dalam mengurangi pengangguran di Indonesia.</p>
 				<div class="my-4">
-					<a href="https://www.facebook.com/"><i class="fa fa-facebook social-icon"></i></a>
-					<a href="https://www.twitter.com/"><i class="fa fa-twitter social-icon"></i></a>
-					<a href="https://www.fa-pinterest.com/"><i class="fa fa-pinterest-p social-icon"></i></a>
+					<a href="https://www.facebook.com/" rel="nofollow"><i class="fa fa-facebook social-icon"></i></a>
+					<a href="https://www.twitter.com/" rel="nofollow"><i class="fa fa-twitter social-icon"></i></a>
+					<a href="https://www.fa-pinterest.com/" rel="nofollow"><i class="fa fa-pinterest-p social-icon"></i></a>
 				</div>
 			</div>
 			<div class="col-lg-2 col-md-6 vertical-space-2">

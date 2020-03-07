@@ -1,5 +1,5 @@
 <?php 
-    error_reporting(0);
+    // error_reporting(0);
 	include 'config.php';
 	/**
 	 * 
@@ -314,6 +314,8 @@
                     );
                 }
             }elseif($tot > $jmlData){
+                $html->clear();
+                unset($html);
                 return @$data;
             }else{
                 $data[$i] = array(
@@ -322,8 +324,11 @@
                         'kota' => "$kota",
                     );
                 $tot++;
-            }            
+            }
+            sleep(5);            
         }
+        $html->clear();
+        unset($html);
         return @$data;
     }
     function get_kode_location(){

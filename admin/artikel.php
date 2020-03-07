@@ -97,7 +97,6 @@
                 <table id="artikel" class="table table-striped table-bordered">
                   <thead>
                   <tr>
-                    <th>No</th>
                     <th>Judul</th>
                     <th>Deadline</th>
                     <th>Status</th>
@@ -105,43 +104,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                    <?php 
-                      $i=0;
-                      foreach ($artikel as $data) {
-                        $date = date('d, F, Y', strtotime($data['date_tutup']));
-                        $a = explode("-", $data['judul']);
-                        $title = $a[0];
-                        $url_title = trim(str_replace(" ", "+", strtolower($title)),' ');
-                        $url = $data['id_lowongan']."_lowongan_".$url_title.".html";
-                     ?>
-                  <tr>
-                    <td>
-                      <?php echo $i+1; ?>
-                    </td>
-                    <td>
-                      <?php echo substr($data['judul'], 0,30)."..."; ?> 
-                    </td>
-                    <td>
-                      <span class="badge <?php if ($data['status'] == "expired"): ?>
-                      bg-danger
-                      <?php else: ?>
-                      bg-success
-                        
-                      <?php endif ?>"><?php echo ucwords($data['status']); ?></span>
-                    </td>
-                    <td> <?php echo @$date; ?></td>
-                    <td style=" vertical-align: middle;">
-                      <div class="btn-group text-center">
-                        <a href="<?=$set['base_url'].$url;?>" target="_blank" class="btn mr-1 btn-sm btn-info"><i class="fas fa-eye" title="View detail"></i></a>
-                        <form class="delete_artikel">
-                          <input type="hidden" name="delete_artikel" value="1">
-                          <input type="hidden" name="id" value="<?php echo $data['id_lowongan']; ?>">
-                          <button type="submit" class="btn btn-sm btn-delete btn-danger"><i class="fas fa-trash" title="Delete this"></i></button>
-                        </form>
-                      </div>
-                    </td>
-                  </tr>
-                  <?php $i++; } ?>
+                    
                   </tbody>
                 </table>
               </div>
@@ -169,38 +132,108 @@
 <script src="plugins/toastr/toastr.min.js"></script>
 <script type="text/javascript">
   $(function(){
-    $('#artikel').DataTable({
-      "fnDrawCallback": function( oSettings ) {
-        // componentHandler.upgradeDOM();
-        $('.btn-delete').click(function(){
-          if (confirm("Apakah anda yakin?")) {
-            $('.delete_artikel').submit(function(e){
-              e.preventDefault();
-              $.ajax({
-                type : 'POST',
-                url : 'include/Event.artikel.php',
-                data : $(this).serialize(),
-                dataType : 'json',
-                success : function(data){
-                  if (data.success) {
-                    toastr['success'](data.message);
-                    setTimeout(function(){window.location.reload();},500)
-                  }else{
-                    toastr['error'](data.message);
-                  }
+    var tabel = $('#artikel').DataTable({
+            "fnDrawCallback": function( oSettings ) {
+              // componentHandler.upgradeDOM();
+              $('.btn-delete').click(function(){
+                if (confirm("Apakah anda yakin?")) {
+                  $('.delete_artikel').submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                      type : 'POST',
+                      url : 'include/Event.artikel.php',
+                      data : $(this).serialize(),
+                      success : function(data){
+                        if (data.success) {
+                          toastr['success'](data.message);
+                          setTimeout(function(){window.location.reload();},500)
+                        }else{
+                          toastr['error'](data.message);
+                        }
+                      }
+                    })
+                  })
+                }else{
+                  $('.form-delete').submit(function(e){
+                    e.preventDefault();
+                  })
                 }
-              })
-            })
-          }else{
-            $('.form-delete').submit(function(e){
-              e.preventDefault();
-            })
-          }
+              });
+            },
+            "processing": true,
+            "serverSide": true,
+            "ordering": true, // Set true agar bisa di sorting
+            "order": [[ 0, 'asc' ]], // Default sortingnya berdasarkan kolom / field ke 0 (paling pertama)
+            "ajax":
+            {
+                "url": "json/json_artikel.php", // URL file untuk proses select datanya
+                "type": "POST"
+            },
+            "deferRender": true,
+            "aLengthMenu": [[5, 10, 50],[ 5, 10, 50]], // Combobox Limit
+            "columns": [
+                { "data": "judul" }, // Tampilkan nis
+                { "data": "date_tutup" },  // Tampilkan nama
+                { "render": function ( data, type, row ) {  // Tampilkan jenis kelamin
+                        var html = ""
+                        if(row.status == 'active'){ // Jika jenis kelaminnya 1
+                            html = '<span class="badge badge-success">Active</span>' // Set laki-laki
+                        }else{ // Jika bukan 1
+                            html = '<span class="badge badge-danger">Expired</span>' // Set laki-laki
+                        }
+                        return html; // Tampilkan jenis kelaminnya
+                    }
+                },
+                { "render": function ( data, type, row ) { // Tampilkan kolom aksi
+                        var html = "";
+                        var judul = row.judul;
+                        html  = '<div class="btn-group text-center"><a href="/detail/'+row.id_lowongan+'/'+judul.toLowerCase().replace(" ","-")+'" target="_blank" class="btn mr-1 btn-sm btn-info"><i class="fas fa-eye" title="View detail"></i></a><form class="delete_artikel"><input type="hidden" name="delete_artikel" value="1"><input type="hidden" name="id" value="'+row.id_lowongan+'"><button type="submit" class="btn btn-sm btn-delete btn-danger"><i class="fas fa-trash" title="Delete this"></i></button></form></div>'
+                        return html
+                    }
+                },
+            ],
+            
         });
 
-      }
 
-    });
+
+
+
+
+
+
+    // $('#artikel').DataTable({
+    //   "fnDrawCallback": function( oSettings ) {
+    //     // componentHandler.upgradeDOM();
+    //     $('.btn-delete').click(function(){
+    //       if (confirm("Apakah anda yakin?")) {
+    //         $('.delete_artikel').submit(function(e){
+    //           e.preventDefault();
+    //           $.ajax({
+    //             type : 'POST',
+    //             url : 'include/Event.artikel.php',
+    //             data : $(this).serialize(),
+    //             dataType : 'json',
+    //             success : function(data){
+    //               if (data.success) {
+    //                 toastr['success'](data.message);
+    //                 setTimeout(function(){window.location.reload();},500)
+    //               }else{
+    //                 toastr['error'](data.message);
+    //               }
+    //             }
+    //           })
+    //         })
+    //       }else{
+    //         $('.form-delete').submit(function(e){
+    //           e.preventDefault();
+    //         })
+    //       }
+    //     });
+
+    //   }
+
+    // });
   })
  
 </script>

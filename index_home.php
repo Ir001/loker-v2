@@ -5,9 +5,9 @@
 	<meta name="author" content="<?php echo $set['title'] ?>">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<title><?php echo $set['title'] ?> &mdash; <?php echo $set['tag_line']; ?></title>
 <?php include 'template/meta_head.php'; ?>
+	<meta name='description' content='<?=$set['description'];?>'>
 </head>
 <body>
 <?php include 'template/navbar.php'; ?>

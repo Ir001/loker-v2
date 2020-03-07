@@ -6,4 +6,5 @@ Disallow: template/
 Disallow: application/
 Disallow: admin/
 Disallow: 404/
+Disallow: 404.php
 Disallow: DB/

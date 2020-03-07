@@ -157,7 +157,10 @@ $menuItem = "";
                             </select>
                           </div>
                           <div class="form-group">
-                            <input type="number" name="pg" class="form-control" placeholder="Jumlah Halaman" required>
+                            <input type="number" id="page" name="pg" class="form-control" placeholder="Jumlah Halaman" required>
+                          </div>
+                          <div class="alert alert-sm alert-primary">
+                            <small>Info: Per page membutuhkan waktu sekitar 1 menit!</small>
                           </div>
                         <button type="submit" name="grab" class="float-right btn btn-grab btn-sm btn-primary">Grab Now</button>
                         </div>
@@ -223,23 +226,67 @@ $menuItem = "";
 <?php include 'template/meta_footer.php'; ?>
 <script>
   $('#respon_div').hide();
-  $('#grabing').submit(function(e){
-    e.preventDefault(); 
+  function grab_loker(id_location=30100, page=1){
+    $('#message').html('<p class="alert alert-danger"><small>Jangan tutup halaman sampai proses selesai! proses ini membutuhkan waktu sekitar 1-3 Menit!</small></p>');
     $('button').attr('disabled', true);
     $('.btn-grab').html('<i class="fas fa-sync fa-spin"></i> Loading');   
-    toastr['info']('Loading');    
-    $.ajax({
-      type : "POST",
-      url : 'include/Response.php',
-      data : $(this).serialize(),
-      success : function(data){
-        $('#respon_div').show();
-        $('#response').html(data);
-        toastr['success']('Berhasil melakukan grabing');
-        $('button').attr('disabled', false);
-        $('.btn-grab').html('Grab Now');        
+    toastr['info']('Loading');
+    // var i = 1;
+    // while(i <= page){
+    for(i=1; i<=page; i++){
+      function ajax_request(){
+        var k = i;
+        setTimeout(()=>{
+          setTimeout(()=>{
+            $.ajaxSetup({
+              cache:false
+            });
+            $.ajax({
+              type : 'POST',
+              url : 'include/Response.php',
+              data : {grab: 1, location: id_location, pg: k},
+              success : function(data){
+                $('#respon_div').show();
+                $('#response').append(data);
+                toastr['success']('Suksek grabing page '+k);
+                $('button').attr('disabled', false);
+                $('.btn-grab').html('Grab Now');
+                $('#message').html('');        
+              },
+            })
+          }, 5000);
+        }, 2500);
       }
-    })
+      
+      ajax_request();
+      // req_ajax(id_location, i);      
+    }
+  }
+  function req_ajax(id_location, i){
+    setTimeout(()=>{
+      $.ajaxSetup({
+        cache:false
+      });
+      $.ajax({
+        type : 'POST',
+        url : 'include/Response.php',
+        data : {grab: 1, location: id_location, pg: i},
+        success : function(data){
+          $('#respon_div').show();
+          $('#response').append(data);
+          toastr['success']('Suksek grabing page '+i);
+          $('button').attr('disabled', false);
+          $('.btn-grab').html('Grab Now');
+          $('#message').html('');        
+        },
+      })
+    }, 15000);
+  }
+  $('#grabing').submit(function(e){
+    e.preventDefault(); 
+    var location = $('#location').val();
+    var page = $('#page').val();
+    grab_loker(location, page);
   })
   //
   $('#updateForm').submit(function(e){

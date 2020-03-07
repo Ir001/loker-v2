@@ -1,20 +1,17 @@
+<link rel="canonical" href="<?=$set['base_url'];?>">
 <?php 
-	if(isset($_GET['page'])) {
-		switch ($_GET['page']) {
-			case 'lowongan':
-				echo "<meta name='description' content='".$data[0]['judul']."'>\n";
-				echo "<meta name='keywords' content='".$data[0]['judul']."'>\n";
-				break;
-			default:
-				echo "<meta name='description' content='".$set['description']."'>\n";
-				echo "<meta name='keywords' content='".$set['keywords']."'>\n";
-				break;
-		}
+	$path = substr($_SERVER['REQUEST_URI'], 1);
+	if (preg_match_all("/^detail/", $path, $out)) {
+		// echo "<meta name='description' content='".$data[0]['judul']."'>\n";
+		// echo "<meta name='description' content='<script>alert(document.domain);</script>'>\n";
+		echo "<meta name='keywords' content='".$data[0]['judul']."'>\n";
 	}else{
-		echo "<meta name='description' content='".$set['description']."'>\n";
 		echo "<meta name='keywords' content='".$set['keywords']."'>\n";
 	}
  ?>
+<meta content='Indonesia' name='geo.placename'/>
+<meta content='general' name='rating'/>
+<meta content='id' name='geo.country'/>
 <!-- Adsense -->
 <?php echo $set['adsense']."\n"; ?>
 <!-- Tag Manager -->
